@@ -20,7 +20,7 @@ glance:
     link: /legal/privacy/#in-chrome-through-the-blowhorn-extension
     linkText: What the extension reads
   - title: No analytics, no crash reports, no cookies
-    text: The app carries no analytics or crash-reporting library. This website sets no cookies, runs no analytics and loads nothing from third parties; its one outside request is the release lookup on GitHub that the privacy page describes.
+    text: The app carries no analytics or crash-reporting library. This website sets no cookies, runs no analytics and loads nothing from third parties. While you browse, its one outside request is the release lookup on GitHub. The newsletter form sends your email address to Mailchimp only when you submit it, and the privacy page describes both.
     link: /legal/privacy/#this-website
     linkText: What this website does
   - title: One store for your queue, analytics and credentials

@@ -15,11 +15,20 @@ sitemap:
 
 ## This website
 
-blowhorn.ai is a static site served by GitHub Pages. It sets no cookies, runs no analytics and loads no fonts, images, styles or scripts from third parties: they are all served from this site. Its one request to another host is the Download section's release lookup, described below. The newsletter form sends nothing unless you submit it.
+blowhorn.ai is a static site served by GitHub Pages. It sets no cookies, runs no analytics and loads no fonts, images, styles or scripts from third parties: they are all served from this site. While you browse, its one request to another host is the Download section's release lookup, described below. The newsletter form in the footer sends nothing unless you submit it.
 
 - GitHub serves the pages and keeps its own server logs. Those are covered by the [GitHub privacy statement](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement).
 - The Download section asks GitHub's public API for the newest release from your browser. That request reaches GitHub like any other request your browser makes, with your IP address and the usual request headers. With JavaScript off, no request is made and the page links to the releases page instead.
-- The site has one form, the newsletter signup in the footer. It is the same Layer5 newsletter signup as on layer5.io. When you submit it, your browser sends the email address you typed to Layer5's newsletter list on Mailchimp and opens Mailchimp's confirmation page. [Layer5's privacy policy](https://layer5.io/company/legal/privacy/) covers that list. The site collects nothing else you type.
+
+### Newsletter signup
+
+The footer has the site's one form, a signup for the Layer5 newsletter. It is the same list as the signup on layer5.io. It is a plain HTML form with no script, and nothing leaves your browser until you press Subscribe.
+
+- What is sent: the email address you type. The form has no other fields, visible or hidden. Like any site your browser contacts, Mailchimp also receives your IP address and the usual request headers.
+- Who receives it: Layer5, which keeps the list on Mailchimp, an Intuit company, as its email provider. [Layer5's privacy policy](https://layer5.io/company/legal/privacy/) covers the list and names Mailchimp among its email providers. Mailchimp's own handling is covered by the [Intuit privacy statement](https://www.intuit.com/privacy/statement/).
+- What it is for: the Layer5 newsletter. Signing up does not create a Blowhorn account and adds nothing to your organization's store.
+- Where you go: submitting takes you from blowhorn.ai to a Mailchimp page on list-manage.com. That page is Mailchimp's, not this site's, and Mailchimp sets its own cookies there, including for bot protection. blowhorn.ai sets none.
+- Leaving the list: every newsletter email has an unsubscribe link.
 
 ## The Blowhorn app
 
