@@ -1,6 +1,6 @@
 ---
 title: "Install the Chrome extension"
-description: "Add the Blowhorn extension from the Chrome Web Store, or load it unpacked during early access."
+description: "Add the Blowhorn extension from the Chrome Web Store, or load it unpacked for edge cases."
 weight: 40
 aliases: [/docs/how-to/install-the-chrome-extension/]
 ---
@@ -12,8 +12,9 @@ extension inside each Chrome profile, and the extension drives only the
 profile it is installed in. Install it in every Chrome profile you post
 from.
 
-**Early access:** the Chrome Web Store listing is awaiting review. Until it
-is approved, load the extension unpacked as described below.
+The usual path is the Chrome Web Store. Use the unpacked or CLI install
+routes below when the store path does not fit (for example a one-off
+profile, a managed install, or while you wait for a store update).
 
 ## From the Chrome Web Store
 
@@ -31,7 +32,7 @@ talking. It does not name which profile.
 
 ## Load it unpacked in one Chrome profile
 
-When only one Chrome profile needs the extension, write the native host and
+For edge cases where the store install is not enough, write the native host and
 follow the printed steps. Through the Blowhorn mapping:
 
 ```bash
