@@ -8,6 +8,8 @@ weight: 215
 
 Every command, the flags they share, and how a profile is resolved.
 
+{{< major >}}Your agent gives the order. I carry it out. Once.{{< /major >}}
+
 ## CLI Usage (Subcommand UX)
 
 Blowhorn now uses a command-first UX:

@@ -72,3 +72,5 @@ posting to the background service and the keep-running setting; see
 - [Change your defaults](/docs/how-to/settings/defaults/) - pace, exclusions, logs.
 - [Settings and configuration](/docs/reference/configuration/) - every option the app edits.
 - [How Blowhorn works](/docs/explanation/how-it-works/) - app, engine, extension, and store.
+- [You're in control](/docs/explanation/youre-in-control/) - the controls behind pause and Settings.
+- [Install the app](/docs/how-to/set-up/install-the-app/) - get the app onto a Mac.

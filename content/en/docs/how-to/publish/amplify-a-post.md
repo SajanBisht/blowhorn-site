@@ -21,6 +21,8 @@ from a content row. Put the URL in the row's `Amplify` column and set
 | Bluesky | post URL | empty | repost |
 | GitHub | issue or PR URL | ignored | all five reactions |
 
+{{< major >}}Your launch deserves more than nine likes. Fall in, profiles.{{< /major >}}
+
 ```bash
 blowhorn post --platform linkedin --profile marcus --dry-run
 blowhorn post --platform linkedin --profile marcus
@@ -72,3 +74,4 @@ posts instead.
 - [Post content](/docs/how-to/publish/post-content/) - running `blowhorn post` in general.
 - [Why a public action is never repeated](/docs/explanation/reliability-and-anti-bot-design/) -
   the rule behind the guards.
+- [You're in control](/docs/explanation/youre-in-control/) - the limits on every amplify

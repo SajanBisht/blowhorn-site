@@ -10,6 +10,8 @@ What Blowhorn can do on each of the seven platforms, how it reaches
 each one, and the limits it honors. This page describes; the steps live
 in the how-to guides linked under Related.
 
+{{< major >}}Two hundred seventy-four characters before X wants a thread. I don't make the rules. I thread them.{{< /major >}}
+
 Four platforms drive your own signed-in Chrome through the extension:
 LinkedIn, X, Reddit, and Hacker News. Three post through their APIs
 above the browser: Slack, Bluesky, and GitHub. A platform is usable the
@@ -43,6 +45,9 @@ targets the conversation. Amplifies by retweet or quote. Follows
 accounts with `blowhorn follow`. Analytics appends a
 follower and following trend row per run. Sign-in is your X username in
 your Chrome, by hand; the credential Blowhorn checks is `X_USERNAME`.
+
+Follows: at most 400 per profile a day and 15 in any 15 minutes,
+counted from that profile's follow log on this Mac.
 
 ### X (Twitter) replies
 
@@ -263,3 +268,5 @@ submit lands on does.
 - [Messages and exit codes](/docs/reference/messages/) - what a refusal means.
 - [Who can post as whom](/docs/explanation/eligibility/) - why a credential is permission.
 - [Why Blowhorn uses your own Chrome](/docs/explanation/your-own-chrome/) - browser versus API.
+- [You're in control](/docs/explanation/youre-in-control/) - every safety control in one place.
+- [Send a Slack message](/docs/how-to/publish/send-a-slack-message/) - Slack, worked.

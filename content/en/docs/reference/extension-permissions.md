@@ -46,3 +46,4 @@ permission to ignore them.
 - [Chrome reference](/docs/reference/chrome/) - install, status, and connection checks.
 - [Platforms](/docs/reference/platforms/) - the sites above, per platform.
 - [Where your data lives](/docs/explanation/your-data/) - what the extension reads and where it goes.
+- [Install the Chrome extension](/docs/how-to/set-up/install-the-chrome-extension/) - install it.

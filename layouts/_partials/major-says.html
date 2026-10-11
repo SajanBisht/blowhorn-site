@@ -1,0 +1,14 @@
+{{- /* "The Major says" callout: one Major Blowhorn line on a docs page.
+  Usage from content: {{< major >}}One line.{{< /major >}} (see
+  layouts/_shortcodes/major.html). At most one per page, never inside steps,
+  reference tables, legal, privacy or security pages. The art is decorative:
+  the label and the line carry the meaning. Rules: the Major Blowhorn persona
+  in the product repo's brand kit. */ -}}
+{{- $line := .line -}}
+<aside class="major-says" aria-label="The Major says">
+  <img class="major-says-art" src="{{ "assets/brand/mascot/major-blowhorn-attention.svg" | relURL }}" alt="" width="56" height="61" loading="lazy">
+  <div class="major-says-copy">
+    <p class="label">The Major says</p>
+    <p class="major-says-line h3">"{{ $line }}"</p>
+  </div>
+</aside>

@@ -17,7 +17,8 @@ To report a problem, file an issue on the public site repository,
 you expected. Include the exit code and the first words of the error;
 leave out credentials, session files, and anything from your Chrome
 profile directories. For a security problem, do not file a public
-issue: follow the site repository's security policy instead.
+issue: email [security@blowhorn.ai](mailto:security@blowhorn.ai)
+instead, as the site repository's security policy describes.
 
 Questions about access, organizations, and billing go through your
 Layer5 Cloud organization. See [Plans and limits](/docs/reference/plans/) for what

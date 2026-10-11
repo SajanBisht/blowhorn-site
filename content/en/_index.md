@@ -1,6 +1,6 @@
 ---
 title: "Blowhorn: one message, many ears"
-description: Blowhorn is a social media console that takes one message and broadcasts, reposts and amplifies it across every profile and platform your community runs, on autopilot. Made by Layer5 for macOS.
+description: Stop pasting the same post into seven tabs. One queue. Every profile. Posted as you, from your own Chrome. Made by Layer5 for macOS.
 sitemap:
   changefreq: weekly
   priority: 1.0

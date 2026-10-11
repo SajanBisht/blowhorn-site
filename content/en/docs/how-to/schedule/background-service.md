@@ -61,3 +61,4 @@ never failed.
 - [Pause and resume posting](/docs/how-to/schedule/pause/) - hold claims without stopping the service
 - [Find out why a job did not run](/docs/how-to/schedule/why-not-run/) - read one row's state
 - [Uninstall Blowhorn](/docs/how-to/manage/uninstall/) - remove the service for good
+- [You're in control](/docs/explanation/youre-in-control/) - what an unattended run will and won't do

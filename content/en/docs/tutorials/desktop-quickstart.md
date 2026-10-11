@@ -17,11 +17,11 @@ this repository with the CLI already installed
 
 ## 1. Install the app {#section-1-install-the-app}
 
-The app ships as one universal DMG per `desktop-v*` GitHub release.
+The app ships as one universal DMG that runs on Apple silicon and Intel Macs.
 
-1. Open <https://github.com/leecalcote/blowhorn/releases> in your browser.
-2. Download `Blowhorn-<version>-universal.dmg` from the newest `desktop-v*`
-   release.
+1. Open the [download section at blowhorn.ai](https://blowhorn.ai/#download)
+   in your browser.
+2. Download `Blowhorn-mac.dmg`, the newest release.
 3. Open the DMG and drag `Blowhorn.app` to `/Applications`.
 4. In Terminal, run:
 

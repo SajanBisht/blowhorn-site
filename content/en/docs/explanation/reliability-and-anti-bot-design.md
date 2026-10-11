@@ -1,6 +1,6 @@
 ---
 title: "How Blowhorn paces itself"
-description: "Human typing and pauses, per-run pace, and why a failure stops the run instead of retrying."
+description: "Human typing and pauses, per-run pace, and why a failed post is not retried."
 weight: 284
 ---
 
@@ -9,6 +9,8 @@ weight: 284
 Blowhorn acts at human speed, and stops at the first thing it cannot
 confirm. Both are deliberate: speed and retries are what get an
 account flagged.
+
+{{< major >}}Nobody can promise you won't get flagged. I can promise I won't rush, won't repeat myself and won't touch your CAPTCHA.{{< /major >}}
 
 Typing arrives keystroke by keystroke with a computed delay between
 keys, and actions are separated by random pauses of a few seconds,
@@ -22,12 +24,14 @@ clicked once per run; "no confirmation, the dialog still reads open"
 reports the row not sent, never sends it again, and never reports it
 sent either. What the platform showed after the click is a reading, not
 a fact, so the row reads clicked, outcome not read, and waits for you.
-See [Why Blowhorn never repeats a public action](/docs/explanation/never-twice/).
+See [How Blowhorn avoids repeat posts](/docs/explanation/never-twice/).
 
 A typing failure fails only its own row. The dispatcher has no
 per-row rescue around the loop, so a lost typing target would abandon
 every remaining queued row for that profile; every call site therefore
 contains the failure to its own unit of work instead.
+
+Within a run, Blowhorn doesn't retry a failed post; it moves on to the next item. If a post goes out but Blowhorn can't record it, it stops that profile's queue rather than risk posting twice. Scheduled jobs only re-run a failure if you turn on retries, and they're off by default.
 
 ## Hacker News is the least forgiving platform
 
@@ -44,5 +48,6 @@ limiter.
 - [Preview and publish queued posts](/docs/how-to/publish/post-content/) - pace your run.
 - [Post to Hacker News](/docs/how-to/publish/post-to-hacker-news/) - the strictest rules, worked.
 - [Platforms](/docs/reference/platforms/) - per-platform limits.
-- [Why Blowhorn never repeats a public action](/docs/explanation/never-twice/) - one click per run.
+- [How Blowhorn avoids repeat posts](/docs/explanation/never-twice/) - one click per run.
 - [Change your defaults](/docs/how-to/settings/defaults/) - the pace default.
+- [You're in control](/docs/explanation/youre-in-control/) - every safety control in one place.

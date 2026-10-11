@@ -75,3 +75,5 @@ per-command flag.
 - [The Blowhorn app, screen by screen](/docs/reference/use-the-desktop-app/) - the Settings screen.
 - [Messages and exit codes](/docs/reference/messages/) - what a bad value reports.
 - [How scheduling works](/docs/explanation/scheduling/) - what the heartbeat and per-job logs are for.
+- [You're in control](/docs/explanation/youre-in-control/) - which options are safety dials.
+- [CLI reference](/docs/reference/cli/) - every command and flag.

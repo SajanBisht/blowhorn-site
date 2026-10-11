@@ -10,6 +10,8 @@ aliases: [/docs/how-to/post-to-hacker-news/]
 Submit a link or a text post to Hacker News, or comment on an item, from a
 content row.
 
+{{< major >}}Hacker News votes? Absolutely not. I have standards. Dry-run it first: a submission is forever.{{< /major >}}
+
 Hacker News submissions **cannot be deleted**. Preview every new row with
 `--dry-run` before the first real run. A row that fails costs you one run;
 a row that posts the wrong thing is permanent.
@@ -139,3 +141,4 @@ real visit by a real account, so Hacker News can rate-limit it like one.
   outcome, and limit.
 - [Reliability and anti-bot design](/docs/explanation/reliability-and-anti-bot-design/) -
   why these rules are strict.
+- [You're in control](/docs/explanation/youre-in-control/) - the limits on every platform.

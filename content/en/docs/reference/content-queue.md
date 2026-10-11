@@ -58,4 +58,4 @@ retry nor a drop is a run's to decide: the run records, you decide.
 - [Post to Hacker News](/docs/how-to/publish/post-to-hacker-news/) - titles, caps, permanence.
 - [Platforms](/docs/reference/platforms/) - what each platform does with a row.
 - [Messages and exit codes](/docs/reference/messages/) - what each refusal sentence means.
-- [Why Blowhorn never repeats a public action](/docs/explanation/never-twice/) - why unread is not done.
+- [How Blowhorn avoids repeat posts](/docs/explanation/never-twice/) - why unread is not done.

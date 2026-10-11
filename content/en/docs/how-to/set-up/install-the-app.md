@@ -76,3 +76,4 @@ copy. The background service and your settings are kept.
   every screen, including Setup.
 - [Install the Chrome extension](/docs/how-to/set-up/install-the-chrome-extension/) - the
   extension each mapped Chrome profile needs.
+- [Uninstall Blowhorn](/docs/how-to/manage/uninstall/) - remove it cleanly

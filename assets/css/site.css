@@ -411,20 +411,21 @@ pre code { background: none; padding: 0; }
   .hero-art { margin-inline: 0 0; }
 }
 
-/* The one-to-many motif: one source, many bubbles. */
+/* The one-to-many motif, after archdev.ai's "signal": one source, thin wires, small
+   dots travelling outward, and each platform's official logo on its own white tile.
+   Only the wires and dots move. The logos never do: Bluesky's and X's guidelines say
+   not to animate their marks. */
 .fan { width: 100%; height: auto; overflow: visible; }
-.fan .fan-line { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-linecap: round; opacity: 0.8; }
+.fan .fan-line { fill: none; stroke: var(--line-strong); stroke-width: 1.25; stroke-linecap: round; opacity: 0.55; }
+.fan .fan-pulse { fill: var(--teal); }
 .fan .bubble-source { fill: var(--teal); }
 .fan .bubble-source .text-line { stroke: var(--on-teal); stroke-width: 6; stroke-linecap: round; opacity: 0.85; }
-.fan .bubble-teal { fill: var(--teal); color: var(--on-teal); }
-.fan .bubble-bright { fill: var(--teal-bright); color: var(--on-teal); }
-.fan .bubble-yellow { fill: var(--yellow); color: var(--on-yellow); }
-.fan .bubble-raised { fill: var(--surface-raised); color: var(--ink); stroke: var(--line-strong); stroke-width: 1.5; }
-/* Each platform's official logo sits on its own white chip, never straight on a brand colour. */
-.fan .chip { fill: var(--white); }
-
-/* The lines draw outward from the message. The logos themselves never move:
-   Bluesky's and X's guidelines say not to animate their marks. */
+.fan .fan-tile rect {
+  fill: var(--white);
+  stroke: var(--line);
+  stroke-width: var(--stroke-hairline);
+  filter: drop-shadow(var(--shadow-soft));
+}
 @keyframes fan-draw {
   from { stroke-dashoffset: 320; }
   to { stroke-dashoffset: 0; }
@@ -433,14 +434,15 @@ pre code { background: none; padding: 0; }
   stroke-dasharray: 320;
   animation: fan-draw 640ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
-.fan .fan-line:nth-of-type(2) { animation-delay: 80ms; }
-.fan .fan-line:nth-of-type(3) { animation-delay: 160ms; }
-.fan .fan-line:nth-of-type(4) { animation-delay: 240ms; }
-.fan .fan-line:nth-of-type(5) { animation-delay: 320ms; }
-.fan .fan-line:nth-of-type(6) { animation-delay: 400ms; }
-.fan .fan-line:nth-of-type(7) { animation-delay: 480ms; }
+.fan .fan-line:nth-of-type(2) { animation-delay: 60ms; }
+.fan .fan-line:nth-of-type(3) { animation-delay: 120ms; }
+.fan .fan-line:nth-of-type(4) { animation-delay: 180ms; }
+.fan .fan-line:nth-of-type(5) { animation-delay: 240ms; }
+.fan .fan-line:nth-of-type(6) { animation-delay: 300ms; }
+.fan .fan-line:nth-of-type(7) { animation-delay: 360ms; }
 @media (prefers-reduced-motion: reduce) {
   .fan .fan-line { animation: none; stroke-dasharray: none; }
+  .fan .fan-pulse { display: none; }
   html { scroll-behavior: auto; }
   .button { transition: none; }
 }
@@ -487,39 +489,49 @@ pre code { background: none; padding: 0; }
   gap: var(--space-3);
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+/* Seven platforms in two columns leave one orphan; let it span the row. */
+@media (max-width: 639px) { .platforms > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
 @media (min-width: 640px) { .platforms { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 960px) { .platforms { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 .platform {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-  padding: var(--space-4);
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+  padding: var(--space-6) var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
-  min-height: 132px;
 }
-.platform .logo-tile { margin-bottom: var(--space-2); }
-.platform .ui { color: var(--ink); margin-top: auto; }
+.platform .logo-tile { margin-bottom: var(--space-3); }
+.platform .ui { color: var(--ink); }
 .platform .caption { color: var(--ink-muted); }
 .platform-note { margin-top: var(--space-6); color: var(--ink-muted); max-width: 48rem; }
 
-/* Platform logos: each platform's official file, unmodified, on a white tile in both
-   themes, since LinkedIn, Slack, X, GitHub and Reddit all ask for a white or light ground. */
+/* Platform logos, after archdev.ai: each platform's official file, unmodified and in its
+   own colours, alone on a white tile in both themes (LinkedIn, Slack, X, GitHub and Reddit
+   all ask for a white or light ground). One tile size, a hairline ring and a soft shadow.
+   Marks are sized by eye, not by box: square marks read heavier than round ones, so they
+   sit smaller, and LinkedIn's bug is nudged so its square, not its registered mark, is
+   centred. */
 .logo-tile {
   display: inline-grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   flex: none;
   background: var(--white);
-  border: var(--stroke-hairline) solid var(--line);
   border-radius: var(--radius-md);
+  box-shadow: 0 0 0 var(--stroke-hairline) var(--line), var(--shadow-soft);
 }
-.logo-tile img { width: 28px; height: 28px; object-fit: contain; }
-/* The docs landing fits all seven in the narrower content column. */
-.docs-landing .logo-tile { width: 44px; height: 44px; }
-.docs-landing .logo-tile img { width: 24px; height: 24px; }
+.logo-tile img { width: 26px; height: 26px; object-fit: contain; }
+.logo-tile img[src*="linkedin"] { width: 26px; height: 22px; transform: translateX(2px); }
+.logo-tile img[src*="x-logo"] { width: 23px; height: 23px; }
+.logo-tile img[src*="hacker-news"] { width: 22px; height: 22px; }
+.logo-tile img[src*="slack"] { width: 26px; height: 26px; }
+.logo-tile img[src*="reddit"],
+.logo-tile img[src*="bluesky"],
+.logo-tile img[src*="github"] { width: 27px; height: 27px; }
 
 /* Major Blowhorn marketing card */
 .major-card {
@@ -591,6 +603,33 @@ pre code { background: none; padding: 0; }
   .speech::after { left: -14px; bottom: auto; top: 32px; transform: rotate(135deg) skew(10deg, 10deg); }
 }
 
+.major-gripes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); max-width: 36rem; }
+.major-gripes li { color: var(--ink); }
+.major-gripes .label { display: block; color: var(--ink-muted); }
+
+/* "The Major says" docs callout (layouts/_partials/major-says.html) */
+.major-says {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 48rem;
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface-tint);
+}
+.major-says-art {
+  flex: none;
+  width: 56px;
+  height: auto;
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--cream);
+}
+.major-says-copy > * { margin: 0; }
+.major-says .label { color: var(--ink-muted); }
+.major-says-line { color: var(--ink-wordmark); margin-top: var(--space-1); }
+
 /* Download */
 .download-card {
   background: var(--surface-raised);
@@ -644,22 +683,42 @@ pre code { background: none; padding: 0; }
   gap: var(--space-2) var(--space-6);
 }
 .footer-tm { flex-basis: 100%; }
-/* Service status, as on the layer5.io footer: a link with a pulsing teal dot. */
-.status-link { display: inline-flex; align-items: center; gap: var(--space-2); }
-.pulse-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: var(--radius-pill);
-  background: var(--teal-bright);
-  animation: status-pulse 1.5s infinite;
+/* Service status: ported from the layer5.io footer (layer5io/layer5
+   src/sections/General/Footer/footer.style.js, .status-link and .pulse-icon). */
+.status-link {
+  background-color: #484848;
+  display: inline-flex;
+  gap: 0.2rem;
+  height: 1.15rem;
+  border-radius: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 0.4rem;
+  padding-block: 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: #CCCCCC;
+  text-decoration: none;
 }
-@keyframes status-pulse {
-  0% { transform: scale(0.9); box-shadow: 0 0 0 0 var(--teal-bright); }
-  70% { transform: scale(1); box-shadow: 0 0 0 5px transparent; }
-  100% { transform: scale(0.9); box-shadow: 0 0 0 0 transparent; }
+.status-link:hover { color: var(--teal-bright); text-decoration: none; }
+.pulse-icon {
+  display: block;
+  width: 0.62rem;
+  height: 0.62rem;
+  border: none;
+  border-radius: 50%;
+  background: rgb(0, 211, 169);
+  box-shadow: 0 0 0 0 rgba(0, 211, 169, 0.5);
+  animation: pulse 1.5s infinite;
+}
+.pulse-icon:hover { animation: none; }
+@keyframes pulse {
+  0% { transform: scale(0.9); }
+  70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(0, 211, 169, 0); }
+  100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(153, 237, 220, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pulse-dot { animation: none; }
+  .pulse-icon { animation: none; }
 }
 @media (min-width: 720px) {
   .footer-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -667,21 +726,21 @@ pre code { background: none; padding: 0; }
 }
 /* Newsletter signup: a plain HTML form, no script. */
 .newsletter { margin-top: var(--space-6); max-width: 30rem; }
-.newsletter .label { display: block; }
+.newsletter .label { display: block; font-family: inherit; font-size: 1rem; line-height: 1.5; font-weight: 400; letter-spacing: normal; text-transform: none; color: var(--ink); }
 .newsletter-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
 .newsletter input {
   flex: 1 1 14rem;
   min-width: 0;
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
-  border: var(--stroke-hairline) solid var(--line-strong);
-  border-radius: var(--radius-md);
+  height: 3.5rem;
+  padding: 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.25rem;
   background: var(--surface);
   color: var(--ink);
   font: inherit;
 }
 .newsletter input::placeholder { color: var(--ink-muted); }
-.newsletter .caption { margin-top: var(--space-2); }
+.newsletter .button { height: 3.5rem; border-radius: 0.25rem; }
 .footer-meta .newsletter { margin-top: 0; flex-basis: 100%; }
 /* Secondary pages carry only the meta row; the footer's own top rule already separates it. */
 .footer-meta:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
@@ -727,3 +786,30 @@ pre code { background: none; padding: 0; }
 @media (min-width: 720px) {
   .empty-state { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
 }
+
+/* Whole-card links (Lee, 10 Oct): the card is the link, no underlines on card text. */
+a.card-link, a.platform, a.docs-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+a.platform { display: flex; height: 100%; justify-content: center; }
+a.card-link, a.docs-card { height: 100%; }
+a.card-link > * + * { margin-top: var(--space-3); }
+a.card-link .h3 { margin-top: var(--space-4); color: var(--ink); }
+a.card-link > .h3:first-child { margin-top: 0; }
+a.card-link *, a.platform *, a.docs-card * { text-decoration: none; }
+a.card-link:hover, a.platform:hover, a.docs-card:hover,
+a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
+  text-decoration: none;
+  box-shadow: 0 0 0 var(--stroke-hairline) var(--line), var(--shadow-soft);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  a.card-link, a.platform, a.docs-card { transition: none; }
+  a.card-link:hover, a.platform:hover, a.docs-card:hover { transform: none; }
+}
+/* Logos: one optical size, centred both ways in the tile. */
+.logo-tile img { display: block; margin: auto; object-position: center; }
+.logo-tile img[src*="linkedin"] { width: 24px; height: 24px; transform: none; }

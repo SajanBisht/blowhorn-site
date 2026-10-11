@@ -124,7 +124,22 @@ Whether the extension is installed, which version answers, and whether
 it says connected. A version older than the run needs is the
 `extension_outdated` refusal above.
 
+## One run per profile and platform
+
+A profile's session on a browser platform (LinkedIn, X, Reddit, Hacker
+News) belongs to one Blowhorn process at a time on a Mac. Before a run
+opens the session it takes a lock keyed by profile and platform, under
+every launch mode. A second run that wants the same profile on the same
+platform is refused with "profile `<name>` on `<platform>` is in use by
+another blowhorn process; wait for it to finish or stop it": that profile
+is skipped, its rows stay queued, and a scheduled job leaves it for the
+next pass. Different profiles, or different platforms of one profile,
+can run side by side. See [You're in control](/docs/explanation/youre-in-control/).
+
 ## Related
+
+- [You're in control](/docs/explanation/youre-in-control/) - every safety control in one place.
+- [Install the Chrome extension](/docs/how-to/set-up/install-the-chrome-extension/) - install it.
 
 - [Map Blowhorn profiles to Chrome profiles](/docs/how-to/set-up/map-chrome-profiles/) - write the mapping.
 - [Choose how Blowhorn reaches Chrome](/docs/how-to/settings/launch-mode/) - when to leave the default.

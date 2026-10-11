@@ -40,7 +40,7 @@ app keeps in your organization's store as that profile's Slack
 credential. What a run records, such as a new post's link and its
 outcome, goes to your organization's store as described above. The extension makes no
 requests of its own to any server, sells nothing, and injects no ads.
-The privacy page at blowhorn.ai states the same promises; this page
+The [privacy page at blowhorn.ai](https://blowhorn.ai/legal/privacy/) states the same promises; this page
 follows it, and the privacy page wins on any difference.
 
 What never belongs in a report, an issue, or a chat message:

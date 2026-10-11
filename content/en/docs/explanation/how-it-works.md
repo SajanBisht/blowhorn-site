@@ -48,3 +48,4 @@ reads clicked, outcome not read, and waits for you.
 - [Why Blowhorn uses your own Chrome](/docs/explanation/your-own-chrome/) - the extension leg.
 - [How scheduling works](/docs/explanation/scheduling/) - the service leg.
 - [Preview and publish queued posts](/docs/how-to/publish/post-content/) - watch the engine work.
+- [You're in control](/docs/explanation/youre-in-control/) - what Blowhorn will and won't do on its own.

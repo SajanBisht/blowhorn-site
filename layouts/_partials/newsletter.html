@@ -1,15 +1,9 @@
-{{- /* Newsletter signup, the same Layer5 newsletter list the layer5.io footer
-  posts to (layer5io/layer5 src/sections/General/Footer/index.js). A plain
-  HTML form with no script: nothing is sent until the reader submits it, and
-  then the browser navigates to Mailchimp's confirmation page. The form action
-  is the site's one allowed form host (FORM_ACTION_HOSTS in
-  .github/scripts/check-third-party.py), disclosed on the privacy page. */ -}}
-{{- $privacy := (site.GetPage "/legal/privacy").RelPermalink -}}
+{{- /* Newsletter signup, posting to the same list as the layer5.io footer
+  form. A plain HTML form with no script. */ -}}
 <form class="newsletter" name="newsletter" method="post" action="https://calcotestudios.us15.list-manage.com/subscribe/post?u=6b50be5aea3dfe1fd4c041d80&amp;id=6bb65defeb">
-              <label class="label" for="newsletter-email">Subscribe to our newsletter</label>
+              <label class="label" for="newsletter-email">Subscribe to our Newsletter</label>
               <div class="newsletter-row">
-                <input type="email" id="newsletter-email" name="EMAIL" autocomplete="email" placeholder="Email address" required>
+                <input type="email" id="newsletter-email" name="EMAIL" autocomplete="email" placeholder="Email Address" required>
                 <button class="button button-primary" type="submit">Subscribe</button>
               </div>
-              <p class="caption muted">The Layer5 newsletter, sent through Mailchimp. See the <a href="{{ $privacy }}#newsletter-signup">privacy page</a>.</p>
             </form>

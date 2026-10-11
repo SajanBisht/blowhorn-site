@@ -22,7 +22,7 @@ whole run, printing what would go out, and marks nothing done.
 Posting is one click per run. A clicked control with no confirmation
 read back is recorded as clicked, outcome not read, counted for
 nothing, and never retried by the run. See
-[Why Blowhorn never repeats a public action](/docs/explanation/never-twice/).
+[How Blowhorn avoids repeat posts](/docs/explanation/never-twice/).
 
 ## Flags
 
@@ -72,4 +72,5 @@ blowhorn post --platform slack --profile your-profile --target "#general" --mess
 - [Content queue columns and row states](/docs/reference/content-queue/) - what the rows hold.
 - [Platforms](/docs/reference/platforms/) - per-platform actions and limits.
 - [CLI reference](/docs/reference/cli/) - every command and flag.
-- [Why Blowhorn never repeats a public action](/docs/explanation/never-twice/) - one click per run.
+- [How Blowhorn avoids repeat posts](/docs/explanation/never-twice/) - one click per run.
+- [You're in control](/docs/explanation/youre-in-control/) - dry run, pace and the built-in limits.

@@ -59,3 +59,4 @@ present, run with `--headed` so the window stays visible.
 - [Troubleshooting](/docs/how-to/troubleshoot/troubleshooting/) - start from a symptom instead
 - [Pause and resume posting](/docs/how-to/schedule/pause/) - hold the schedule while a challenge clears
 - [Choose how Blowhorn reaches Chrome](/docs/how-to/settings/launch-mode/) - which mode a sign-in runs under
+- [You're in control](/docs/explanation/youre-in-control/) - why CAPTCHAs and 2FA are left to you

@@ -145,3 +145,4 @@ connection until the Blowhorn extension is loaded there.
   Chrome profile each Blowhorn profile belongs to.
 - [Chrome reference](/docs/reference/chrome/) - the flags, the files, and
   the JSON shapes.
+- [Requirements](/docs/reference/requirements/) - what each Mac needs

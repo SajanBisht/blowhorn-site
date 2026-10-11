@@ -59,3 +59,4 @@ first when you want fresh numbers: the report reads local files only.
 - [Review what ran](/docs/how-to/measure/review-runs/) - per-machine operations from the same ledger
 - [Schedule a job](/docs/how-to/schedule/schedule-a-job/) - collect on a schedule
 - [Change your defaults](/docs/how-to/settings/defaults/) - pace, excluded profiles, logs
+- [What the analytics numbers mean](/docs/explanation/analytics/) - measured versus trended

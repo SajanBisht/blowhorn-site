@@ -65,3 +65,4 @@ judged by the date in the file name. Nothing else in the directory is pruned.
 - [Choose how Blowhorn reaches Chrome](/docs/how-to/settings/launch-mode/) - the launch and driver settings these defaults sit above
 - [Schedule a job](/docs/how-to/schedule/schedule-a-job/) - per-job parameters that beat these defaults
 - [Review what ran](/docs/how-to/measure/review-runs/) - read the logs these settings keep
+- [You're in control](/docs/explanation/youre-in-control/) - how pace and dry run fit with the built-in limits

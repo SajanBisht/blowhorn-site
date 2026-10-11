@@ -45,3 +45,5 @@ for you would stop being you.
 - [Platforms](/docs/reference/platforms/) - which platforms drive Chrome and which use APIs.
 - [How Blowhorn paces itself](/docs/explanation/reliability-and-anti-bot-design/) - human pauses between actions.
 - [Map Blowhorn profiles to Chrome profiles](/docs/how-to/set-up/map-chrome-profiles/) - the Chrome half of setup.
+- [You're in control](/docs/explanation/youre-in-control/) - one automation per profile and platform.
+- [Install the Chrome extension](/docs/how-to/set-up/install-the-chrome-extension/) - put the extension in your Chrome.

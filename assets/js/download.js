@@ -55,10 +55,10 @@
 
   function showLookupError() {
     var actions = el("p", null, { class: "actions" });
-    actions.appendChild(el("a", "See releases on GitHub", { class: "button button-secondary", href: releasesUrl }));
+    actions.appendChild(el("a", "See releases", { class: "button button-secondary", href: releasesUrl }));
     replaceCard([
       el("p", "The release check did not go through", { class: "h3" }),
-      el("p", "GitHub did not answer the version lookup just now. The releases page always lists the newest build.", { class: "meta" }),
+      el("p", "We couldn't load the latest version just now. The releases page always lists the newest build.", { class: "meta" }),
       actions,
     ]);
   }

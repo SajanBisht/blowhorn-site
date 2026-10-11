@@ -122,6 +122,7 @@
 
 .docs-landing .platforms {
   margin-top: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
 }
 
 .docs-landing a.platform {

@@ -11,7 +11,7 @@ cascade:
 
 # Blowhorn docs
 
-Blowhorn is a social media console that takes one message and broadcasts, reposts and amplifies it across every profile and platform your community runs, on autopilot.
+One queue. Every profile. Posted as you, from your own Chrome.
 
 <div class="docs-banner" role="note">
 
@@ -24,17 +24,19 @@ Blowhorn is a social media console that takes one message and broadcasts, repost
 <div class="grid grid-3 docs-start">
   <a class="card docs-card" href="how-to/set-up/">
     <span class="h3">Install Blowhorn</span>
-    <span>Download, verify, and open the app on your Mac. The full guide lands with the first public build.</span>
+    <span>Get the app running on your Mac.</span>
   </a>
-  <a class="card docs-card" href="tutorials/">
+  <a class="card docs-card" href="how-to/publish/post-content/">
     <span class="h3">Your first post</span>
-    <span>Connect Chrome, add a profile, queue a post, and preview it with a dry run. Nothing goes out until you say so.</span>
+    <span>Queue a post and preview it. Nothing goes out until you say so.</span>
   </a>
-  <a class="card docs-card" href="reference/">
+  <a class="card docs-card" href="reference/platforms/">
     <span class="h3">What Blowhorn can do on each platform</span>
-    <span>LinkedIn, X, Reddit, Hacker News, Slack, Bluesky, and GitHub: actions, limits, and sign-in.</span>
+    <span>Actions, limits and sign-in, platform by platform.</span>
   </a>
 </div>
+
+<p class="docs-note">Worried about bans, mistakes or double posts? <a href="explanation/youre-in-control/">You're in control</a> gathers every safety control in one place.</p>
 
 ## Find your kind of page {#quadrants}
 
@@ -42,65 +44,56 @@ Blowhorn is a social media console that takes one message and broadcasts, repost
   <a class="card docs-card" href="tutorials/">
     <span class="label">Tutorials</span>
     <span class="h3">Learn by doing</span>
-    <span>Short lessons you follow end to end. Most used: Your first post, Your first run from the command line, Put a post on a schedule.</span>
+    <span>Short lessons you follow end to end.</span>
   </a>
   <a class="card docs-card" href="how-to/">
     <span class="label">How-to guides</span>
     <span class="h3">Reach one goal</span>
-    <span>Steps first, for a reader who knows the basics. Most used: Install Blowhorn, Preview and publish queued posts, Troubleshooting.</span>
+    <span>Steps first, for when you know the basics.</span>
   </a>
   <a class="card docs-card" href="reference/">
     <span class="label">Reference</span>
     <span class="h3">Look it up</span>
-    <span>Austere description that mirrors the machinery. Most used: Platforms, Messages and exit codes, Command reference.</span>
+    <span>Commands, settings, messages and limits.</span>
   </a>
   <a class="card docs-card" href="explanation/">
     <span class="label">Explanation</span>
     <span class="h3">Understand why</span>
-    <span>Context and trade-offs, no procedures. Most used: How Blowhorn works, Where your data lives, Why Blowhorn never repeats a public action.</span>
+    <span>How Blowhorn works, and why.</span>
   </a>
 </div>
 
 ## Platforms {#platforms}
 
 <div class="platforms">
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#linkedin">
     <span class="logo-tile"><img src="../assets/platforms/linkedin-in-bug.png" alt="" width="28" height="28"></span>
     <span class="ui">LinkedIn</span>
-    <span class="caption">Chrome extension</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#x-twitter">
     <span class="logo-tile"><img src="../assets/platforms/x-logo-black.png" alt="" width="28" height="28"></span>
     <span class="ui">X</span>
-    <span class="caption">Chrome extension</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#reddit">
     <span class="logo-tile"><img src="../assets/platforms/reddit-logo.png" alt="" width="28" height="28"></span>
     <span class="ui">Reddit</span>
-    <span class="caption">Chrome extension</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#hacker-news">
     <span class="logo-tile"><img src="../assets/platforms/hacker-news-y18.svg" alt="" width="28" height="28"></span>
     <span class="ui">Hacker News</span>
-    <span class="caption">Chrome extension</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#slack">
     <span class="logo-tile"><img src="../assets/platforms/slack-mark.svg" alt="" width="28" height="28"></span>
     <span class="ui">Slack</span>
-    <span class="caption">API</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#bluesky">
     <span class="logo-tile"><img src="../assets/platforms/bluesky-butterfly-blue.svg" alt="" width="28" height="28"></span>
     <span class="ui">Bluesky</span>
-    <span class="caption">API</span>
   </a>
-  <a class="platform" href="reference/">
+  <a class="platform" href="reference/platforms/#github">
     <span class="logo-tile"><img src="../assets/platforms/github-invertocat-black.svg" alt="" width="28" height="28"></span>
     <span class="ui">GitHub</span>
-    <span class="caption">API</span>
   </a>
 </div>
 
-<p class="docs-note">LinkedIn, X, Reddit, Hacker News, Slack, Bluesky and GitHub are trademarks of their respective owners, shown here with their official logos. Blowhorn is not affiliated with or endorsed by any of them.</p>
-
-<p class="docs-note">Something not working? Start with <a href="how-to/troubleshoot/">Troubleshooting</a> and <a href="reference/">Messages and exit codes</a>.</p>
+<p class="docs-note">Something not working? Start with <a href="how-to/troubleshoot/">Troubleshooting</a> and <a href="reference/messages/">Messages and exit codes</a>.</p>

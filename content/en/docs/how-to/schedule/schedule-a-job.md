@@ -89,3 +89,4 @@ exits 3, and says so in one line.
 - [Find out why a job did not run](/docs/how-to/schedule/why-not-run/) - read one row's state in one command
 - [Keep posting when the app is closed](/docs/how-to/schedule/background-service/) - the background service that runs the passes
 - [Change your defaults](/docs/how-to/settings/defaults/) - pace, excluded profiles, logs
+- [You're in control](/docs/explanation/youre-in-control/) - the limits every scheduled job runs under

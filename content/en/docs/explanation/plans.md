@@ -42,5 +42,5 @@ the next connected run carries on where the last one stopped.
 
 - [Plans and limits](/docs/reference/plans/) - what early access covers.
 - [Get help](/docs/reference/support/) - questions about access and billing.
-- [Why Blowhorn never repeats a public action](/docs/explanation/never-twice/) - why dry runs stay free.
+- [How Blowhorn avoids repeat posts](/docs/explanation/never-twice/) - why dry runs stay free.
 - [Where your data lives](/docs/explanation/your-data/) - the keychain half of the attestation.

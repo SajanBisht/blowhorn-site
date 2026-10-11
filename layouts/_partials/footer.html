@@ -1,15 +1,14 @@
 {{- /* Three footers: the full footer on the home page, a bare strip on the 404
   page, and a legal strip everywhere else (the Trust Center at /legal/, its
-  policies and the docs). The status link mirrors the layer5.io footer's
-  "Layer5 Cloud Status" link (layer5io/layer5 src/sections/General/Footer):
-  a plain link to the Layer5 status page with a pulsing dot, no script and
-  no request to another host. */ -}}
+  policies and the docs). The status link is a port of the layer5.io footer's
+  "Layer5 Cloud Status" pill (layer5io/layer5 src/sections/General/Footer):
+  same markup, text, link and pulsing dot, as static HTML and CSS. */ -}}
 {{- $trust := (site.GetPage "/legal").RelPermalink -}}
 {{- $privacy := (site.GetPage "/legal/privacy").RelPermalink -}}
 {{- $terms := (site.GetPage "/legal/terms").RelPermalink -}}
 {{- $docs := (site.GetPage "/docs").RelPermalink -}}
 {{- $source := site.Params.github_repo -}}
-{{- $status := `<a class="status-link" href="https://layer5.statuspage.io/">Layer5 Cloud status <span class="pulse-dot" aria-hidden="true"></span></a>` -}}
+{{- $status := `<a class="status-link" href="https://layer5.statuspage.io" target="_blank" rel="noreferrer">Layer5 Cloud Status <span class="pulse-icon" aria-hidden="true"></span></a>` -}}
 <footer class="site-footer">
       <div class="wrap">
         {{- if .IsHome }}
@@ -19,7 +18,7 @@
               <source media="(prefers-color-scheme: dark)" srcset="{{ "assets/brand/logo/layer5-blowhorn-lockup-on-dark.svg" | relURL }}">
               <img src="{{ "assets/brand/logo/layer5-blowhorn-lockup.svg" | relURL }}" alt="Layer5 Blowhorn" width="220" height="60">
             </picture>
-            <p>Blowhorn is made by Layer5. One message in, many ears out.</p>
+            <p>Blowhorn is made by Layer5. One message out, many ears in.</p>
           </div>
           {{ partial "newsletter.html" . }}
         </div>

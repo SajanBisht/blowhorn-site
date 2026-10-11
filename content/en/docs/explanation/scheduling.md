@@ -11,6 +11,8 @@ Mac can share, and pauses that mean what they say. This page explains
 the arrangement; the words and commands are in
 [Job options and schedules](/docs/reference/jobs/).
 
+{{< major >}}One awake Mac, set up for the profile. That's all the schedule needs.{{< /major >}}
+
 One pass runs every ten minutes. It wakes, claims the rows that are
 due, runs them one at a time, writes the ledger, and sleeps again. A
 pass that finds nothing due costs nothing and changes nothing. The
@@ -47,3 +49,4 @@ or needs you.
 - [What runs when the app is closed](/docs/explanation/distribution/) - the service behind the passes.
 - [The Blowhorn app, screen by screen](/docs/reference/use-the-desktop-app/) - the "jobs" screen.
 - [Collect and read your analytics](/docs/how-to/measure/analytics/) - read what the passes produced.
+- [You're in control](/docs/explanation/youre-in-control/) - pause, one job at a time, one Mac per job.
