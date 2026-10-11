@@ -25,9 +25,11 @@ blowhorn.ai is a static site served by GitHub Pages. It sets no cookies, runs no
 
 ### On your Mac
 
-- Browser sessions for LinkedIn, X, Reddit and Hacker News live in Chrome profiles on your machine. They never leave it.
+- Browser sessions for LinkedIn, X, Reddit and Hacker News, meaning the cookies Chrome keeps for those sites, live in Chrome profiles on your machine. They never leave it.
+- Every action Blowhorn takes runs on one of your Macs. Blowhorn never signs in or acts for you from a server.
 - Configuration lives in `.blowhorn.yaml` inside the installation. The store connection, including its password, lives in `~/.config/blowhorn/store.yaml`, readable only by your user account.
-- For LinkedIn, X, Reddit and Bluesky, the secret a run signs in with is read from `profiles/<name>/config.yaml` inside the installation, and `blowhorn profile set` writes it there.
+- For LinkedIn, X, Reddit and Bluesky, the password a run signs in with is read from `profiles/<name>/config.yaml` inside the installation, and `blowhorn profile set` writes it there.
+- The app keeps its cached copy of your organization's plan features in your macOS Keychain.
 - Run logs are written to the `logs/` directory of the installation. The menu-bar app keeps its preferences and state under `~/Library/Application Support/Blowhorn/`.
 
 ### In Chrome, through the Blowhorn extension
@@ -40,14 +42,18 @@ The extension works only for the Blowhorn app on your Mac, over Chrome's native 
 
 ### In your organization's store on Layer5 Cloud
 
-- The content queue, schedule, profiles, run ledger and analytics. Every row is scoped to your organization's id.
-- Platform credentials, such as API tokens and app passwords, in the credentials table of your Layer5 Cloud organization. Blowhorn reads them when it checks which profile may act on which platform. GitHub, Hacker News and Slack runs authenticate with the stored value; for Slack that is the workspace session captured from your Chrome, or a Slack app token you enter. LinkedIn, X, Reddit and Bluesky runs read theirs from the local `config.yaml` above.
+Keeping this in one store is what lets you install Blowhorn on any number of Macs, your own or your teammates', and run them as one. Every Mac works from the same queue, and the Macs coordinate through it, so the same post isn't sent from two of them. Your analytics cover every Mac. Your content still goes out as long as one of those Macs is awake. The store holds:
+
+- The content queue, schedule, profiles, run history and analytics. Every row is scoped to your organization's id.
+- Platform credentials, in the credentials table of your Layer5 Cloud organization: GitHub tokens, Hacker News passwords, and Slack tokens and workspace sessions. For profiles set up before October 2026, it also holds the LinkedIn, X, Reddit and Bluesky passwords copied in when those profiles moved to the store. Blowhorn reads these credentials when it checks which profile may act on which platform. GitHub, Hacker News and Slack runs sign in with the stored value; for Slack that is the workspace session captured from your Chrome, or a Slack app token you enter. LinkedIn, X, Reddit and Bluesky runs sign in with the copy in the local `config.yaml` above.
+- Which Chrome profile each Blowhorn profile uses on each Mac: the Mac's name, the Chrome profile's folder and display name, and the Google account signed in to that Chrome profile.
 - Layer5 Cloud's handling of that data is governed by the [Layer5 privacy policy](https://layer5.io/company/legal/privacy/).
 
 ### What the app sends
 
 - Posts, comments, reactions and invitations to the platforms a profile is configured for, when an approved row is due or when you run a command. Nothing is published from a dry run.
 - A version check that lists the releases on Layer5's Blowhorn release channel, hosted on GitHub. The check needs GitHub credentials: when a GitHub token is already on your Mac (`GH_TOKEN`, `GITHUB_TOKEN` or `gh auth token`), the app sends it with that request, and updating downloads the disk image published with the newest release, installs the Blowhorn app from it into `/Applications` and relaunches. Without a token, the update button opens that release page in your browser and the app downloads nothing itself.
+- A request to Layer5 Cloud for your organization's plan features, sent with your Layer5 Cloud token and your organization's id. The app caches the answer in your Keychain.
 - No usage analytics and no crash reports. The app carries no analytics or crash-reporting library.
 
 ## Questions

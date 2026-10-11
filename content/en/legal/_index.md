@@ -2,7 +2,7 @@
 title: Trust Center
 heading: Blowhorn Trust Center
 description: How Blowhorn handles your data, sessions and accounts, in plain language, and every policy that covers the Blowhorn website, the Blowhorn app for macOS and the Blowhorn Chrome extension.
-lead: Blowhorn runs as many public voices as you need without handing the keys to anyone else. This page collects every policy that covers the Blowhorn website, the Blowhorn app for macOS and its Chrome extension, with a plain-language summary of each. The summaries are a guide; where one differs from a policy, the policy decides.
+lead: Blowhorn runs as many public voices as you need from one coordinated queue, and every action happens on your own Mac. This page collects every policy that covers the Blowhorn website, the Blowhorn app for macOS and its Chrome extension, with a plain-language summary of each. The summaries are a guide; where one differs from a policy, the policy decides.
 layout: trust-center
 lastmod: 2026-10-09
 sitemap:
@@ -11,8 +11,8 @@ sitemap:
 # The plain-language summaries. Each one restates what the linked policy
 # already says; add a card only for a promise a policy or a public doc makes.
 glance:
-  - title: Your browser sessions stay on your Mac
-    text: Your sign-ins for LinkedIn, X, Reddit and Hacker News live in Chrome profiles on your machine and never leave it. The Blowhorn extension acts in your own signed-in Chrome, and only when the app on your Mac asks.
+  - title: Every action happens on your own Mac
+    text: Blowhorn never acts for you from a server. Every post, comment and reaction is made by the Blowhorn app on one of your Macs, and in Chrome the Blowhorn extension acts only when that app asks. Your browser cookies for LinkedIn, X, Reddit and Hacker News stay in Chrome on that Mac and never leave it.
     link: /legal/privacy/#on-your-mac
     linkText: What stays on your Mac
   - title: The extension reports to no server
@@ -23,8 +23,8 @@ glance:
     text: The app carries no analytics or crash-reporting library. This website sets no cookies, runs no analytics and loads nothing from third parties; its one outside request is the release lookup on GitHub that the privacy page describes.
     link: /legal/privacy/#this-website
     linkText: What this website does
-  - title: Shared work lives in your organization's store
-    text: The content queue, schedule, profiles, run ledger, analytics and platform credentials such as API tokens are kept in your organization's store on Layer5 Cloud. Every row is scoped to your organization's id, and Layer5's privacy policy governs that data.
+  - title: One store for your queue, analytics and credentials
+    text: Your organization's store on Layer5 Cloud holds the content queue, schedule, profiles, run history, analytics and platform credentials. That is what lets you install Blowhorn on any number of Macs, yours or your teammates', and run them as one. Every Mac works from the same queue, and the Macs coordinate through it, so the same post isn't sent from two of them. Analytics show the complete picture. Every row is scoped to your organization's id, and Layer5's privacy policy governs that data.
     link: /legal/privacy/#in-your-organizations-store-on-layer5-cloud
     linkText: What your organization's store holds
   - title: You approve what goes out
