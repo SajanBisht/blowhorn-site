@@ -1605,7 +1605,7 @@ a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
 .mark-yes { background: var(--teal-shade); }
 .mark-partial { background: linear-gradient(90deg, var(--teal-shade) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--teal-shade); }
 .mark-no { box-shadow: inset 0 0 0 1.5px var(--line-strong); }
-.compare-fair { display: grid; gap: var(--space-3); max-width: 48rem; padding-left: var(--space-5, 1.25rem); color: var(--ink-muted); }
+.compare-fair { display: grid; gap: var(--space-3); max-width: 48rem; padding-left: var(--space-4); color: var(--ink-muted); }
 .compare-fair li { list-style: disc; }
 .compare-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
 @media (prefers-color-scheme: dark) {
@@ -2590,6 +2590,60 @@ a.agent-tile { padding-right: var(--space-6); }
 .fm-prose { overflow-wrap: break-word; }
 /* Platform index cards: a resting arrow shows each card opens its own page. */
 .platform-cards { margin-top: var(--space-4); }
-a.platform-card { position: relative; padding-right: calc(var(--space-6) + 1rem); border-left: 3px solid var(--link); }
-a.platform-card::after { content: "\2192"; position: absolute; right: var(--space-4); top: 50%; transform: translateY(-50%); color: var(--link); }
-a.platform-card:hover::after, a.platform-card:focus-visible::after { color: var(--ink); }
+/* They use the shared card cue (teal edge, round arrow chip), centred on the
+   right. Hover is subtle: only the edge brightens; the chip stays as it is at
+   rest, with no lift and no shift, so the arrow stays aligned with the other cards. */
+a.docs-card.platform-card { padding-right: calc(var(--space-8) + var(--space-4)); }
+a.docs-card.platform-card::after { top: 50%; right: var(--space-4); transform: translateY(-50%); }
+a.docs-card.platform-card:hover, a.docs-card.platform-card:focus-visible { transform: none; }
+a.docs-card.platform-card:hover::after, a.docs-card.platform-card:focus-visible::after {
+  transform: translateY(-50%);
+  background-color: var(--surface-tint);
+  --card-cue-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7h8.5M7.5 3.5L11 7l-3.5 3.5' fill='none' stroke='%2300756A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  a.docs-card.platform-card:hover::after, a.docs-card.platform-card:focus-visible::after { --card-cue-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7h8.5M7.5 3.5L11 7l-3.5 3.5' fill='none' stroke='%2300D3A9' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+}
+
+/* Supported actions (layouts/_partials/supported-actions.html): one list per
+   platform, shared by the platform docs pages and the agent pages. */
+.supported-actions { margin: var(--space-4) 0 0; }
+.supported-actions dt { font-weight: 600; color: var(--ink); margin-top: var(--space-4); }
+.supported-actions dt:first-child { margin-top: 0; }
+.supported-actions dd { margin: var(--space-1) 0 0; }
+.supported-actions dd > p { margin: 0; }
+.supported-actions dd > p + p { margin-top: var(--space-1); }
+.agent-platform-list { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.agent-platform > * + * { margin-top: var(--space-3); }
+
+/* Agent pages: supported actions as one table, a row per platform and action,
+   from data/platforms/*.yaml. */
+.agent-actions-wrap { margin-top: var(--space-6); overflow-x: auto; border-radius: var(--radius-md); }
+.agent-actions-table { width: 100%; min-width: 44rem; border-collapse: collapse; }
+.agent-actions-table th, .agent-actions-table td { padding: var(--space-3) var(--space-4); text-align: left; vertical-align: top; }
+.agent-actions-table thead th { font-weight: 600; border-bottom: 1px solid var(--line-strong); }
+.agent-actions-table tr.agent-actions-first > * { border-top: 1px solid var(--line); }
+.agent-actions-table tbody tr:first-child > * { border-top: 0; }
+.agent-actions-name { font-weight: 600; white-space: nowrap; }
+.agent-actions-platform a { display: flex; align-items: center; gap: var(--space-3); font-weight: 600; white-space: nowrap; }
+/* Platform index cards (docs): each card carries its platform's logo, from
+   the same local assets as data/platforms/*.yaml logo. */
+a.docs-card.platform-card { padding-left: calc(var(--space-6) + 44px); }
+a.docs-card.platform-card::before {
+  content: ""; position: absolute; left: var(--space-4); top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--white) no-repeat center / 24px 24px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+a.docs-card.platform-card[href$="/linkedin/"]::before { background-image: url("/assets/platforms/linkedin-in-bug.png"); }
+a.docs-card.platform-card[href$="/x/"]::before { background-image: url("/assets/platforms/x-logo-black.png"); background-size: 20px 20px; }
+a.docs-card.platform-card[href$="/reddit/"]::before { background-image: url("/assets/platforms/reddit-logo.png"); }
+a.docs-card.platform-card[href$="/hacker-news/"]::before { background-image: url("/assets/platforms/hacker-news-y18.svg"); background-size: 20px 20px; }
+a.docs-card.platform-card[href$="/slack/"]::before { background-image: url("/assets/platforms/slack-mark.svg"); }
+a.docs-card.platform-card[href$="/bluesky/"]::before { background-image: url("/assets/platforms/bluesky-butterfly-blue.svg"); }
+a.docs-card.platform-card[href$="/github/"]::before { background-image: url("/assets/platforms/github-invertocat-black.svg"); }
+.agent-actions-platform .logo-tile { width: 36px; height: 36px; }
+.agent-actions-platform .logo-tile img { width: 22px; height: 22px; }
+a.docs-card.platform-card[href$="/youtube/"]::before { background-image: url("/assets/platforms/youtube-simple-icons.svg"); background-size: 22px 22px; }
+a.docs-card.platform-card[href$="/instagram/"]::before { background-image: url("/assets/platforms/instagram-simple-icons.svg"); background-size: 22px 22px; }
+a.docs-card.platform-card[href$="/tiktok/"]::before { background-image: url("/assets/platforms/tiktok-simple-icons.svg"); background-size: 22px 22px; }
+a.docs-card.platform-card[href$="/facebook/"]::before { background-image: url("/assets/platforms/facebook-simple-icons.svg"); background-size: 22px 22px; }

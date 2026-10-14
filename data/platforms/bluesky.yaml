@@ -1,0 +1,23 @@
+# Supported actions on Bluesky. See linkedin.yaml for the shared rules.
+key: bluesky
+name: Bluesky
+weight: 6
+logo: assets/platforms/bluesky-butterfly-blue.svg
+docs: /docs/reference/platforms/bluesky/
+reach: Bluesky's API, never the browser
+actions:
+  - name: Post
+    behavior: Publishes your message. A message longer than 300 characters goes out as a thread.
+  - name: Reply
+    behavior: Replies to the Bluesky post you point it at.
+  - name: Amplify
+    behavior: Reposts a post from each of your profiles.
+  - name: Follow
+    behavior: Follows the accounts you list.
+  - name: Unfollow
+    behavior: Unfollows one account.
+  - name: Find
+    behavior: Searches Bluesky posts for the words you give it.
+  - name: Analytics
+    behavior: Records your follower and following counts on each run, so you can watch the trend.
+    limits: Read-only.

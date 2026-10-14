@@ -11,10 +11,6 @@
             <p class="label"><a href="{{ (site.GetPage "/agents").RelPermalink }}">Agentic AI Marketing</a></p>
             <h1 id="agent-title" class="display">{{ .Title }}</h1>
             <p class="body-lg muted">{{ $p.lead }}</p>
-            <p class="actions">
-              <a class="button button-primary button-pop" href="{{ "download/" | relURL }}">Download for Mac</a>
-              <a class="button button-secondary" href="{{ (site.GetPage "/docs").RelPermalink }}">Read the docs</a>
-            </p>
           </div>
           <div class="agent-hero-art" aria-hidden="true">
             {{ partial "agents/mark.html" (dict "page" . "size" "xl") }}
@@ -94,10 +90,41 @@
           </div>
         </section>
 
+        {{- /* Supported actions per platform: the same data/platforms/*.yaml the
+          platform docs pages render, so the two always agree. */}}
+        {{- $platformsDocs := site.GetPage "/docs/reference/platforms" }}
+        {{- $who := cond (eq .File.ContentBaseName "cli") "the CLI" $p.tool }}
+        <section class="agent-section agent-platforms" aria-labelledby="platforms-title">
+          <div class="section-head">
+            <h2 id="platforms-title" class="h2">What {{ $who }} can do on each platform</h2>
+            <p class="muted">Every action below is a blowhorn command {{ $who }} can run for you. Each platform's <a href="{{ with $platformsDocs }}{{ .RelPermalink }}{{ end }}">docs page</a> has the details.</p>
+          </div>
+          <div class="agent-actions-wrap glass">
+          <table class="agent-actions-table">
+            <thead><tr><th scope="col">Platform</th><th scope="col">Action</th><th scope="col">How it behaves</th><th scope="col">Limits</th></tr></thead>
+            <tbody>
+          {{- range sort hugo.Data.platforms "weight" }}
+            {{- $pl := . }}
+            {{- range $i, $a := .actions }}
+              <tr{{ if eq $i 0 }} class="agent-actions-first"{{ end }}>
+                {{- if eq $i 0 }}
+                <th scope="rowgroup" rowspan="{{ len $pl.actions }}" class="agent-actions-platform"><a href="{{ $pl.docs | relURL }}"><span class="logo-tile"><img src="{{ $pl.logo | relURL }}" alt="" width="28" height="28"></span><span>{{ $pl.name }}</span></a></th>
+                {{- end }}
+                <td class="agent-actions-name">{{ $a.name }}</td>
+                <td>{{ $a.behavior }}</td>
+                <td class="muted">{{ with $a.limits }}{{ . }}{{ else }}None{{ end }}</td>
+              </tr>
+            {{- end }}
+          {{- end }}
+            </tbody>
+          </table>
+          </div>
+        </section>
+
         <section class="agent-section agent-cta glass" aria-labelledby="cta-title">
           <h2 id="cta-title" class="h2">One message out, many ears in</h2>
-          <p class="muted">Get Blowhorn for Mac, then let {{ $p.tool }} do the talking.</p>
-          <p class="actions"><a class="button button-primary button-pop" href="{{ "download/" | relURL }}">Download for Mac</a></p>
+          <p class="muted">Want the details before {{ $who }} does the talking? The docs cover setup, every command, and each platform.</p>
+          <p class="actions"><a class="button button-secondary" href="{{ (site.GetPage "/docs").RelPermalink }}">Read the docs</a> <a class="button button-secondary" href="{{ with $platformsDocs }}{{ .RelPermalink }}{{ end }}">See every platform</a></p>
         </section>
 
         <section class="agent-section" aria-labelledby="more-title">
