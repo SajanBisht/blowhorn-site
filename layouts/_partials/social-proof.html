@@ -15,7 +15,11 @@
 <ul class="proof-strip" aria-label="What beta testers say">
   {{- range first 3 . }}
   <li class="proof-chip">
-    <span class="proof-avatar" aria-hidden="true">{{ .initials }}</span>
+    <span class="proof-avatar" aria-hidden="true">
+      {{- with .picture }}
+      <img src="{{ . | relURL }}" alt="">
+      {{- end }}
+    </span>
     <span><q>{{ .quote | truncate 64 }}</q> <span class="caption muted">{{ .name }}, {{ .company }}</span>{{ if .placeholder }} <span class="proof-flag">Placeholder</span>{{ end }}</span>
   </li>
   {{- end }}
@@ -45,7 +49,11 @@
         <span class="proof-flag">Placeholder</span>
         {{- end }}
         <blockquote class="body-lg">{{ .quote }}</blockquote>
-        <p class="proof-who"><span class="proof-avatar" aria-hidden="true">{{ .initials }}</span><span><strong>{{ .name }}</strong><br><span class="caption muted">{{ .role }}, {{ .company }}</span></span></p>
+        <p class="proof-who"><span class="proof-avatar" aria-hidden="true">
+          {{- with .picture }}
+          <img src="{{ . | relURL }}" alt="">
+          {{- end }}
+        </span><span><strong>{{ .name }}</strong><br><span class="caption muted">{{ .role }}, {{ .company }}</span></span></p>
       </li>
       {{- end }}
     </ul>
@@ -57,7 +65,11 @@
     <ul class="proof-logos">
       {{- range . }}
       <li class="proof-logo-card">
-        <span class="proof-logo" aria-hidden="true">{{ .initials }}</span>
+        <span class="proof-logo" aria-hidden="true">
+          {{- with .picture }}
+          <img src="{{ . | relURL }}" alt="">
+          {{- end }}
+        </span>
         <p class="caption"><strong>{{ .company }}</strong>{{ if .placeholder }} <span class="proof-flag">Placeholder logo</span>{{ end }}</p>
         <p class="caption muted"><q>{{ .quote | truncate 90 }}</q></p>
       </li>
