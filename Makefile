@@ -26,7 +26,7 @@ include .github/build/Makefile.show-help.mk
 #   build              Build locally with draft, future, and expired content.
 #   build-preview      Build for a deploy preview (uses BASE_URL or DEPLOY_PRIME_URL).
 #   build-production   Build for production. Pass BASE_URL=... to set the base URL.
-#   site               Public build (no /internal/) into public/ (as CI deploys).
+#   site               Serve locally with live reload.
 #   serve              Serve locally once, file watcher off (no live reload).
 #   check-links        Check every local link, image and font in the built site.
 #   check-deps         Verify required commands and local dependencies.
@@ -62,7 +62,7 @@ include .github/build/Makefile.show-help.mk
 #                      Start the site checks on the docs-sync branch after a
 #                      sync: gh workflow run site.yml (see docs/deploy.md).
 #   help               List every target with its description.
-#   clean              Remove the build output, Hugo's cache and downloaded tools.
+#   clean              Empty the build cache, reinstall dependencies, run 'site'.
 #-----------------------------------------------------------------------------
 # Fixed: the npm build and link-check scripts and site.yml all use public/.
 override BUILD_DIR := public
@@ -124,7 +124,7 @@ setup:
 setup-ci:
 	npm ci
 
-## Build the site locally with draft and future content enabled.
+## Build the site locally with draft, future, and expired content enabled.
 build: check-go check-deps
 	npm run build
 
@@ -143,15 +143,12 @@ build-production: check-go check-deps
 		npm run build:production; \
 	fi
 
-## Build the public site (no /internal/) into public/, as CI deploys it.
-site: build-production
-
 ## Build the internal site (public pages plus /internal/ from the leecalcote/blowhorn clone at BLOWHORN_DIR, default ../blowhorn) into public-internal/.
 site-internal: check-go check-deps check-blowhorn
 	HUGO_MODULE_REPLACEMENTS="$(BLOWHORN_MODULE) -> $(BLOWHORN_ABS)" npm run build:internal
 
-## Serve the public site at http://localhost:1313 with live reload (draft and future content enabled).
-preview: check-go check-deps
+## Build and run the site locally with live reload (draft and future content enabled).
+site: check-go check-deps
 	npm run site
 
 ## Serve the internal site at http://localhost:1313 with live reload, rendered in memory so public/ is never touched.
@@ -259,10 +256,11 @@ dmg-verify:
 dmg-release:
 	.github/scripts/publish-dmg/release.sh
 
-## Remove the build output, Hugo's resource cache and downloaded tools.
+## Empty the build cache, reinstall dependencies, and run the site locally.
 clean:
 	npm run clean
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	$(MAKE) setup
+	$(MAKE) site
 
 .PHONY: \
 	setup \
@@ -283,7 +281,6 @@ clean:
 	check-no-internal \
 	build-internal \
 	site-internal \
-	preview \
 	preview-internal \
 	check-blowhorn \
 	test-scripts \

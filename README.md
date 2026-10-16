@@ -52,10 +52,11 @@ You need Go (Hugo modules), Node.js and npm (the pinned Hugo extended and postcs
 
 ```bash
 make setup             # npm install: the pinned Hugo extended and postcss
-make preview           # serve at http://localhost:1313 with live reload
-make site              # public build into public/
+make site              # serve at http://localhost:1313 with live reload
+make serve             # serve once, without live reload
+make build             # local build with draft, future and expired content
+make build-production  # public production build into public/, what CI deploys
 make site-internal     # internal build into public-internal/ (needs ../blowhorn)
-make build-production  # build into public/, what CI deploys
 make check             # every check, against a fresh production build
 make ci                # exactly what site.yml's check job runs, starting with npm ci
 ```

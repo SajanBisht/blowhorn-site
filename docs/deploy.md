@@ -197,7 +197,7 @@ layer5io/docs; no page loads them.
 ```bash
 make setup         # once: npm install
 make check         # production build, html-validate, link, third-party and contract checks, check-script tests, actionlint: what CI runs
-make preview       # http://localhost:1313 with live reload
+make site          # http://localhost:1313 with live reload
 ```
 
 ## Product docs sync
@@ -280,13 +280,13 @@ chrome-devtools-axi eval 'document.documentElement.scrollWidth > document.docume
 repository, which is public: it lives in the private leecalcote/blowhorn
 repository, and only the internal environment mounts it.
 
-### Builds
+### Builds and local servers
 
 | Target | What it does | Output |
 | --- | --- | --- |
-| `make site` | Public build (`hugo`, production environment, `renderSegments = ["public"]`), what CI deploys | `public/`, no `/internal/` |
+| `make build-production` | Public build (`hugo`, production environment, `renderSegments = ["public"]`), what CI deploys | `public/`, no `/internal/` |
 | `make site-internal` | Internal build (`hugo --environment internal`, `renderSegments = ["all"]`) with the leecalcote/blowhorn clone mounted | `public-internal/` |
-| `make preview` / `make preview-internal` | Live-reload servers for the two builds (the internal one renders in memory) | http://localhost:1313 |
+| `make site` / `make preview-internal` | Live-reload servers for the two builds (the internal one renders in memory) | http://localhost:1313 |
 
 The internal targets need a leecalcote/blowhorn clone at `BLOWHORN_DIR`
 (default `../blowhorn`, beside this clone) and fail with a clear error when it
