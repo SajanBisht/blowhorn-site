@@ -26,8 +26,7 @@ The zip is the extension directory only. It leaves out `.git`, `node_modules`,
 `venv`, `.env`, source maps, `tests`, `docs`, `profiles`, `desktop`,
 `README.md`, `CHROMEWEBSTORE.md`, `.DS_Store`, and `store-assets`. Listing
 images live in `marketing/store-assets/` and are uploaded in the dashboard, not inside
-the zip. The licence bundle in `apps/extension/` - `LICENSE`, `NOTICE`,
-`LICENSES/Apache-2.0.txt` and `LICENSE-baby-menu` - ships inside the zip. A private key in the source tree stops the script before it writes
+the zip. The script adds the repo-root `LICENSE` (AGPL-3.0-only) at the zip root. A private key in the source tree stops the script before it writes
 the archive.
 
 `apps/extension/icon16.png`, `icon32.png`, `icon48.png` and `icon128.png` are the

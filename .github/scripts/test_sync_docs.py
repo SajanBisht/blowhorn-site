@@ -108,6 +108,28 @@ class SyncDocsTest(unittest.TestCase):
         self.assertEqual(site["how-to/publish/_index.md"], LANDING)
         self.assertIn("sync-docs: synced 1 page(s)", result.stdout)
 
+    def test_docs_and_section_landings_come_from_the_product(self):
+        root = "---\ntitle: \"Docs\"\nlayout: \"landing\"\n---\n\n# Docs\n\n<a href=\"how-to/\">How-to</a>\n"
+        result, site = self.assert_synced(
+            product({
+                "README.md": "---\ntitle: docs\n---\n# docs\n",
+                "_index.md": root,
+                "how-to/_index.md": LANDING,
+                "how-to/post.md": PAGE.format(title="Post", link="x.md"),
+            }),
+            docs_seed={"_index.md": "old landing\n", "how-to/_index.md": "old\n"},
+        )
+        self.assertEqual(site["_index.md"], root)
+        self.assertEqual(site["how-to/_index.md"], LANDING)
+        self.assertNotIn("site landing has no product source", result.stderr)
+
+    def test_unsourced_site_landing_is_reported(self):
+        result, _ = self.assert_synced(
+            product({"how-to/publish/post.md": PAGE.format(title="Post", link="x.md")}),
+            docs_seed={"how-to/publish/_index.md": LANDING},
+        )
+        self.assertIn("how-to/publish/_index.md: site landing has no product source", result.stderr)
+
     def test_cli_page_becomes_section_index(self):
         _, site = self.assert_synced(product({
             "reference/cli.md": PAGE.format(title="CLI", link="platforms.md"),

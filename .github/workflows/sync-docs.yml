@@ -115,8 +115,8 @@ jobs:
             echo
             echo "- Source: docs/{tutorials,how-to,reference,explanation} at that ref."
             echo "  docs/internal/, docs/gtm/ and internal-paths.txt entries are never copied."
-            echo "- docs/README.md maps onto the site-owned docs landing"
-            echo "  (content/en/docs/_index.md): the landing stays, no page is written for the README."
+            echo "- docs/_index.md becomes the docs landing (content/en/docs/_index.md) and each"
+            echo "  section's _index.md its landing; docs/README.md is the product's GitHub index and is not copied."
             echo "- The product's reference/cli.md becomes the reference/cli/ section index"
             echo "  (the product keeps one CLI page; per-command pages will land beside it)."
             echo "- Gated pages (draft: true) stay unpublished until the product ungates them."

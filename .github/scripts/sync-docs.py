@@ -8,15 +8,17 @@ checks (make site-check) hold the synced pages to the same contract as
 every hand-written page. Run it through make (see the docs-sync target);
 sync-docs.yml calls the same target.
 
-What is copied: every Markdown page under the four public sections, plus
-any local non-Markdown file those pages reference (images and the like).
+What is copied: every Markdown page under the four public sections,
+including each section landing (_index.md), the docs landing
+(docs/_index.md, which becomes content/en/docs/_index.md), plus any local
+non-Markdown file those pages reference (images and the like). The product
+docs are the only source: nothing under content/en/docs/ is written by hand.
 What is never copied: docs/internal/, docs/gtm/, and any path listed in
 the product's internal-paths.txt (release/internal-paths.txt since the
 product's layout move, then docs/internal-paths.txt, then internal-paths.txt
 at the product root), dotfiles, and docs/README.md
-itself, which maps onto the site-owned docs landing
-(content/en/docs/_index.md): the landing stays and no page is written
-for the README.
+itself, the product's GitHub index (the site landing comes from
+docs/_index.md instead).
 
 Per-page conversions (the product docs themselves are never edited):
 
@@ -40,7 +42,8 @@ Per-page conversions (the product docs themselves are never edited):
   unpublished until the product ungates them.
 
 Mirror bookkeeping: site _index.md landing pages with no product
-counterpart are kept byte-identical; other Markdown pages under the docs
+counterpart are kept byte-identical (and reported, since every landing now
+has a product source); other Markdown pages under the docs
 directory with no product counterpart are removed as stale; newly empty
 directories are pruned.
 
@@ -114,8 +117,11 @@ def is_excluded(docs_rel, excluded):
 def map_path(docs_rel):
     """Map a product docs-relative path to a site docs-relative path."""
     if docs_rel == "README.md":
-        # Maps onto the site-owned docs landing; no page is written.
+        # The product's GitHub index; the site landing comes from _index.md.
         return None
+    if docs_rel == "_index.md":
+        # The docs landing (content/en/docs/_index.md) lives in the product.
+        return "_index.md"
     if docs_rel == "reference/cli.md":
         # The product keeps a single CLI page where the site reserves cli/
         # for per-command pages; it becomes the section index.
@@ -399,6 +405,9 @@ def sync(source_dir, docs_dir, ref):
     excluded = read_internal_paths(source_dir, product_docs)
 
     pages = {}
+    # The docs landing sits at the product docs root, outside the sections.
+    if (product_docs / "_index.md").is_file():
+        pages["_index.md"] = "_index.md"
     for section in SECTIONS:
         section_dir = product_docs / section
         if not section_dir.is_dir():
@@ -422,6 +431,8 @@ def sync(source_dir, docs_dir, ref):
     # every section the tree publishes (kept site landings included).
     published_urls = {"/docs/"}
     for site_rel in pages:
+        if site_rel == "_index.md":
+            continue
         if site_rel.endswith("/_index.md"):
             section = site_rel[:-len("/_index.md")]
             published_urls.add("/docs/" + section + "/" if section else "/docs/")
@@ -460,6 +471,8 @@ def sync(source_dir, docs_dir, ref):
             if path.name == "_index.md":
                 if rel not in pages:
                     kept += 1
+                    warn(f"{rel}: site landing has no product source "
+                         f"(docs/{rel}); kept as is", warnings)
                 continue
             if rel not in pages:
                 path.unlink()

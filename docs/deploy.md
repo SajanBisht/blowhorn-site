@@ -222,12 +222,14 @@ here, on the public site repository.
    headings whose auto id would not begin with a letter get an explicit
    `{#anchor}`. `docs/internal/`, `docs/gtm/` and any path listed in the
    product's `internal-paths.txt` (when it exists: `release/internal-paths.txt` in the product's current layout, else `docs/` or the product root) are never copied.
-2. `docs/README.md` maps onto the site-owned docs landing
-   (`content/en/docs/_index.md`): the landing stays as designed and no
-   page is written for the README, whose index role the landing cards and
-   the Docsy sidebar already serve. Site-owned `_index.md` landings with
-   no product counterpart are likewise kept; every other synced page is
-   the product's file converted. Pages carrying `draft: true` stay
+2. The product is the only source for `content/en/docs/`: the docs
+   landing comes from the product's `docs/_index.md` and each section
+   landing from that section's `_index.md`. `docs/README.md` is the
+   product's GitHub index and is not copied. Edit docs pages in the
+   product, never here: the next sync overwrites a hand edit. A site
+   `_index.md` landing with no product source is kept as is and reported
+   in the sync warnings; every other synced page is the product's file
+   converted. Pages carrying `draft: true` stay
    unpublished until the product ungates them.
 3. The workflow commits the result signed off (DCO) to the `docs-sync`
    branch (`make docs-sync-base` builds it on the open sync PR's head, or
