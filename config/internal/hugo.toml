@@ -40,5 +40,5 @@ renderSegments = ["all"]
     # Data for /internal/strategy/compare/ (CSV: Hugo's data/ does not take
     # CSV, so it mounts into assets and the shortcode unmarshals it).
     [[module.imports.mounts]]
-      source = "docs/capability-comparison/compare-assistants.csv"
+      source = "marketing/capability-comparison/compare-assistants.csv"
       target = "assets/internal/compare-assistants.csv"
