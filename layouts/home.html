@@ -2,10 +2,12 @@
   #main) are linked from the other pages, the README and outside this repo:
   keep them. .github/scripts/check-site-contract.py fails the build without them. */ -}}
 {{ define "head" }}
+    {{- $hero := partial "hero-variant.html" . }}
+    {{- $heroDesc := printf "%s %s" $hero.headline $hero.subhead }}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Blowhorn">
     <meta property="og:title" content="Blowhorn: one message, many ears">
-    <meta property="og:description" content="Not a bot. You, at full volume. Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own.">
+    <meta property="og:description" content="{{ $heroDesc }}">
     <meta property="og:url" content="{{ partial "canonical.html" . }}">
     <meta property="og:image" content="{{ "assets/brand/marketing/blowhorn-social-banner-16x9.png" | absURL }}">
     <meta property="og:image:width" content="1600">
@@ -13,7 +15,7 @@
     <meta property="og:image:alt" content="Major Blowhorn, a rooster drill sergeant, crows through a megaphone beside the Blowhorn wordmark and the tagline One message. Many ears.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Blowhorn: one message, many ears">
-    <meta name="twitter:description" content="Not a bot. You, at full volume. Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own.">
+    <meta name="twitter:description" content="{{ $heroDesc }}">
     <meta name="twitter:image" content="{{ "assets/brand/marketing/blowhorn-social-banner-16x9.png" | absURL }}">
     <script type="application/ld+json">
       {
@@ -23,7 +25,7 @@
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "macOS 13 or newer",
         "url": "https://blowhorn.ai/",
-        "description": "Not a bot. You, at full volume. Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own.",
+        "description": {{ $heroDesc | jsonify | safeJS }},
         "author": { "@type": "Organization", "name": "Blowhorn", "url": "https://blowhorn.ai/" },
         "downloadUrl": "https://github.com/layer5io/blowhorn-site/releases/latest"
       }
@@ -35,13 +37,14 @@
 {{- end }}
 
 {{ define "main" }}
+    {{- $hero := partial "hero-variant.html" . }}
     <main id="main">
-      <section class="hero" aria-labelledby="hero-title">
+      <section class="hero" aria-labelledby="hero-title" data-hero-variant="{{ $hero.id }}">
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <p class="label">Blowhorn · for macOS</p>
-            <h1 id="hero-title" class="display-xl">Not a bot. You, at full volume.</h1>
-            <p class="body-lg">Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own. No Blowhorn server ever logs in as you.</p>
+            <h1 id="hero-title" class="display-xl">{{ $hero.headline }}</h1>
+            <p class="body-lg hero-sub">{{ $hero.subhead }}</p>
             <div class="hero-actions">
               <a class="button button-primary button-pop" href="{{ "download/" | relURL }}">
                 <svg aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><use href="#glyph-download"></use></svg>
@@ -95,6 +98,11 @@
           </figure>
         </div>
       </section>
+      {{- $heroJS := resources.Get "js/hero.js" | minify | fingerprint }}
+      {{- $heroVariants := slice }}
+      {{- range site.Data.hero.variants }}{{ $heroVariants = $heroVariants | append (dict "id" .id "headline" .headline "subhead" .subhead) }}{{ end }}
+      <script type="application/json" id="hero-variants">{{ dict "variants" $heroVariants | jsonify | safeJS }}</script>
+      <script src="{{ $heroJS.RelPermalink }}"></script>
 
       <section id="platforms" class="section" aria-labelledby="platforms-title">
         <div class="wrap">

@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blowhorn.ai/schemas/hero.schema.json",
+  "title": "Home page hero variants",
+  "description": "data/hero.json: the headline and subhead variants of the blowhorn.ai home page hero. The default variant is rendered into the static HTML (no-JS visitors, crawlers, social previews); assets/js/hero.js may swap in another at page load. See docs/hero-variants.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["default", "variants"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "default": {
+      "description": "Id of the variant rendered into the static HTML. Must be one of variants[].id (the build fails otherwise).",
+      "$ref": "#/definitions/id"
+    },
+    "variants": {
+      "description": "Every variant, in rotation order: the daily rule picks variants[day % length].",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/variant" }
+    }
+  },
+  "definitions": {
+    "id": {
+      "description": "URL-safe id, used in ?hero=<id> and data-hero-variant.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 40
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "headline", "subhead", "differentiators"],
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "headline": {
+          "description": "The h1. Plain text, hyphens never em dashes.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "not": { "pattern": "\u2014" }
+        },
+        "subhead": {
+          "description": "The paragraph under the h1. Plain text, hyphens never em dashes.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 220,
+          "not": { "pattern": "\u2014" }
+        },
+        "differentiators": {
+          "description": "Numbers of the claims this copy rests on in the product repository's canonical differentiators list (marketing/brand/differentiators.md). Copy may only state what those claims allow.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "note": {
+          "description": "Why this variant exists, for reviewers. Not rendered.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

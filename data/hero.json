@@ -1,0 +1,41 @@
+{
+  "$schema": "../schemas/hero.schema.json",
+  "default": "not-a-bot",
+  "variants": [
+    {
+      "id": "not-a-bot",
+      "headline": "Not a bot. You, at full volume.",
+      "subhead": "Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own. No Blowhorn server ever logs in as you.",
+      "differentiators": [8, 9],
+      "note": "Default. Leads with the claim every competitor group lacks: real Chrome, really you."
+    },
+    {
+      "id": "real-you",
+      "headline": "The real you, everywhere at once.",
+      "subhead": "Not a cloud bot borrowing your password. Your own Chrome, on your own machines, doing exactly what you queued.",
+      "differentiators": [8, 10],
+      "note": "Same claim, framed against the LinkedIn tools that ask for your password."
+    },
+    {
+      "id": "your-fleet",
+      "headline": "Your fleet. Your Chrome. Your voice.",
+      "subhead": "Install Blowhorn on every machine you own. They share one queue, act as you, and are coordinated so the same post isn't sent from two of them.",
+      "differentiators": [1, 4, 8],
+      "note": "The fleet of your own machines behind one coordinated queue."
+    },
+    {
+      "id": "sound-wave",
+      "headline": "Real voices make a sound wave.",
+      "subhead": "Schedule one message and have every profile you add amplify it at the moment you pick, each profile posting as itself.",
+      "differentiators": [2, 8],
+      "note": "The sound wave, with real people instead of bots."
+    },
+    {
+      "id": "own-your-voice",
+      "headline": "Own your voice. Keep your accounts.",
+      "subhead": "The social console that runs in your own Chrome: LinkedIn, X, Reddit, Hacker News, Bluesky, GitHub and Slack from one queue, posted as you. About a minute to set up.",
+      "differentiators": [8, 12],
+      "note": "After bindplane.com: a category claim with concrete proof (the networks, the setup time) and an ownership close like its \"Own your telemetry. Control your costs.\""
+    }
+  ]
+}

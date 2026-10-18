@@ -67,6 +67,7 @@ include .github/build/Makefile.show-help.mk
 # Fixed: the npm build and link-check scripts and site.yml all use public/.
 override BUILD_DIR := public
 HTML_VALIDATE_VERSION ?= 9.5.5
+AJV_CLI_VERSION ?= 5.0.0
 ACTIONLINT_VERSION ?= 1.7.7
 BIN_DIR ?= .bin
 # actionlint from PATH when installed; otherwise a pinned copy is downloaded into $(BIN_DIR).
@@ -180,8 +181,12 @@ check-third-party: build-production
 check-urls: build-production
 	python3 .github/scripts/check-site-contract.py $(BUILD_DIR)
 
-## Build for production once, then validate-html, check-links, check-third-party and check-urls (what site.yml runs).
-site-check: validate-html check-links check-third-party check-urls check-no-internal
+## Validate every data file that has a JSON Schema in schemas/ (data/hero.json against schemas/hero.schema.json).
+check-schemas:
+	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero.schema.json -d data/hero.json
+
+## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
+site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal
 
 ## Build for production, then fail if the /internal/ section leaked into it.
 check-no-internal: build-production
@@ -263,6 +268,7 @@ clean:
 	$(MAKE) site
 
 .PHONY: \
+	check-schemas \
 	setup \
 	build \
 	build-preview \
