@@ -21,7 +21,7 @@ from pathlib import Path
 PAGES = {
     "index.html": [
         "glyph-menubar", "glyph-terminal", "glyph-clock", "glyph-extension",
-        "glyph-download", "main", "hero-title", "hero-art-title", "platforms", "platforms-title", "how",
+        "glyph-download", "main", "hero-title", "hero-art-title", "fan-title", "platforms", "platforms-title", "how",
         "how-title", "trust", "trust-title", "download", "download-title",
     ],
     "download/index.html": [
