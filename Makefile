@@ -181,9 +181,10 @@ check-third-party: build-production
 check-urls: build-production
 	python3 .github/scripts/check-site-contract.py $(BUILD_DIR)
 
-## Validate every data file that has a JSON Schema in schemas/ (data/hero.json against schemas/hero.schema.json).
+## Validate every data file that has a JSON Schema in schemas/ (data/hero.json, data/roles.json).
 check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero.schema.json -d data/hero.json
+	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/roles.schema.json -d data/roles.json
 
 ## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
 site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal

@@ -1,0 +1,11 @@
+{{- /* One /for/<slug>/ page per role in data/roles.json (schema:
+  schemas/roles.schema.json). The copy lives in the data file; layouts/role.html
+  renders it. */ -}}
+{{- range site.Data.roles.roles }}
+  {{- $.AddPage (dict
+      "kind" "page"
+      "path" .slug
+      "title" (printf "Blowhorn for %s" .name)
+      "params" (dict "role" .slug "description" .description "weight" .weight "lastmod" "2026-10-17")
+  ) }}
+{{- end }}

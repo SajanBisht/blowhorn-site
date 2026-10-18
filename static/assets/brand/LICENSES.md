@@ -16,6 +16,12 @@ product repository's `marketing/brand/major-blowhorn/cutouts/major-6-hat-left.pn
 copied unchanged; the `.webp` beside it is
 a lossy re-encode of that file for the home page hero, with no other change.
 
+The role pages' cast art (`cast/*.webp`) are 960x540 re-encodes of the Locked-6 cast
+final looks (`marketing/brand/major-blowhorn/cast-final/` in the product repository),
+unchanged otherwise. `cast/major-6-hat-left-horn.webp` is the locked
+`major-6-hat-left` art with three Caribbean Green (#00D3A9) sound arcs added at the
+bullhorn; Major himself is not redrawn.
+
 ## Fonts (`fonts/`)
 
 All three families are licensed under the SIL Open Font License, Version 1.1

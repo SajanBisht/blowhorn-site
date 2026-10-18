@@ -1,0 +1,453 @@
+{
+  "$schema": "../schemas/roles.schema.json",
+  "roles": [
+    {
+      "slug": "devrel",
+      "name": "DevRel",
+      "weight": 10,
+      "headline": "Ship the release. Announce it everywhere, as you.",
+      "lead": "LinkedIn, X, Reddit, Hacker News, Bluesky, GitHub and Slack in one queue, posted from your own Chrome, signed in as you. Your agent drafts and dry-runs; you hold the switch.",
+      "description": "Blowhorn for developer relations: one queue for the networks developers use, including Hacker News and GitHub, posted as you from your own Chrome.",
+      "art": {
+        "src": "assets/brand/cast/keyboard-warrior-right.webp",
+        "alt": "Keyboard Warrior, a teal rooster in a charcoal helmet, hammering a gold keyboard strapped to his chest, its Enter key lit in Layer5 green"
+      },
+      "pains": [
+        {
+          "t": "Seven tabs per post",
+          "b": "Every release means seven composers and seven sign-ins, and the schedulers still skip Hacker News and GitHub."
+        },
+        {
+          "t": "Tools that want your logins",
+          "b": "Outreach tools ask for your password, your 2FA secret or your session cookie, then log in as you from their servers."
+        },
+        {
+          "t": "A launch that lands quietly",
+          "b": "The post goes out, and the first hour is gone before the people who would amplify it notice."
+        }
+      ],
+      "gets": [
+        {
+          "t": "One desk for where developers talk",
+          "b": "Hacker News submit and comment, GitHub follow and react, Slack messages as you, plus LinkedIn, X, Reddit and Bluesky, from one queue."
+        },
+        {
+          "t": "Posted as you",
+          "b": "Blowhorn does the typing and clicking in your own Chrome. No vendor server logs in as you, and nothing is branded \"sent via Blowhorn\"."
+        },
+        {
+          "t": "Your agent drives, you approve",
+          "b": "Every action is scripted and takes --dry-run first. No model decides what to click, and only approved posts go out."
+        },
+        {
+          "t": "A sound wave on release day",
+          "b": "Schedule the announcement and have every profile you add amplify it at the moment you pick."
+        }
+      ],
+      "prompt": "Draft the release posts from CHANGELOG.md, run blowhorn with --dry-run, show me, then schedule them for Tuesday 9:00.",
+      "major": "Release notes are orders, soldier. Every channel hears them by oh-nine-hundred.",
+      "faq": [
+        {
+          "q": "Will it make me look like a bot?",
+          "a": "Blowhorn types key by key at the pace you pick, caps itself (for example 2 Hacker News link submissions per profile per day) and always hands CAPTCHA and 2FA prompts to you. Nobody can promise a platform won't flag an account."
+        },
+        {
+          "q": "Does it vote on Hacker News?",
+          "a": "Never. It submits stories and comments, nothing else."
+        },
+        {
+          "q": "Does a machine have to be awake?",
+          "a": "One set up for the profile does. Install Blowhorn on as many machines as you like; any awake one keeps the schedule."
+        }
+      ],
+      "related": [
+        {
+          "label": "Run Blowhorn from your coding agent",
+          "page": "/agents"
+        },
+        {
+          "label": "Why your own Chrome",
+          "page": "/docs/explanation/your-own-chrome"
+        },
+        {
+          "label": "Post to Hacker News",
+          "page": "/docs/how-to/publish/post-to-hacker-news"
+        }
+      ]
+    },
+    {
+      "slug": "marketing",
+      "name": "Marketing managers",
+      "weight": 20,
+      "headline": "Your team is the amplifier.",
+      "lead": "Schedule one message and have every profile you add amplify it at the moment you pick: real teammates and supporters, each posting as themselves, in the first hour. No 100-seat minimum.",
+      "description": "Blowhorn for marketing managers: make a sound wave from your team's own profiles, each posting as themselves, coordinated from one queue.",
+      "art": {
+        "src": "assets/brand/cast/general-left.webp",
+        "alt": "The General, a teal goat in a peaked cap with a Caribbean Green sash of gold star medals, holding his cane and sealed orders"
+      },
+      "pains": [
+        {
+          "t": "Begging in Slack",
+          "b": "\"Can everyone like this?\" pings land after the moment has passed."
+        },
+        {
+          "t": "Suites priced for armies",
+          "b": "Employee advocacy suites are built for hundreds of seats, not a team with a launch day."
+        },
+        {
+          "t": "Nobody hands over their LinkedIn",
+          "b": "Teammates won't give a vendor their sign-in, and they shouldn't have to."
+        }
+      ],
+      "gets": [
+        {
+          "t": "Make a sound wave",
+          "b": "Queue the launch post and its reposts, quotes and reactions ahead of time. Every profile you add joins the same wave."
+        },
+        {
+          "t": "Their sessions stay theirs",
+          "b": "Each teammate's browser session stays in their own Chrome; Blowhorn acts as them there."
+        },
+        {
+          "t": "One pause for the whole wave",
+          "b": "Coordinated so the same post isn't sent from two machines. One command pauses everything."
+        },
+        {
+          "t": "One complete picture",
+          "b": "Run history and analytics from every machine in one place. Analytics cover LinkedIn, X and Bluesky."
+        }
+      ],
+      "prompt": "",
+      "major": "A hundred-seat minimum is for armies. You need a squad and a launch day.",
+      "faq": [
+        {
+          "q": "Do teammates hand over their passwords?",
+          "a": "No. Their browser sessions stay in their own Chrome, and Blowhorn acts as them there."
+        },
+        {
+          "q": "Can I invite my team?",
+          "a": "Today teammates and supporters add their own profiles to your account and join the wave. Multi-user team invites: Coming soon."
+        },
+        {
+          "q": "What if a teammate's laptop is closed?",
+          "a": "Their action waits in the queue for a machine set up for their profile, rather than going out wrong."
+        },
+        {
+          "q": "Are there approvals or leaderboards?",
+          "a": "Not today."
+        }
+      ],
+      "related": [
+        {
+          "label": "How amplification works",
+          "page": "/docs/how-to/publish/amplify-a-post"
+        },
+        {
+          "label": "Why nothing is sent twice",
+          "page": "/docs/explanation/never-twice"
+        },
+        {
+          "label": "Compare Blowhorn",
+          "page": "/compare"
+        }
+      ]
+    },
+    {
+      "slug": "founders",
+      "name": "Founders",
+      "weight": 30,
+      "headline": "You're the company's voice. Keep its keys.",
+      "lead": "Every launch, across your personal, company and project profiles, from one queue on machines you own. Blowhorn does the typing and clicking in your own Chrome, so nobody else holds the sign-ins that are your company.",
+      "description": "Blowhorn for founders: every profile you speak for, from one queue on your own machines, posted as you from your own Chrome.",
+      "art": {
+        "src": "assets/brand/cast/major-6-hat-left-horn.webp",
+        "alt": "Major Blowhorn, a teal rooster drill sergeant in a campaign hat, pointing and shouting through his gold bullhorn, Caribbean Green sound waves pouring out of it"
+      },
+      "pains": [
+        {
+          "t": "Launch week in tabs",
+          "b": "Personal, company and project profiles, each in its own tab, for every announcement."
+        },
+        {
+          "t": "A vendor holding your sign-ins",
+          "b": "The sessions that are your company end up on someone else's servers."
+        },
+        {
+          "t": "No time to babysit a schedule",
+          "b": "You have a company to run, not a posting calendar to watch."
+        }
+      ],
+      "gets": [
+        {
+          "t": "Many profiles, one desk",
+          "b": "Every brand, founder and project profile you speak for, from one menu bar app, each in its own Chrome profile."
+        },
+        {
+          "t": "Your machines act",
+          "b": "Every action runs on one of your machines. Your account keeps the queue in sync; it never posts."
+        },
+        {
+          "t": "Any awake machine covers it",
+          "b": "Close your laptop. Another machine set up for that profile picks the schedule up."
+        },
+        {
+          "t": "Pause anything",
+          "b": "One command stops one action, one machine or all of them. Another starts it again."
+        }
+      ],
+      "prompt": "",
+      "major": "Your company's sign-ins are not a houseguest's to keep.",
+      "faq": [
+        {
+          "q": "What lives in my account?",
+          "a": "Your queue, schedule, profiles, run history and analytics, so every machine stays in sync. Browser cookies stay in Chrome on each machine, and your account never posts."
+        },
+        {
+          "q": "Will it post twice?",
+          "a": "Your machines coordinate through one queue, so the same post isn't sent from two of them."
+        },
+        {
+          "q": "Windows or Linux?",
+          "a": "Not today. Blowhorn runs on macOS 13 or newer."
+        }
+      ],
+      "related": [
+        {
+          "label": "Where your data lives",
+          "page": "/docs/explanation/your-data"
+        },
+        {
+          "label": "How scheduling works",
+          "page": "/docs/explanation/scheduling"
+        },
+        {
+          "label": "Pricing",
+          "page": "/pricing"
+        }
+      ]
+    },
+    {
+      "slug": "open-source",
+      "name": "Open source maintainers",
+      "weight": 40,
+      "headline": "Your release deserves more than a post and a prayer.",
+      "lead": "Publish and amplify project milestones across project and maintainer profiles on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky, from one queue.",
+      "description": "Blowhorn for open source maintainers: announce releases and milestones on GitHub, Slack, Hacker News and every social network from one queue, as yourself.",
+      "art": {
+        "src": "assets/brand/cast/trench-trooper-right.webp",
+        "alt": "Trench Trooper, a teal rooster in a charcoal helmet, watching through a gold periscope behind a trench wall of browser tabs, the active tab in Layer5 green"
+      },
+      "pains": [
+        {
+          "t": "Schedulers skip developer channels",
+          "b": "None of the schedulers we checked support Hacker News, and most skip GitHub and Slack."
+        },
+        {
+          "t": "Maintainers are scattered",
+          "b": "Everyone means to share the release. Few remember in the first hour."
+        },
+        {
+          "t": "Credibility is everything",
+          "b": "One spammy post costs more trust with developers than a quiet launch."
+        }
+      ],
+      "gets": [
+        {
+          "t": "Every developer channel in one queue",
+          "b": "Slack messages and GitHub reactions sit in the same queue as LinkedIn, X, Reddit, Hacker News and Bluesky."
+        },
+        {
+          "t": "Maintainers amplify as themselves",
+          "b": "Each maintainer adds their own profile and joins the wave, posting as themselves."
+        },
+        {
+          "t": "No spam, no votes",
+          "b": "Hacker News submit and comment only, at human pace, with built-in caps."
+        },
+        {
+          "t": "Scriptable",
+          "b": "Every command has --help with examples, most have --json, and anything that publishes takes --dry-run."
+        }
+      ],
+      "prompt": "",
+      "major": "Shipping is half the mission. Telling the world is the other half.",
+      "faq": [
+        {
+          "q": "Does every maintainer need a Mac?",
+          "a": "Each machine that acts needs macOS 13 or newer today. Windows and Linux: not today."
+        },
+        {
+          "q": "Will it upvote our launch?",
+          "a": "Never. Blowhorn submits and comments on Hacker News and caps link submissions at 2 per profile per day."
+        },
+        {
+          "q": "Does the project need an account?",
+          "a": "Yes. Every install signs in to one account, which keeps the queue, schedule and profiles in sync."
+        }
+      ],
+      "related": [
+        {
+          "label": "Every platform",
+          "page": "/docs/reference/platforms"
+        },
+        {
+          "label": "Post to Hacker News",
+          "page": "/docs/how-to/publish/post-to-hacker-news"
+        },
+        {
+          "label": "How amplification works",
+          "page": "/docs/how-to/publish/amplify-a-post"
+        }
+      ]
+    },
+    {
+      "slug": "community",
+      "name": "Community managers",
+      "weight": 50,
+      "headline": "Rally the community. Everyone speaks for themselves.",
+      "lead": "Announce to community Slack workspaces as yourself, then have maintainers and supporters amplify milestones from their own profiles in the first hour. No Blowhorn app taking a slot in your workspace.",
+      "description": "Blowhorn for community managers: Slack announcements as yourself with no app to install, and supporters amplifying from their own profiles.",
+      "art": {
+        "src": "assets/brand/cast/recruit-chick-right.webp",
+        "alt": "A recruit chick, a small round gold chick in a Caribbean Green helmet, saluting"
+      },
+      "pains": [
+        {
+          "t": "Announcements that scroll away",
+          "b": "The milestone post is buried by lunch, in every channel at once."
+        },
+        {
+          "t": "A workspace at its app limit",
+          "b": "Free Slack plans cap installed apps, so a full workspace can't add another tool's bot."
+        },
+        {
+          "t": "Asking for likes",
+          "b": "Nobody enjoys sending the \"please share this\" message, or getting it."
+        }
+      ],
+      "gets": [
+        {
+          "t": "Slack as you, nothing installed",
+          "b": "Blowhorn works through your own sign-in. No Blowhorn app to install, no app slot used, no bot user to invite."
+        },
+        {
+          "t": "Supporters contribute their profile",
+          "b": "Supporters add their own profiles to your account and join the wave. Nobody acts for them."
+        },
+        {
+          "t": "Every channel in one queue",
+          "b": "LinkedIn, X, Reddit, Hacker News, Bluesky, GitHub and Slack from one queue."
+        },
+        {
+          "t": "Coordinated, with one pause",
+          "b": "Coordinated so the same post isn't sent from two machines. One command pauses everything."
+        }
+      ],
+      "prompt": "",
+      "major": "Nobody speaks for a soldier. Every soldier speaks for themself.",
+      "faq": [
+        {
+          "q": "Does a supporter give me their password?",
+          "a": "No. A supporter adds their own profile, signed in from their own Chrome."
+        },
+        {
+          "q": "Does Blowhorn install a Slack app?",
+          "a": "No. It works through your own Slack session and posts as you, never as a bot."
+        },
+        {
+          "q": "Discord or Mastodon?",
+          "a": "Not today. Blowhorn ships LinkedIn, X, Reddit, Hacker News, Bluesky, GitHub and Slack."
+        }
+      ],
+      "related": [
+        {
+          "label": "Slack",
+          "page": "/docs/reference/platforms/slack"
+        },
+        {
+          "label": "How amplification works",
+          "page": "/docs/how-to/publish/amplify-a-post"
+        },
+        {
+          "label": "Why your own Chrome",
+          "page": "/docs/explanation/your-own-chrome"
+        }
+      ]
+    },
+    {
+      "slug": "agencies",
+      "name": "Agencies and consultants",
+      "weight": 60,
+      "headline": "Show the client the dry-run. Then send it once.",
+      "lead": "Run several clients' profiles from one desk, in real Chrome profiles on your own machine. Dry-run every action, pause one client instantly, and never hand a vendor a client's 2FA secret.",
+      "description": "Blowhorn for agencies and consultants: client profiles in real Chrome on your own machine, with dry-run and pause on every action.",
+      "art": {
+        "src": "assets/brand/cast/mouse-marine-left.webp",
+        "alt": "Mouse Marine, a teal rooster in a Caribbean Green beret, saluting from the top of a gold mouse landing craft"
+      },
+      "pains": [
+        {
+          "t": "\"Where do my logins live?\"",
+          "b": "Every client security review asks, and the honest answer is usually a vendor's server."
+        },
+        {
+          "t": "Fingerprint tricks",
+          "b": "Antidetect browsers fake fingerprints to juggle profiles. That is not a story you want to tell a client."
+        },
+        {
+          "t": "No receipts",
+          "b": "When something goes out wrong, you need to show exactly what ran and stop it fast."
+        }
+      ],
+      "gets": [
+        {
+          "t": "Dry-run first",
+          "b": "Mutating commands take --dry-run, and --check-queue lists what a run would do. Show the client before anything publishes."
+        },
+        {
+          "t": "Pause one action",
+          "b": "Pause one action while everything else keeps running, or pause every machine at once."
+        },
+        {
+          "t": "Real Chrome profiles",
+          "b": "Each Blowhorn profile maps to its own Chrome profile on each machine. No fake fingerprints."
+        },
+        {
+          "t": "One automation per profile",
+          "b": "A person doesn't type into two browser windows at once, and neither does Blowhorn."
+        }
+      ],
+      "prompt": "",
+      "major": "Receipts, soldier. Every order logged, every post sent once.",
+      "faq": [
+        {
+          "q": "Can clients approve posts?",
+          "a": "Not today. There are no client workspaces, roles or approvals yet; share the dry-run instead."
+        },
+        {
+          "q": "Where do client credentials live?",
+          "a": "Browser cookies stay in Chrome on each machine. GitHub, Hacker News and Slack credentials sync from your account."
+        },
+        {
+          "q": "Is this an antidetect browser?",
+          "a": "No. Blowhorn is real Chrome, signed in as each profile."
+        }
+      ],
+      "related": [
+        {
+          "label": "Profiles",
+          "page": "/docs/reference/profiles"
+        },
+        {
+          "label": "Pause and resume",
+          "page": "/docs/how-to/schedule/pause"
+        },
+        {
+          "label": "Compare Blowhorn",
+          "page": "/compare"
+        }
+      ]
+    }
+  ]
+}

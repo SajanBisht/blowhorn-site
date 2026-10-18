@@ -1,0 +1,16 @@
+{{- /* Cards linking every /for/<slug>/ page, by weight; "current" is skipped. */ -}}
+{{- $cur := .current -}}
+<ul class="grid grid-3 role-list">
+  {{- range .section.Pages.ByWeight }}
+  {{- if ne . $cur }}
+  {{- $r := partial "role-data.html" . }}
+  <li>
+    <a class="card card-link glass role-card" href="{{ .RelPermalink }}">
+      <img src="{{ $r.art.src | relURL }}" alt="" width="960" height="540" loading="lazy">
+      <span class="label">For {{ $r.name }}</span>
+      <span class="h3">{{ $r.headline }}</span>
+    </a>
+  </li>
+  {{- end }}
+  {{- end }}
+</ul>

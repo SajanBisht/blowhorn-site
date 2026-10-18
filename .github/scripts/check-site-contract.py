@@ -73,6 +73,27 @@ PAGES = {
     "agents/cli/index.html": [
         "main", "agent-title", "how-title", "setup-title", "commands-title", "faq-title",
     ],
+    "for/index.html": [
+        "main", "roles-title", "pick-title",
+    ],
+    "for/devrel/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "for/marketing/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "for/founders/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "for/open-source/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "for/community/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "for/agencies/index.html": [
+        "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
     "compare/index.html": [
         "main", "matrix-title", "versus-title",
     ],

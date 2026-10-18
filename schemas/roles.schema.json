@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blowhorn.ai/schemas/roles.schema.json",
+  "title": "Role pages",
+  "description": "data/roles.json: one /for/<slug>/ page per role, built by content/en/for/_content.gotmpl through layouts/role.html. Public marketing copy only: every claim comes from Blowhorn's canonical differentiators in their wording rules. Plain text, hyphens never em dashes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "roles"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/role"
+      }
+    }
+  },
+  "definitions": {
+    "line": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "not": {
+        "pattern": "—"
+      }
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 320,
+      "not": {
+        "pattern": "—"
+      }
+    },
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t",
+        "b"
+      ],
+      "properties": {
+        "t": {
+          "$ref": "#/definitions/line"
+        },
+        "b": {
+          "$ref": "#/definitions/text"
+        }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug",
+        "name",
+        "weight",
+        "headline",
+        "lead",
+        "description",
+        "art",
+        "pains",
+        "gets",
+        "major",
+        "faq",
+        "related"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "URL segment: /for/<slug>/."
+        },
+        "name": {
+          "$ref": "#/definitions/line",
+          "description": "Who the page is for, plural or role name (\"DevRel\", \"Founders\")."
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Order in the menu and index."
+        },
+        "headline": {
+          "$ref": "#/definitions/line"
+        },
+        "lead": {
+          "$ref": "#/definitions/text"
+        },
+        "description": {
+          "$ref": "#/definitions/text",
+          "description": "Meta and Open Graph description."
+        },
+        "art": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "src",
+            "alt"
+          ],
+          "description": "Locked-6 cast art on its black ground; must carry Keppel #00B39F or Caribbean Green #00D3A9.",
+          "properties": {
+            "src": {
+              "type": "string",
+              "pattern": "^assets/brand/cast/[a-z0-9-]+\\.webp$"
+            },
+            "alt": {
+              "$ref": "#/definitions/text"
+            }
+          }
+        },
+        "pains": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/definitions/card"
+          }
+        },
+        "gets": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/definitions/card"
+          }
+        },
+        "prompt": {
+          "type": "string",
+          "maxLength": 200,
+          "not": {
+            "pattern": "—"
+          },
+          "description": "Optional thing to say to your coding agent; empty for none."
+        },
+        "major": {
+          "$ref": "#/definitions/line",
+          "description": "One Major Blowhorn line (The Major says)."
+        },
+        "faq": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "q",
+              "a"
+            ],
+            "properties": {
+              "q": {
+                "$ref": "#/definitions/line"
+              },
+              "a": {
+                "$ref": "#/definitions/text"
+              }
+            }
+          }
+        },
+        "related": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "page"
+            ],
+            "properties": {
+              "label": {
+                "$ref": "#/definitions/line"
+              },
+              "page": {
+                "type": "string",
+                "pattern": "^/[a-z0-9/-]*$",
+                "description": "Site page path; the build fails if it doesn't resolve."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

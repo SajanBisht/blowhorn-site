@@ -1,0 +1,6 @@
+{{- /* The data/roles.json entry for a /for/<slug>/ page (its "role" param).
+  Fails the build when the page names no role. */ -}}
+{{- $slug := .Params.role -}}
+{{- $match := where site.Data.roles.roles "slug" $slug -}}
+{{- if not $match }}{{ errorf "data/roles.json: no role %q for %s" $slug .Path }}{{ end -}}
+{{- return index $match 0 -}}
