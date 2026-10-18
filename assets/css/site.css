@@ -474,7 +474,7 @@ pre code { background: none; padding: 0; }
 .hero-note { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); }
 .hero-art { position: relative; width: 100%; max-width: 560px; margin-inline: auto; }
 .hero-art::before {
-  /* A soft teal and mint halo behind the fan, for the glass to pick up. */
+  /* A soft teal and mint halo behind the hero stage, for the glass to pick up. */
   content: "";
   position: absolute;
   inset: 6% 0 6% 8%;
@@ -490,38 +490,61 @@ pre code { background: none; padding: 0; }
   .hero-art { margin-inline: 0 0; }
 }
 
-/* The one-to-many motif, after archdev.ai's "signal": one source, thin wires, small
-   dots travelling outward, and each platform's official logo on its own white tile.
-   Only the wires and dots move. The logos never do: Bluesky's and X's guidelines say
-   not to animate their marks. */
-.fan { width: 100%; height: auto; overflow: visible; }
-.fan .fan-line { fill: none; stroke: var(--line-strong); stroke-width: 1.25; stroke-linecap: round; opacity: 0.55; }
-.fan .fan-pulse { fill: var(--teal); }
-.fan .bubble-source { fill: var(--teal); }
-.fan .bubble-source .text-line { stroke: var(--on-teal); stroke-width: 6; stroke-linecap: round; opacity: 0.85; }
-.fan .fan-tile rect {
-  fill: var(--white);
-  stroke: var(--line);
-  stroke-width: var(--stroke-hairline);
-  filter: drop-shadow(var(--shadow-soft));
+/* Hero stage: Major Blowhorn (locked-6) on his black ground, barking into your own
+   Chrome while the post types itself key by key. One 7 s loop, CSS only: the two
+   text lines reveal in steps, the caret follows, Post presses, "Posted as you"
+   lands. The rings reuse the sound wave's wave-pulse. Every illustration carries a
+   Layer5 green: Caribbean Green rings, a Keppel active tab and Post button. */
+.stage { width: 100%; height: auto; display: block; }
+.stage .stage-ground { fill: var(--near-black); }
+.stage .stage-window { fill: var(--surface); filter: drop-shadow(var(--shadow-soft)); }
+.stage .stage-tab { fill: var(--surface-tint); }
+.stage .stage-tab-active { fill: var(--teal); }
+.stage .stage-bar { fill: var(--surface-raised); stroke: var(--line); stroke-width: var(--stroke-hairline); }
+.stage .stage-avatar { fill: var(--yellow); }
+.stage .stage-chip { font: 600 13px var(--font-sans); fill: var(--ink-muted); }
+.stage .stage-post { font: 600 16px var(--font-sans); fill: var(--ink); }
+.stage .stage-caret { fill: var(--teal-deep); }
+.stage .stage-send { fill: var(--teal); }
+.stage .stage-send-label { font: 700 14px var(--font-sans); fill: var(--on-teal); text-anchor: middle; }
+.stage .stage-done rect { fill: var(--near-black); stroke: var(--teal-bright); stroke-width: var(--stroke-hairline); }
+.stage .stage-done text { font: 600 12px var(--font-sans); fill: var(--teal-bright); text-anchor: middle; }
+.stage .stage-rings path {
+  fill: none;
+  stroke: var(--teal-bright);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: wave-pulse 1.4s ease-out infinite;
 }
-@keyframes fan-draw {
-  from { stroke-dashoffset: 320; }
-  to { stroke-dashoffset: 0; }
+.stage .stage-rings path:nth-child(2) { animation-delay: 0.2s; }
+.stage .stage-rings path:nth-child(3) { animation-delay: 0.4s; }
+.stage .stage-major { transform-box: fill-box; transform-origin: 50% 100%; animation: stage-bark 1.4s ease-in-out infinite; }
+.stage .stage-type { transform-box: fill-box; transform-origin: left center; }
+.stage .stage-type-1 { animation: stage-type-1 7s steps(24, end) infinite; }
+.stage .stage-type-2 { animation: stage-type-2 7s steps(28, end) infinite; }
+.stage .stage-caret { animation: stage-caret 7s steps(28, end) infinite; }
+.stage .stage-send { transform-box: fill-box; transform-origin: center; animation: stage-send 7s ease-out infinite; }
+.stage .stage-done { animation: stage-done 7s ease-out infinite; }
+@keyframes stage-bark { 0%, 100% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-3px) rotate(-1deg); } }
+@keyframes stage-type-1 { 0% { transform: scaleX(0); } 30%, 100% { transform: scaleX(1); } }
+@keyframes stage-type-2 { 0%, 32% { transform: scaleX(0); } 62%, 100% { transform: scaleX(1); } }
+@keyframes stage-caret {
+  0%, 31% { opacity: 0; transform: translateX(0); }
+  32% { opacity: 1; transform: translateX(0); }
+  62% { opacity: 1; transform: translateX(208px); }
+  63%, 100% { opacity: 0; transform: translateX(208px); }
 }
-.fan .fan-line {
-  stroke-dasharray: 320;
-  animation: fan-draw 640ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+@keyframes stage-send { 0%, 66% { transform: scale(1); } 70% { transform: scale(0.92); } 74%, 100% { transform: scale(1); } }
+@keyframes stage-done { 0%, 72% { opacity: 0; } 78%, 94% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-color-scheme: dark) {
+  .stage .stage-ground { stroke: var(--line); stroke-width: var(--stroke-hairline); }
 }
-.fan .fan-line:nth-of-type(2) { animation-delay: 60ms; }
-.fan .fan-line:nth-of-type(3) { animation-delay: 120ms; }
-.fan .fan-line:nth-of-type(4) { animation-delay: 180ms; }
-.fan .fan-line:nth-of-type(5) { animation-delay: 240ms; }
-.fan .fan-line:nth-of-type(6) { animation-delay: 300ms; }
-.fan .fan-line:nth-of-type(7) { animation-delay: 360ms; }
 @media (prefers-reduced-motion: reduce) {
-  .fan .fan-line { animation: none; stroke-dasharray: none; }
-  .fan .fan-pulse { display: none; }
+  .stage .stage-rings path, .stage .stage-major, .stage .stage-type, .stage .stage-send { animation: none; transform: none; }
+  .stage .stage-caret { animation: none; opacity: 0; }
+  .stage .stage-done { animation: none; opacity: 1; }
   html { scroll-behavior: auto; }
   .button { transition: none; }
 }
@@ -1087,8 +1110,7 @@ body { background: var(--surface); }
 }
 
 /* Platform logo tiles: opaque white, as each platform asks, with a glass edge. */
-.logo-tile,
-.fan .fan-tile rect {
+.logo-tile {
   background: var(--white);
 }
 .logo-tile {

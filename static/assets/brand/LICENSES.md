@@ -11,6 +11,11 @@ the brand kit (`brand/` in the Blowhorn product repository, landed as
 PR #354). Never recolour, outline, shadow or rotate the mark; see the brand
 book for the rules.
 
+The locked-6 Major Blowhorn cutout (`mascot/locked-6/major-6-hat-left.png`) is the
+product repository's `marketing/brand/major-blowhorn/cutouts/major-6-hat-left.png`,
+copied unchanged; the `.webp` beside it is
+a lossy re-encode of that file for the home page hero, with no other change.
+
 ## Fonts (`fonts/`)
 
 All three families are licensed under the SIL Open Font License, Version 1.1
