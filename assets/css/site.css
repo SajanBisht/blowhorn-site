@@ -2259,7 +2259,20 @@ a.card.docs-card > * { margin-top: 0; }
 
 /* Major Blowhorn page (/major/). Spacing reads the rhythm tokens above. */
 .major-hero { display: grid; gap: var(--grid-gap); align-items: center; padding-block: var(--section-y) calc(var(--section-y) / 2); }
-.major-hero-copy .bubble { margin-top: var(--head-gap); }
+/* The hero quote is the General's line, so it carries his avatar and name in
+   the style of the "The Major says" callout (round art on cream, label).
+   The art is a head-and-shoulders crop of the cast image. */
+.major-hero-quote { display: flex; align-items: center; gap: var(--space-4); margin: var(--head-gap) 0 0; }
+.major-hero-quote-art {
+  flex: none; position: relative; overflow: hidden;
+  width: 72px; height: 72px;
+  border-radius: var(--radius-pill);
+  background: var(--cream);
+}
+.major-hero-quote-art img { position: absolute; top: 2%; left: -150%; width: 400%; max-width: none; height: auto; }
+.major-hero-quote-copy { min-width: 0; }
+.major-hero-quote .bubble { margin: 0; }
+.major-hero-quote .label { margin: var(--space-2) 0 0; color: var(--ink-muted); }
 .major-split { display: grid; gap: calc(var(--grid-gap) * 2); align-items: start; }
 .major-story { max-width: var(--text-measure); }
 .major-story h2 { margin-bottom: var(--head-gap); }
