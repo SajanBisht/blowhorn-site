@@ -4,7 +4,7 @@ The home page hero's headline and subhead come from [`data/hero.json`](../data/h
 which must validate against [`schemas/hero.schema.json`](../schemas/hero.schema.json)
 (`make check-schemas`, part of `make site-check` and so of CI). Each variant has an `id`,
 a `headline`, a `subhead`, the numbers of the canonical differentiators it rests on
-(product repository, `marketing/brand/differentiators.md`) and an optional reviewer `note`.
+and an optional reviewer `note`.
 Copy may only state what those differentiators allow, in their wording rules.
 
 ## What ships in the HTML

@@ -48,7 +48,7 @@
           "not": { "pattern": "\u2014" }
         },
         "differentiators": {
-          "description": "Numbers of the claims this copy rests on in the product repository's canonical differentiators list (marketing/brand/differentiators.md). Copy may only state what those claims allow.",
+          "description": "Numbers of the claims this copy rests on in Blowhorn's canonical differentiators list. Copy may only state what those claims allow.",
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
