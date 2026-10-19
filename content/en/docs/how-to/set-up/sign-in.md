@@ -21,8 +21,8 @@ blowhorn auth login
 
 The command opens Layer5 Cloud in your browser. Sign in there, or create an
 account with the page's Sign up link (`blowhorn auth login --sign-up` says
-so up front). When you finish,
-the browser comes back to Blowhorn and the command:
+so up front). Layer5 Cloud then asks whether to allow Blowhorn; choose
+**Allow**. The browser comes back to Blowhorn and the command:
 
 1. keeps a Blowhorn API token: Layer5 Cloud issues it for this sign-in, and
    it is separate from your browser session. It is listed, named Blowhorn,
@@ -34,7 +34,7 @@ the browser comes back to Blowhorn and the command:
 2. writes your organization and name to `cloud.yaml`, replacing those of
    whoever signed in before.
 3. reads your plan once. If your account does not include Blowhorn yet, it
-   opens Layer5 Cloud (<https://cloud.layer5.io>) in your browser to start
+   opens Layer5 Cloud (<https://cloud.blowhorn.ai>) in your browser to start
    using the Blowhorn beta. There is no form to fill in.
 
 If no answer comes back within five minutes, the command stops; run it
@@ -65,7 +65,7 @@ Keychain asks once whether `python` may use the saved sign-in. Choose
 
 Open `blowhorn://signin`, the link the Blowhorn Chrome extension's **Sign in**
 offers. The app opens Layer5 Cloud in your browser; sign in there, or create
-an account. `blowhorn://signup` starts the same sign-in for a new account
+an account, then choose **Allow**. `blowhorn://signup` starts the same sign-in for a new account
 (see [Create a Blowhorn account](/docs/how-to/set-up/create-an-account/)). Cloud sends its
 answer to Blowhorn's command line on this Mac (`127.0.0.1`), and the browser
 tab says Blowhorn received it: close the tab and return to the app, which has
@@ -76,7 +76,7 @@ tells you you're not signed in. Try again, and if that page comes back, send
 us its message.
 
 If your account has no Blowhorn plan yet, the app opens Layer5 Cloud
-(`cloud.layer5.io`) so you can start the beta there.
+(`cloud.blowhorn.ai`) so you can start the beta there.
 
 ## Sign out
 
