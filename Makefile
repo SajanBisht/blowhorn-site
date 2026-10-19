@@ -73,7 +73,7 @@ BIN_DIR ?= .bin
 # actionlint from PATH when installed; otherwise a pinned copy is downloaded into $(BIN_DIR).
 ACTIONLINT ?= $(shell command -v actionlint 2>/dev/null)
 # Workflows owned by this repo. Template workflows (labeler and friends) are left as-is.
-WORKFLOWS ?= .github/workflows/site.yml .github/workflows/publish-dmg.yml .github/workflows/sync-docs.yml
+WORKFLOWS ?= .github/workflows/site.yml .github/workflows/publish-dmg.yml .github/workflows/sync-docs.yml .github/workflows/cloud-auth-smoke.yml
 # A leecalcote/blowhorn checkout for `make docs-sync` (the sync-docs.yml
 # workflow checks the product repo out at this path).
 SOURCE_DIR ?= product
@@ -226,6 +226,27 @@ dmg-check:
 	@test -n "$(DMG)" || (echo "usage: make dmg-check DMG=path/to/file.dmg"; exit 1)
 	.github/scripts/check-dmg.sh "$(DMG)"
 
+## Download and mount a release DMG for the Cloud auth smoke (macOS): make cloud-auth-smoke-mount [RELEASE_TAG=v1.24.0]
+cloud-auth-smoke-mount:
+	.github/scripts/cloud-auth-smoke/mount.sh
+
+## The last release before the cloud.blowhorn.ai default and the sign-out revoke fix:
+## up to it, those two checks warn instead of failing.
+CLOUD_FIXES_AFTER ?= 1.24.0
+CLOUD_URL ?= https://cloud.blowhorn.ai
+
+## Sign in to Blowhorn Cloud with a release's bundled CLI: make cloud-auth-smoke CHECK=signin|signup|default ENGINE=<.../Contents/Resources/engine>
+cloud-auth-smoke:
+	@test -n "$(ENGINE)" || (echo "usage: make cloud-auth-smoke CHECK=signin|signup|default ENGINE=<Blowhorn.app/Contents/Resources/engine>"; exit 1)
+	@predates=0; if [ -n "$(BLOWHORN_VERSION)" ] && \
+	  [ "$$(printf '%s\n%s\n' "$(BLOWHORN_VERSION)" "$(CLOUD_FIXES_AFTER)" | sort -V | tail -1)" = "$(CLOUD_FIXES_AFTER)" ]; then predates=1; fi; \
+	if [ "$(CHECK)" = default ] && [ $$predates = 1 ]; then \
+	  "$(ENGINE)/bin/python" .github/scripts/cloud-auth-smoke/drive.py default --engine "$(ENGINE)" --cloud "$(CLOUD_URL)" || \
+	  echo "::warning::Blowhorn $(BLOWHORN_VERSION) predates the cloud.blowhorn.ai default; this check fails from the next release"; \
+	else \
+	  BLOWHORN_PREDATES_CLOUD_FIXES=$$predates "$(ENGINE)/bin/python" .github/scripts/cloud-auth-smoke/drive.py $(CHECK) --engine "$(ENGINE)" --cloud "$(CLOUD_URL)" $(if $(SIGNUP_TAG),--signup-tag $(SIGNUP_TAG)); \
+	fi
+
 ## Sync the user docs from a leecalcote/blowhorn checkout at $(SOURCE_DIR) into $(DOCS_DIR): make docs-sync REF=<tag|branch|sha> (see docs/deploy.md).
 docs-sync:
 	@test -n "$(REF)" || (echo "usage: make docs-sync REF=<tag|branch|sha of leecalcote/blowhorn> [SOURCE_DIR=path/to/checkout]"; exit 1)
@@ -295,6 +316,8 @@ clean:
 	check \
 	ci \
 	dmg-check \
+	cloud-auth-smoke \
+	cloud-auth-smoke-mount \
 	dmg-resolve \
 	dmg-download \
 	dmg-package \

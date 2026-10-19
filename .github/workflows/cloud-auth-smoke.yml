@@ -1,0 +1,87 @@
+name: Cloud auth smoke
+
+# Signs in to Blowhorn Cloud end to end with the Blowhorn CLI a user actually
+# gets: the bundled engine inside the newest public DMG release of this
+# repository. No browser and no private code: the driver
+# (.github/scripts/cloud-auth-smoke/drive.py) plays the person's part over
+# HTTPS with a throwaway email and password test account.
+#
+#   signin  - auth login (loopback), auth status, auth logout, and the revoked
+#             API token must then be refused by Cloud
+#   signup  - a fresh account through auth login --sign-up and Cloud's two-step
+#             registration; Cloud must then hold its sign-in for email
+#             verification. Weekly or on request: each run leaves one
+#             unverified account behind.
+#   default - the CLI's default Cloud is cloud_url (an error from the first
+#             release after 1.24.0, which still defaults to cloud.layer5.io)
+#
+# Secrets: BLOWHORN_SMOKE_EMAIL, BLOWHORN_SMOKE_PASSWORD (the test account).
+# Run: gh workflow run cloud-auth-smoke.yml -R layer5io/blowhorn-site [-f register=true]
+
+on:
+  schedule:
+    - cron: "17 13 * * *"   # daily sign-in
+    - cron: "47 13 * * 1"   # weekly sign-in and sign-up
+  push:
+    branches: [master]
+    paths:
+      - .github/workflows/cloud-auth-smoke.yml
+      - .github/scripts/cloud-auth-smoke/**
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release of this repo whose DMG to test (default: latest)"
+        required: false
+        type: string
+      cloud_url:
+        description: "Cloud to sign in to"
+        required: false
+        type: string
+        default: https://cloud.blowhorn.ai
+      register:
+        description: "Also create a fresh account through sign-up"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-auth-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    env:
+      CLOUD_URL: ${{ inputs.cloud_url || 'https://cloud.blowhorn.ai' }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download and mount the release DMG
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: make cloud-auth-smoke-mount
+
+      - name: Default Cloud
+        run: make cloud-auth-smoke CHECK=default
+
+      - name: Sign in, status, sign out
+        env:
+          BLOWHORN_SMOKE_EMAIL: ${{ secrets.BLOWHORN_SMOKE_EMAIL }}
+          BLOWHORN_SMOKE_PASSWORD: ${{ secrets.BLOWHORN_SMOKE_PASSWORD }}
+        run: make cloud-auth-smoke CHECK=signin
+
+      - name: Sign up a fresh account
+        if: ${{ inputs.register || github.event.schedule == '47 13 * * 1' }}
+        env:
+          BLOWHORN_SMOKE_EMAIL: ${{ secrets.BLOWHORN_SMOKE_EMAIL }}
+          BLOWHORN_SMOKE_PASSWORD: ${{ secrets.BLOWHORN_SMOKE_PASSWORD }}
+        run: make cloud-auth-smoke CHECK=signup SIGNUP_TAG=${{ github.run_id }}
+
+      - name: Unmount
+        if: always()
+        run: hdiutil detach "$RUNNER_TEMP/blowhorn-dmg" -force || true
