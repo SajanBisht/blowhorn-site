@@ -39,6 +39,7 @@ PAGES = {
     "legal/privacy/index.html": [
         "main", "this-website", "on-your-machine", "in-chrome-through-the-blowhorn-extension",
         "in-your-organizations-store-on-layer5-cloud",
+        "in-your-blowhorn-account",
     ],
     "legal/terms/index.html": [
         "main", "your-accounts", "downloads",
