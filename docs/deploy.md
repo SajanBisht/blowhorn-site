@@ -212,7 +212,12 @@ here, on the public site repository.
 1. The workflow checks out the product repository at the requested ref
    (a tag, branch or SHA; `master` by default) read-only with the existing
    `DMG_SOURCE_TOKEN` secret (no new secret), the way `publish-dmg.yml`
-   handles it, then runs `make docs-sync REF=...`, which is
+   handles it. `make docs-cli-reference` then regenerates the product's
+   CLI reference pages (`docs/reference/cli/*.md` and the command table in
+   `docs/reference/cli.md`) at that ref with the product's own
+   `release/scripts/cli_reference/build.py`, which reads its CLI schema, so
+   a page is never published stale. The workflow then runs
+   `make docs-sync REF=...`, which is
    [`.github/scripts/sync-docs.py`](../.github/scripts/sync-docs.py)
    (tested by `make test-scripts`). The script copies the four public
    sections and rewrites each page for the site: relative `.md` links
@@ -244,6 +249,11 @@ here, on the public site repository.
    same token is allowed and attaches to the branch head, showing as the
    PR's check. Merging the PR once those checks pass deploys. The workflow
    never pushes to `master`.
+
+A public release starts the sync by itself: `publish-dmg.yml`'s last job
+runs `make dmg-sync-docs`, which starts `sync-docs.yml` at the product tag
+`desktop-<version>`. A draft release starts nothing; run the sync by hand
+once the release is published.
 
 When a synced page breaks a check, fix the converter or the site-side
 rendering it drives (`layouts/alias.html`, `layouts/_markup/`,

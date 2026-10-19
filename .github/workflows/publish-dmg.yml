@@ -151,3 +151,29 @@ jobs:
           PRERELEASE: ${{ needs.fetch.outputs.prerelease }}
           DRAFT: ${{ needs.fetch.outputs.draft }}
         run: make dmg-release
+
+  # After a public release, sync the docs at the product's release tag so the
+  # published docs (the generated CLI reference included) match what shipped.
+  # A draft starts nothing; run the docs sync by hand once it is published.
+  docs:
+    name: Sync the docs for this release
+    needs:
+      - fetch
+      - publish
+    if: needs.publish.result == 'success' && needs.fetch.outputs.draft == 'false'
+    runs-on: ubuntu-latest
+    permissions:
+      # Lets this job start sync-docs.yml with workflow_dispatch.
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Start the docs sync at the release tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.fetch.outputs.version }}
+          DRAFT: ${{ needs.fetch.outputs.draft }}
+        run: make dmg-sync-docs

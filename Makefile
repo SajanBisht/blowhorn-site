@@ -252,6 +252,10 @@ docs-sync:
 	@test -n "$(REF)" || (echo "usage: make docs-sync REF=<tag|branch|sha of leecalcote/blowhorn> [SOURCE_DIR=path/to/checkout]"; exit 1)
 	python3 .github/scripts/sync-docs.py "$(SOURCE_DIR)" "$(DOCS_DIR)" --ref "$(REF)"
 
+## Regenerate the CLI reference pages in the $(SOURCE_DIR) checkout from its schema and parser (what sync-docs.yml runs before the sync; needs typer and PyYAML).
+docs-cli-reference:
+	.github/scripts/docs-cli-reference.sh "$(SOURCE_DIR)"
+
 ## Check out the docs-sync branch on the open sync PR's head, or on origin/master when none is open (what sync-docs.yml runs before the sync).
 docs-sync-base:
 	.github/scripts/sync-docs-base-branch.sh "$(SYNC_BRANCH)"
@@ -282,6 +286,10 @@ dmg-verify:
 ## publish-dmg step 5: create the GitHub Release VERSION from dist/ (never overwrites).
 dmg-release:
 	.github/scripts/publish-dmg/release.sh
+
+## publish-dmg step 6: after a public release, start sync-docs.yml at the product tag desktop-$(VERSION) (a draft starts nothing).
+dmg-sync-docs:
+	.github/scripts/publish-dmg/sync-docs.sh
 
 ## Empty the build cache, reinstall dependencies, and run the site locally.
 clean:
@@ -323,6 +331,8 @@ clean:
 	dmg-package \
 	dmg-verify \
 	dmg-release \
+	dmg-sync-docs \
+	docs-cli-reference \
 	docs-sync \
 	docs-sync-base \
 	docs-sync-start-checks \

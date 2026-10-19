@@ -13,6 +13,8 @@ name: Sync product docs
 #   - Manual: Actions > Sync product docs > Run workflow (input: ref).
 #   - repository_dispatch (event type "sync-docs") from the product repo's
 #     CI, with client_payload: {"ref"}.
+#   - publish-dmg.yml, after a public release, at the product tag
+#     desktop-<version> (make dmg-sync-docs).
 #
 # Every step that runs repository logic is a make target (docs-sync) backed
 # by .github/scripts/sync-docs.py, so a maintainer can run the same flow
@@ -78,6 +80,19 @@ jobs:
           path: product
           persist-credentials: false
 
+      # The product's CLI reference pages are generated from its CLI schema
+      # and parser. Regenerate them at this ref so a page that was not
+      # rebuilt before its commit is never published stale. This is a
+      # public repository, so these minutes cost nothing.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Regenerate the CLI reference
+        run: |
+          python -m pip install --quiet typer pyyaml
+          make docs-cli-reference
+
       # Build on the open sync PR's branch, or on master when there is none
       # (fork PRs from a branch of the same name are ignored). See
       # .github/scripts/sync-docs-base-branch.sh.
@@ -117,8 +132,8 @@ jobs:
             echo "  docs/internal/, docs/gtm/ and internal-paths.txt entries are never copied."
             echo "- docs/_index.md becomes the docs landing (content/en/docs/_index.md) and each"
             echo "  section's _index.md its landing; docs/README.md is the product's GitHub index and is not copied."
-            echo "- The product's reference/cli.md becomes the reference/cli/ section index"
-            echo "  (the product keeps one CLI page; per-command pages will land beside it)."
+            echo "- The product's reference/cli.md becomes the reference/cli/ section index, and the per-command"
+            echo "  pages in reference/cli/, regenerated from the product's CLI schema at that ref, land beside it."
             echo "- Gated pages (draft: true) stay unpublished until the product ungates them."
             echo "- Merging this PR deploys; the sync starts the normal site checks on it itself, which must pass first."
             echo
