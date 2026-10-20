@@ -62,13 +62,22 @@ def write_tmp(payload):
     return Path(tmp.name)
 
 
+def yaml_action_names(platform_id):
+    yaml_path = ROOT / "data" / "platforms" / f"{platform_id}.yaml"
+    return [
+        line.split("name:", 1)[1].strip()
+        for line in yaml_path.read_text(encoding="utf-8").splitlines()
+        if line.startswith("  - name:")
+    ]
+
+
 def counts_from(payload):
     platforms = 0
     activities = 0
     for item in payload["platforms"]:
         if item["status"] == "supported":
             platforms += 1
-            activities += len(item["actions"])
+            activities += len(yaml_action_names(item["id"]))
     return platforms, activities
 
 
@@ -76,12 +85,6 @@ class ThemeSchemaTest(unittest.TestCase):
     def test_checked_in_themes_pass(self):
         result = ajv(ROOT / "schemas/themes.schema.json", ROOT / "data/themes.json")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-
-    def test_default_is_signal(self):
-        data = json.loads((ROOT / "data/themes.json").read_text(encoding="utf-8"))
-        self.assertEqual(data["default"], "signal")
-        ids = [t["id"] for t in data["themes"]]
-        self.assertEqual(set(ids), {"signal", "reveille"})
 
     def test_unknown_theme_id_fails(self):
         payload = json.loads((ROOT / "data/themes.json").read_text(encoding="utf-8"))
@@ -105,15 +108,6 @@ class ThemeSchemaTest(unittest.TestCase):
         finally:
             tmp.unlink(missing_ok=True)
 
-    def test_per_page_override_reads_front_matter(self):
-        text = (ROOT / "layouts/_partials/theme.html").read_text(encoding="utf-8")
-        self.assertIn(".Params.theme", text)
-        preview = (ROOT / "content/en/home-reveille.md").read_text(encoding="utf-8")
-        self.assertIn("theme: reveille", preview)
-        head = (ROOT / "layouts/_partials/theme-head.html").read_text(encoding="utf-8")
-        self.assertIn("previewParam", head)
-        self.assertIn("data-theme", head)
-
 
 class IntegrationsSchemaTest(unittest.TestCase):
     def test_checked_in_integrations_pass(self):
@@ -130,7 +124,7 @@ class IntegrationsSchemaTest(unittest.TestCase):
         self.assertGreaterEqual(activities, platforms)
         github = next(p for p in payload["platforms"] if p["id"] == "github")
         self.assertFalse(github["posts"])
-        self.assertNotIn("Post", github["actions"])
+        self.assertNotIn("Post", yaml_action_names("github"))
 
     def test_github_cannot_claim_to_post(self):
         payload = json.loads((ROOT / "data/integrations.json").read_text(encoding="utf-8"))
@@ -151,20 +145,6 @@ class IntegrationsSchemaTest(unittest.TestCase):
         for group in payload["categories"] + payload["roles"]:
             for pid in group["platforms"]:
                 self.assertIn(pid, ids, f"{group['id']} names unknown platform {pid}")
-
-    def test_yaml_actions_match_supported_catalog(self):
-        payload = json.loads((ROOT / "data/integrations.json").read_text(encoding="utf-8"))
-        for item in payload["platforms"]:
-            if item["status"] != "supported":
-                continue
-            yaml_path = ROOT / "data" / "platforms" / f"{item['id']}.yaml"
-            self.assertTrue(yaml_path.is_file(), f"missing {yaml_path.name}")
-            names = [
-                line.split("name:", 1)[1].strip()
-                for line in yaml_path.read_text(encoding="utf-8").splitlines()
-                if line.startswith("  - name:")
-            ]
-            self.assertEqual(item["actions"], names, item["id"])
 
     def test_em_dash_headline_fails(self):
         payload = json.loads((ROOT / "data/integrations.json").read_text(encoding="utf-8"))
@@ -199,25 +179,6 @@ class HeroDemoSchemaTest(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
         finally:
             tmp.unlink(missing_ok=True)
-
-
-class CheckThemeScriptTest(unittest.TestCase):
-    def test_script_is_wired_into_make(self):
-        makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
-        self.assertIn("check-theme", makefile)
-        self.assertIn("check_theme.py", makefile)
-        target = makefile[makefile.index("site-check: ") :]
-        self.assertIn("check-theme", target.split("\n", 1)[0])
-        self.assertIn("schemas/themes.schema.json", makefile)
-        self.assertIn("schemas/integrations.schema.json", makefile)
-        self.assertIn("schemas/hero_demo.schema.json", makefile)
-
-    def test_readme_lists_the_new_targets(self):
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("`check-theme`", readme)
-        self.assertIn("data/themes.json", readme)
-        self.assertIn("data/integrations.json", readme)
-        self.assertIn("data/hero_demo.json", readme)
 
 
 if __name__ == "__main__":

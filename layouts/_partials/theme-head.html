@@ -1,6 +1,7 @@
 {{- /* Honours ?theme= as a preview override of the server-rendered
-  data-theme attribute. Allowed ids come from data/themes.json. Put this
-  in the head before the stylesheet so the token layer is already chosen. */ -}}
+  data-theme attribute. It swaps the token layer only, not homepage layout.
+  Allowed ids come from data/themes.json. Put this in the head before the
+  stylesheet so the token layer is already chosen. */ -}}
 {{- $ids := slice -}}
 {{- range site.Data.themes.themes }}{{ $ids = $ids | append .id }}{{ end -}}
     <script>

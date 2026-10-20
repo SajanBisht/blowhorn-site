@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://blowhorn.ai/schemas/integrations.schema.json",
   "title": "Integrations catalog and platforms section",
-  "description": "data/integrations.json: every network on the map, the homepage platforms-section treatments, and the copy counts (supported platforms and actions) are derived from. Hyphens never em dashes. GitHub must set posts to false.",
+  "description": "data/integrations.json: homepage platforms-section treatments and the map of networks. Supported name, logo and actions come from data/platforms/<id>.yaml via hugo.Data.platforms. Coming-soon rows keep their own name and logo. Hyphens never em dashes. GitHub must set posts to false.",
   "type": "object",
   "additionalProperties": false,
   "required": ["headline", "lede", "catalogPath", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
@@ -74,11 +74,7 @@
       "properties": {
         "id": { "$ref": "#/definitions/treatmentId" },
         "label": { "$ref": "#/definitions/copy" },
-        "kind": { "$ref": "#/definitions/treatmentId" },
-        "note": {
-          "type": "string",
-          "not": { "pattern": "\u2014" }
-        }
+        "kind": { "$ref": "#/definitions/treatmentId" }
       }
     },
     "category": {
@@ -105,13 +101,11 @@
     "role": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "page", "platforms"],
+      "required": ["id", "platforms"],
       "properties": {
-        "id": { "$ref": "#/definitions/id" },
-        "name": { "$ref": "#/definitions/copy" },
-        "page": {
-          "type": "string",
-          "pattern": "^/for/[a-z0-9-]+/$"
+        "id": {
+          "description": "Must match a slug in data/roles.json. Name and page come from that file.",
+          "$ref": "#/definitions/id"
         },
         "platforms": {
           "type": "array",
@@ -124,17 +118,13 @@
     "platform": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "status", "via", "viaLabel", "posts", "logo", "docs", "actions"],
+      "required": ["id", "status", "viaLabel", "posts", "docs"],
       "properties": {
         "id": { "$ref": "#/definitions/id" },
         "name": { "$ref": "#/definitions/copy" },
         "status": {
           "type": "string",
           "enum": ["supported", "coming-soon"]
-        },
-        "via": {
-          "type": "string",
-          "enum": ["chrome", "api"]
         },
         "viaLabel": { "$ref": "#/definitions/copy" },
         "posts": {
@@ -158,16 +148,6 @@
           "type": "string",
           "maxLength": 80,
           "not": { "pattern": "\u2014" }
-        },
-        "actions": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 40,
-            "not": { "pattern": "\u2014" }
-          }
         }
       },
       "allOf": [
@@ -187,9 +167,21 @@
             "required": ["status"]
           },
           "then": {
-            "properties": {
-              "actions": { "minItems": 1 }
+            "not": {
+              "anyOf": [
+                { "required": ["name"] },
+                { "required": ["logo"] }
+              ]
             }
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "coming-soon" } },
+            "required": ["status"]
+          },
+          "then": {
+            "required": ["name", "logo"]
           }
         }
       ]

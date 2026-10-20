@@ -29,6 +29,10 @@
     var cards = root.querySelectorAll("[data-demo-card]:not([hidden])");
     var summary = root.querySelector("[data-demo-summary]");
     var i;
+    if (!cards.length) {
+      setPill(summary, null, "Pick a network");
+      return;
+    }
     if (reduce) {
       for (i = 0; i < cards.length; i++) {
         setPill(cards[i].querySelector("[data-status]"), null, steps[2]);
@@ -56,15 +60,29 @@
     var form = root.querySelector("[data-demo-form]");
     var input = root.querySelector("[data-demo-input]");
     var msg = root.querySelector("[data-demo-msg]");
+    var send = root.querySelector("[data-demo-send]");
+    var summary = root.querySelector("[data-demo-summary]");
     var steps = stepsFromPage();
     var app = root.querySelector("[data-component=\"app-mock\"]");
 
+    function selectedCount() {
+      var n = 0;
+      root.querySelectorAll("[data-demo-net]").forEach(function (box) {
+        if (box.checked) n += 1;
+      });
+      return n;
+    }
+
     function syncNets() {
-      var boxes = root.querySelectorAll("[data-demo-net]");
-      Array.prototype.forEach.call(boxes, function (box) {
+      var any = false;
+      root.querySelectorAll("[data-demo-net]").forEach(function (box) {
         var card = root.querySelector('[data-demo-card="' + box.value + '"]');
         if (card) card.hidden = !box.checked;
+        if (box.checked) any = true;
       });
+      if (send) send.disabled = !any;
+      if (!any) setPill(summary, null, "Pick a network");
+      return any;
     }
 
     if (input && msg) {
@@ -74,7 +92,7 @@
       input.addEventListener("keydown", function (ev) {
         if ((ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
           ev.preventDefault();
-          if (form) form.requestSubmit();
+          if (form && selectedCount()) form.requestSubmit();
         }
       });
     }
@@ -84,15 +102,17 @@
     if (form) {
       form.addEventListener("submit", function (ev) {
         ev.preventDefault();
-        syncNets();
+        if (!syncNets()) return;
         runDelivery(root, steps);
       });
     }
+    syncNets();
     if (app && !reduce) {
       var started = false;
       var io = new IntersectionObserver(function (entries, obs) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting || started) return;
+          if (!selectedCount()) return;
           started = true;
           obs.disconnect();
           runDelivery(root, steps);
@@ -165,6 +185,16 @@
       Array.prototype.forEach.call(orbit.children, function (item, i) {
         var n = item.getAttribute("data-n");
         item.style.setProperty("--n", n || String(i));
+      });
+    });
+
+    section.querySelectorAll("[data-constellation]").forEach(function (wrap) {
+      var btn = wrap.querySelector("[data-constellation-pause]");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var paused = wrap.classList.toggle("is-paused");
+        btn.setAttribute("aria-pressed", paused ? "true" : "false");
+        btn.textContent = paused ? "Play motion" : "Pause motion";
       });
     });
   }

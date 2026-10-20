@@ -2,7 +2,6 @@
   come from data/integrations.json via platform-counts.html. Hero variants
   still come from data/hero.json. */ -}}
     {{- $rot := partial "hero-rotation.html" . -}}
-    {{- $counts := partial "platform-counts.html" . -}}
     {{- $int := site.Data.integrations -}}
     <main id="main" class="home-signal">
       <section class="hero hero-signal" aria-labelledby="hero-title">
@@ -38,7 +37,7 @@
           <div class="section-head">
             <p class="label">How it works</p>
             <h2 id="how-title" class="display">You give the orders. Your Macs carry them out.</h2>
-            <p class="body-lg muted">Blowhorn Cloud keeps your queue, profiles and run history in sync at cloud.blowhorn.ai. The work itself happens in the desktop app on machines you own.</p>
+            <p class="body-lg muted">Layer5 Cloud keeps your queue, profiles and run history in sync. The work itself happens in the desktop app on machines you own.</p>
           </div>
           <ol class="grid grid-3 section-body signal-steps">
             <li class="card">
@@ -93,18 +92,17 @@
           </div>
           <ul class="grid grid-4 section-body signal-roles">
             {{- range $int.roles }}
-            {{- $path := .page -}}
+            {{- $slug := .id -}}
             {{- $role := false -}}
-            {{- range site.Data.roles.roles }}{{ if eq (printf "/for/%s/" .slug) $path }}{{ $role = . }}{{ end }}{{ end }}
+            {{- range site.Data.roles.roles }}{{ if eq .slug $slug }}{{ $role = . }}{{ end }}{{ end }}
+            {{- if not $role }}{{ errorf "integrations roles id %q is not a slug in data/roles.json" $slug }}{{ end }}
             <li class="role-card card">
-              {{- with $role }}
               <div class="role-art">
-                <img src="{{ .art.src | relURL }}" alt="{{ .art.alt }}" width="320" height="240" loading="lazy">
+                <img src="{{ $role.art.src | relURL }}" alt="{{ $role.art.alt }}" width="320" height="240" loading="lazy">
               </div>
-              {{- end }}
-              <h3 class="h3">{{ .name }}</h3>
-              {{- with $role }}<p>{{ .headline }}</p>{{ end }}
-              <p><a href="{{ .page | relURL }}">Blowhorn for {{ .name }}</a></p>
+              <h3 class="h3">{{ $role.name }}</h3>
+              <p>{{ $role.headline }}</p>
+              <p><a href="{{ printf "for/%s/" $role.slug | relURL }}">Blowhorn for {{ $role.name }}</a></p>
             </li>
             {{- end }}
           </ul>
@@ -169,13 +167,12 @@
             <div class="section-head">
               <p class="label">Pricing</p>
               <h2 id="pricing-title" class="display">Priced per profile, not per channel.</h2>
-              <p class="body-lg">One subscription. We never charge per activity. All {{ $counts.activities }} supported actions on all {{ $counts.platforms }} platforms are unlimited.</p>
-              <p>Bring your appetite and say when. Like a server grating cheese onto your plate until you tap the table, you are in control, and more never costs a dime extra.</p>
+              <p class="body-lg">One subscription. We never charge per activity. On every paid plan, every supported action on every supported network is unlimited, within each network's own safety limits. Bring your appetite and say when.</p>
             </div>
             <ul class="pricing-signal-list">
-              <li><b>Every network</b><span>All {{ $counts.platforms }} supported platforms, no add-ons. {{ $counts.comingSoon }} more are on the way.</span></li>
-              <li><b>Every action</b><span>All {{ $counts.activities }} supported actions, unlimited. We never charge per post, reply, or rally.</span></li>
-              <li><b>You say when</b><span>One profile, one appetite. More never costs a dime extra.</span></li>
+              <li><b>Free is a taste</b><span>LinkedIn and X only. On every paid plan the rest of the map opens. Team is per seat.</span></li>
+              <li><b>Safety limits stay</b><span>Hacker News stays capped at 2 link submissions a day. Solo includes basic LinkedIn invite tidy-up.</span></li>
+              <li><b>You say when</b><span>Like a server grating cheese onto your plate until you tap the table. You are in control.</span></li>
             </ul>
             <p><a class="button button-secondary" href="{{ "pricing/" | relURL }}">See plans and prices</a></p>
           </div>

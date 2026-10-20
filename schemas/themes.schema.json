@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://blowhorn.ai/schemas/themes.schema.json",
   "title": "Site themes",
-  "description": "data/themes.json: the named token layers a page can wear. default is the site-wide theme when a page does not set front matter theme:. ?theme=<id> is a preview override (see layouts/_partials/theme-head.html). Each theme is a token layer over shared components; home names which homepage variant to render.",
+  "description": "data/themes.json: the named token layers a page can wear. default is the site-wide theme when a page does not set front matter theme:. ?theme=<id> previews the token layer only, not homepage layout (see layouts/_partials/theme-head.html). Each theme is a token layer over shared components; home names which homepage variant to render.",
   "type": "object",
   "additionalProperties": false,
   "required": ["default", "previewParam", "themes"],
@@ -47,11 +47,6 @@
           "description": "dark is always dark. light-dark follows the OS, which is Reveille (today's look).",
           "type": "string",
           "enum": ["dark", "light", "light-dark"]
-        },
-        "note": {
-          "description": "Why this theme exists, for reviewers. Not rendered.",
-          "type": "string",
-          "not": { "pattern": "\u2014" }
         }
       }
     }

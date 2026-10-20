@@ -1,7 +1,7 @@
 {{- /* Resolve the page theme from data/themes.json. Site default is
   data.themes.default; a page may set front matter theme: signal|reveille.
-  ?theme= is a preview override in theme-head.html, not here. Returns the
-  theme map (id, name, home, colorScheme). */ -}}
+  ?theme= is a token-layer preview in theme-head.html, not a layout change,
+  and is not resolved here. Returns the theme map (id, name, home, colorScheme). */ -}}
 {{- $data := site.Data.themes -}}
 {{- $id := $data.default -}}
 {{- with .Params.theme }}{{ $id = . }}{{ end -}}

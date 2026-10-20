@@ -1,10 +1,11 @@
 {{- /* Signal hero visual: interactive pseudo-app demo (data/hero_demo.json)
   or a looping video slot. Destinations with posts:true come from
-  data/integrations.json. Always labelled as a demo with example data. */ -}}
+  data/integrations.json; name and logo come from hugo.Data.platforms.
+  Always labelled as a demo with example data. */ -}}
 {{- $demo := site.Data.hero_demo -}}
 {{- $dest := slice -}}
 {{- range site.Data.integrations.platforms -}}
-  {{- if and (eq .status "supported") .posts }}{{ $dest = $dest | append . }}{{ end -}}
+  {{- if and (eq .status "supported") .posts }}{{ $dest = $dest | append (partial "integration-row.html" .) }}{{ end -}}
 {{- end -}}
 {{- $showVideo := and (eq $demo.mode "video") $demo.video.src -}}
 <div class="hero-visual wrap">
@@ -70,17 +71,17 @@
               <div class="app-tabs"><span>Upcoming <small>12</small></span><span>Drafts <small>3</small></span><span>Routines <small>4</small></span><span class="is-on">History</span></div>
               <p class="app-day">Today</p>
               {{- range $demo.activityRows }}
-              <div class="arow{{ if .on }} is-on{{ end }}"><span class="tag">{{ .tag }}</span><b>{{ .title }}</b><span class="arow-time">{{ .time }}</span><span class="arow-sub">{{ .sub }}</span><span class="pill pill-sm">{{ .status }}</span></div>
+              <div class="arow{{ if .on }} is-on{{ end }}"><span class="tag">{{ .tag }}</span><b>{{ .title }}</b><span class="arow-time">{{ .time }}</span><span class="arow-sub">{{ if .on }}{{ len $dest }} networks, as you{{ else }}{{ .sub }}{{ end }}</span><span class="pill pill-sm">{{ .status }}</span></div>
               {{- end }}
             </div>
             <div class="app-detail">
               <div class="app-crumbs" aria-hidden="true"><span>Activity &#8250; History &#8250; Post</span><span class="chip">Duplicate</span></div>
-              <p class="app-kind"><span class="tag">Post</span><span class="pill pill-sm" data-demo-summary><span class="pill-dot"></span><span class="pill-text">{{ index $demo.statusSteps 2 }}</span></span></p>
+              <p class="app-kind"><span class="tag">Post</span><span class="pill pill-sm" data-demo-summary aria-live="polite"><span class="pill-dot"></span><span class="pill-text">{{ index $demo.statusSteps 2 }}</span></span></p>
               <h3 class="app-title" data-demo-title>{{ $demo.title }}</h3>
               <p class="app-meta">{{ $demo.meta }}</p>
               <blockquote class="app-msg" data-demo-msg>{{ $demo.message }}</blockquote>
               <p class="app-section"><span>1</span>Delivery<em>{{ $demo.exampleLabel }}</em></p>
-              <ul class="app-grid" aria-live="polite" data-demo-grid>
+              <ul class="app-grid" data-demo-grid>
                 {{- range $dest }}
                 <li class="dcard" data-demo-card="{{ .id }}">
                   <div class="dcard-head">

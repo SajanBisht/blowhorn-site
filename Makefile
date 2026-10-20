@@ -191,7 +191,7 @@ check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/integrations.schema.json -d data/integrations.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero_demo.schema.json -d data/hero_demo.json
 
-## Production build, then fail if the default homepage is not Signal or the Reveille preview lost today's look.
+## Production build, then fail if / is not the home-page theme (themes.json default plus _index.md front matter) or the Reveille preview lost today's look.
 check-theme: build-production
 	python3 .github/scripts/check_theme.py $(BUILD_DIR)
 

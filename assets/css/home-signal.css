@@ -118,6 +118,26 @@
   align-items: center;
   justify-content: center;
 }
+.demo-compose-actions .button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* How-it-works terminals: wrap the command so it isn't clipped, and keep the
+   window title ("terminal") instead of ellipsizing it to "ter...". */
+.home-signal .signal-steps .term-lang,
+.home-signal .signal-steps .term-copy-text { display: none; }
+.home-signal .signal-steps .term-title {
+  overflow: visible;
+  text-overflow: unset;
+  white-space: nowrap;
+}
+.home-signal .signal-steps .term-body pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 
 .hero-video { margin: 0; position: relative; }
 .hero-video video, .hero-video img { width: 100%; border-radius: var(--radius-lg); }
@@ -381,8 +401,10 @@ html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-blac
   --total: 11;
   position: relative;
   min-height: 34rem;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding-block: var(--space-12);
 }
 .constellation-count { text-align: center; z-index: 1; }
@@ -396,6 +418,25 @@ html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-blac
   color: var(--ink-wordmark);
 }
 .constellation-label { display: block; font: 500 14px var(--font-sans); color: var(--ink-muted); margin: var(--space-2) 0; }
+.constellation-ctl { z-index: 1; margin-top: var(--space-4); }
+.constellation-pause {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font: 500 14px var(--font-sans);
+  cursor: pointer;
+}
+.constellation-pause:hover,
+.constellation-pause:focus-visible {
+  border-color: var(--teal);
+}
+.constellation-pause[aria-pressed="true"] {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--teal) 40%, transparent);
+}
 .constellation-orbit {
   position: absolute;
   inset: 0;
@@ -403,6 +444,14 @@ html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-blac
   margin: 0;
   padding: 0;
   animation: constellation-spin 48s linear infinite;
+}
+.constellation:hover .constellation-orbit,
+.constellation:hover .constellation-item .logo-tile,
+.constellation:focus-within .constellation-orbit,
+.constellation:focus-within .constellation-item .logo-tile,
+.constellation.is-paused .constellation-orbit,
+.constellation.is-paused .constellation-item .logo-tile {
+  animation-play-state: paused;
 }
 .constellation-item {
   position: absolute;
@@ -516,11 +565,13 @@ html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-blac
     transform: none;
   }
   .constellation-item .logo-tile { animation: none; }
+  .constellation-ctl { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-demo .pill.is-pending .pill-dot { animation: none; }
   .constellation-orbit, .constellation-item .logo-tile { animation: none; }
+  .constellation-ctl { display: none; }
   .constellation { min-height: 0; }
   .constellation-orbit {
     position: static;

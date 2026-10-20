@@ -1,8 +1,11 @@
-{{- /* blowhorn.ai home page. Its anchors (#platforms, #how, #trust, #download,
-  #main) are linked from the other pages, the README and outside this repo:
-  keep them. .github/scripts/check-site-contract.py fails the build without them.
-  Which homepage renders is the theme's `home` field (data/themes.json): Signal
-  is the site default, Reveille is today's look. */ -}}
+{{- /* blowhorn.ai home page and the /home-reveille/ preview. Anchors
+  (#platforms, #how, #trust, #download, #main) are linked from the other pages,
+  the README and outside this repo: keep them. check-site-contract.py fails the
+  build without them. Which homepage variant renders is the page's theme
+  (front matter theme:, else data/themes.json default) and that theme's `home`
+  field. The public home page sets theme: signal. Reveille is the site default,
+  so docs, legal, pricing and download stay Reveille. ?theme= swaps tokens
+  only, not this layout. */ -}}
 {{ define "head" }}
     {{- partial "home-head.html" . }}
 {{- end }}

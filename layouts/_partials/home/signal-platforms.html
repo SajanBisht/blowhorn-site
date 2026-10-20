@@ -1,10 +1,12 @@
 {{- /* Signal platforms section: three switchable treatments driven by
   data/integrations.json. Reuses logo-tile. Old "Say it once" line is not
-  used here. */ -}}
+  used here. Supported name/logo come from hugo.Data.platforms. */ -}}
 {{- $data := site.Data.integrations -}}
 {{- $counts := partial "platform-counts.html" . -}}
+{{- $rows := slice -}}
+{{- range $data.platforms }}{{ $rows = $rows | append (partial "integration-row.html" .) }}{{ end -}}
 {{- $byId := dict -}}
-{{- range $data.platforms }}{{ $byId = merge $byId (dict .id .) }}{{ end -}}
+{{- range $rows }}{{ $byId = merge $byId (dict .id .) }}{{ end -}}
       <section id="platforms" class="section platforms-signal" aria-labelledby="platforms-title" data-platforms>
         <div class="wrap">
           <div class="section-head section-head-center">
@@ -48,15 +50,18 @@
             <div class="plat-roles">
               <div class="plat-role-picks" role="group" aria-label="Highlight platforms by role">
                 {{- range $i, $r := $data.roles }}
-                <button type="button" class="plat-role{{ if eq $i 0 }} is-on{{ end }}" data-plat-role="{{ $r.id }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $r.name }}</button>
+                {{- $role := false -}}
+                {{- range site.Data.roles.roles }}{{ if eq .slug $r.id }}{{ $role = . }}{{ end }}{{ end -}}
+                {{- if not $role }}{{ errorf "integrations roles id %q is not a slug in data/roles.json" $r.id }}{{ end -}}
+                <button type="button" class="plat-role{{ if eq $i 0 }} is-on{{ end }}" data-plat-role="{{ $r.id }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $role.name }}</button>
                 {{- end }}
               </div>
               <ul class="plat-row plat-row-roles">
-                {{- range $data.platforms }}
+                {{- range $rows }}
                 {{- $p := . -}}
-                {{- $roles := slice -}}
-                {{- range $data.roles }}{{ if in .platforms $p.id }}{{ $roles = $roles | append .id }}{{ end }}{{ end }}
-                <li data-plat-id="{{ $p.id }}" data-plat-roles="{{ delimit $roles " " }}">
+                {{- $roleIds := slice -}}
+                {{- range $data.roles }}{{ if in .platforms $p.id }}{{ $roleIds = $roleIds | append .id }}{{ end }}{{ end }}
+                <li data-plat-id="{{ $p.id }}" data-plat-roles="{{ delimit $roleIds " " }}">
                   <a class="platform" href="{{ $p.docs | relURL }}">
                     <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
                     <span class="ui">{{ $p.name }}</span>
@@ -73,8 +78,11 @@
                 <span class="constellation-label">supported platforms</span>
                 <span class="caption muted"><span data-count-soon>{{ $counts.comingSoon }}</span> more on the way · <span data-count-activities>{{ $counts.activities }}</span> actions</span>
               </p>
-              <ul class="constellation-orbit" data-constellation-total="{{ len $data.platforms }}">
-                {{- range $i, $p := $data.platforms }}
+              <p class="constellation-ctl">
+                <button type="button" class="constellation-pause" data-constellation-pause aria-pressed="false">Pause motion</button>
+              </p>
+              <ul class="constellation-orbit" data-constellation-total="{{ len $rows }}">
+                {{- range $i, $p := $rows }}
                 <li class="constellation-item{{ if eq $p.status "coming-soon" }} is-soon{{ end }}" data-n="{{ $i }}">
                   <a class="platform" href="{{ $p.docs | relURL }}">
                     <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
@@ -88,9 +96,6 @@
           </div>
           {{- end }}
 
-          <p class="section-body plat-catalog"><a class="button button-secondary" href="{{ "integrations/" | relURL }}">See the full integrations catalog</a></p>
-          {{- /* Keep the published fan-title anchor. The live section is the
-            treatments above; the old fan graphic is the Reveille motif. */}}
-          <p class="visually-hidden" id="fan-title" aria-hidden="true">One message fanning out to every platform</p>
+          <p class="section-body plat-catalog"><a class="button button-secondary" href="{{ (strings.TrimPrefix "/" $data.catalogPath) | relURL }}">See the full integrations catalog</a></p>
         </div>
       </section>

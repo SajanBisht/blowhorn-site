@@ -18,11 +18,12 @@ The marketing and legal pages do not use Docsy's templates: they render through
 `layouts/baseof.html`, with the header, footer and icon sprite in `layouts/_partials/`.
 
 Themes are schema-driven (`data/themes.json`, `schemas/themes.schema.json`). Site
-default is Signal (dark); Reveille is today's look (light, dark follows the OS).
-Per-page front matter `theme: signal|reveille` overrides the default; `?theme=`
-is a preview of the token layer. Homepage variants live in
-`layouts/_partials/home/`. Platform counts and the platforms section treatments
-come from `data/integrations.json`. The Signal hero demo is `data/hero_demo.json`.
+default is Reveille (today's look: light, dark follows the OS). The public home
+page sets front matter `theme: signal`. Docs, legal, pricing and download stay
+Reveille. `?theme=` swaps the token layer only, not homepage layout. Homepage
+variants live in `layouts/_partials/home/`. Platform counts and the platforms
+section treatments come from `data/integrations.json` plus `data/platforms/*.yaml`.
+The Signal hero demo is `data/hero_demo.json`.
 
 Role pages (`/for/<slug>/`) and use-case pages (`/use-cases/<slug>/`) are
 schema-driven from `data/roles.json` and `data/use_cases.json`. Shared
