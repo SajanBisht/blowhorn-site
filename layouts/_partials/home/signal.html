@@ -7,6 +7,13 @@
     <main id="main" class="home-signal">
       <section class="hero hero-signal" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true"></div>
+        {{- /* data/hero.json media.video.placement lead: the film comes first and
+          fills the first viewport; the copy follows it. */ -}}
+        {{- if and (in $rot.medias "video") (eq $rot.video.placement "lead") }}
+        <div class="hero-lead wrap" data-hero-media-only="video">
+          {{ partial "hero-video.html" $rot.video }}
+        </div>
+        {{- end }}
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <h1 id="hero-title" class="display-xl">
@@ -27,7 +34,7 @@
             </p>
           </div>
         </div>
-        {{ partial "hero-demo.html" . }}
+        {{- partial "hero-demo.html" . }}
       </section>
 
       {{ partial "home/signal-platforms.html" . }}

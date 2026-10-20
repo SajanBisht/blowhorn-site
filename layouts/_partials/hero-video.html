@@ -1,19 +1,22 @@
 {{- /* The Signal hero film, from data/hero.json media.video (schema:
   schemas/hero.schema.json). Captions are burned into the picture.
-  assets/js/hero-video.js plays it muted and looping once the hero is on
-  screen (autoplay needs muted), shows the sound and pause toggles, pauses it
-  off screen, and under prefers-reduced-motion leaves it on its poster with
-  a play button. Without JavaScript the native controls show instead.
-  Called with media.video. Its title id hero-art-title is in the site contract. See docs/hero-variants.md. */ -}}
-<figure class="hero-video hero-film" data-hero-media-only="video" data-hero-film aria-labelledby="hero-art-title">
+  media.video.playback drives assets/js/hero-video.js: autoplay (muted, on
+  screen) or a poster with a Play button, loop, sound when the visitor
+  presses Play, and what shows at the end (poster or last frame, with a
+  Watch again button). Under prefers-reduced-motion it never autoplays.
+  Without JavaScript the native controls show. Called with media.video.
+  Its title id hero-art-title is in the site contract. See
+  docs/hero-variants.md. */ -}}
+{{- $pb := .playback -}}
+<figure class="hero-video hero-film" data-hero-media-only="video" data-hero-film data-autoplay="{{ $pb.autoplay }}" data-loop="{{ $pb.loop }}" data-sound="{{ $pb.sound }}" data-end="{{ $pb.end }}" aria-labelledby="hero-art-title">
   <figcaption class="visually-hidden"><span id="hero-art-title">{{ .label }}</span>. {{ .description }}</figcaption>
-  <video controls muted loop playsinline preload="metadata" width="{{ .width }}" height="{{ .height }}" poster="{{ .poster | relURL }}" aria-labelledby="hero-art-title">
+  <video controls{{ if or $pb.autoplay (not $pb.sound) }} muted{{ end }}{{ if $pb.loop }} loop{{ end }} playsinline preload="metadata" width="{{ .width }}" height="{{ .height }}" poster="{{ .poster | relURL }}" aria-labelledby="hero-art-title">
     <source src="{{ .webm | relURL }}" type="video/webm">
     <source src="{{ .mp4 | relURL }}" type="video/mp4">
   </video>
   <button type="button" class="hero-film-start" data-film="start" hidden>
     <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-    <span>Play the film</span>
+    <span data-film="start-label">Play the film</span>
   </button>
   <div class="hero-film-bar" data-film="bar" hidden>
     <button type="button" class="hero-film-btn" data-film="sound" aria-pressed="false">
