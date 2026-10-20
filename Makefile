@@ -40,8 +40,12 @@ include .github/build/Makefile.show-help.mk
 #   check-third-party  Production build, then fail on any request to another host.
 #   check-urls         Production build, then fail on a lost public URL or anchor.
 #   site-check         Production build once, then validate-html, check-links,
-#                      check-third-party and check-urls (site.yml).
+#                      check-third-party, check-urls, check-no-internal,
+#                      check-theme and check-platform-docs (site.yml).
 #   check-no-internal  Fail if the production build contains /internal/.
+#   check-platform-docs Production build, then fail if a supported platform
+#                      lacks a docs page, a page skips the shared actions
+#                      table, or a docs page carries a hand-written action list.
 #   site-internal      Internal build (hugo --environment internal, mounting
 #                      BLOWHORN_DIR, default ../blowhorn) into public-internal/.
 #   preview, preview-internal
@@ -199,8 +203,12 @@ check-schemas:
 check-theme: build-production
 	python3 .github/scripts/check_theme.py $(BUILD_DIR)
 
+## Production build, then fail if a supported platform has no docs page, a platform docs page skips the shared actions table, or a docs page carries a hand-written action list.
+check-platform-docs: build-production
+	python3 .github/scripts/check_platform_docs.py $(BUILD_DIR)
+
 ## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
-site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme
+site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme check-platform-docs
 
 ## Build for production, then fail if the /internal/ section leaked into it.
 check-no-internal: build-production
@@ -322,6 +330,7 @@ clean:
 .PHONY: \
 	check-schemas \
 	check-theme \
+	check-platform-docs \
 	setup \
 	build \
 	build-preview \

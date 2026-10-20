@@ -2,11 +2,22 @@
   plus data/actions.json. The platform docs page (shortcode supported-actions)
   and the agent pages both render through this partial, so the two can't
   drift. Table columns: action, what it does, limits/notes, example.
+  Coming-soon platforms with no YAML still get this table, empty of actions.
   Usage: partial "supported-actions.html" (dict "key" "linkedin") */ -}}
-{{- $d := index hugo.Data.platforms .key -}}
-{{- if not $d }}{{ errorf "supported-actions: no data/platforms/%s.yaml" .key }}{{ end -}}
 {{- $key := .key -}}
-<section class="supported-actions-wrap" tabindex="0" aria-label="Supported actions">
+{{- if not $key }}{{ errorf "supported-actions: set key" }}{{ end -}}
+{{- $d := index hugo.Data.platforms $key -}}
+{{- $row := false -}}
+{{- range site.Data.integrations.platforms -}}
+  {{- if eq .id $key }}{{ $row = . }}{{ end -}}
+{{- end -}}
+{{- if not $row }}{{ errorf "supported-actions: %q is not in data/integrations.json platforms" $key }}{{ end -}}
+{{- if and (not $d) (ne $row.status "coming-soon") -}}
+  {{ errorf "supported-actions: no data/platforms/%s.yaml for supported platform" $key }}
+{{- end -}}
+{{- $actions := slice -}}
+{{- if $d }}{{ with $d.actions }}{{ $actions = . }}{{ end }}{{ end -}}
+<section class="supported-actions-wrap" tabindex="0" aria-label="Supported actions" data-supported-actions="{{ $key }}">
 <table class="supported-actions">
   <thead>
     <tr>
@@ -17,21 +28,32 @@
     </tr>
   </thead>
   <tbody>
-  {{- range $d.actions }}
-    {{- $a := partial "action-resolve.html" . -}}
+  {{- if $actions }}
+    {{- range $actions }}
+      {{- $a := partial "action-resolve.html" . -}}
+      <tr>
+        <th scope="row"><a href="#{{ $a.slug }}">{{ $a.name }}</a></th>
+        <td data-label="What it does">{{ $a.description }}</td>
+        <td data-label="Limits / notes">{{ with $a.limits }}{{ . }}{{ else }}None{{ end }}</td>
+        <td data-label="Example"><a href="#{{ $a.slug }}">See example</a></td>
+      </tr>
+    {{- end }}
+  {{- else }}
     <tr>
-      <th scope="row"><a href="#{{ $a.slug }}">{{ $a.name }}</a></th>
-      <td data-label="What it does">{{ $a.description }}</td>
-      <td data-label="Limits / notes">{{ with $a.limits }}{{ . }}{{ else }}None{{ end }}</td>
-      <td data-label="Example"><a href="#{{ $a.slug }}">See example</a></td>
+      <th scope="row">None yet</th>
+      <td data-label="What it does">Coming soon. <code>blowhorn post</code> doesn't support it today.</td>
+      <td data-label="Limits / notes">None</td>
+      <td data-label="Example">None</td>
     </tr>
   {{- end }}
   </tbody>
 </table>
 </section>
+{{- if $actions }}
 <h2 id="examples">Examples</h2>
-{{- range $d.actions }}
+{{- range $actions }}
   {{- $a := partial "action-resolve.html" . -}}
   {{ partial "action-examples.html" (dict "platform" $key "action" $a.id) }}
+{{- end -}}
 {{- end -}}
 {{- /**/ -}}

@@ -28,6 +28,7 @@ live in `layouts/_partials/home/`. Platform counts and the platforms section
 treatments come from `data/integrations.json` plus `data/platforms/*.yaml`.
 The action vocabulary is `data/actions.json`; YAML rows use those ids.
 Examples live in `data/action_examples.json` ([docs/action-examples.md](docs/action-examples.md)).
+Platform docs pages render actions through `{{< supported-actions "id" >}}` (`layouts/_partials/supported-actions.html`); `make check-platform-docs` fails a missing page, a skipped table, or a hand-written action list.
 The Signal hero demo is `data/hero_demo.json`.
 
 Role pages (`/for/<slug>/`) and use-case pages (`/use-cases/<slug>/`) are

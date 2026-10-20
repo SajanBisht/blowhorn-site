@@ -14,9 +14,11 @@ page. Hyphens, never em dashes.
 | [`data/action_examples.json`](../data/action_examples.json) | One entry per supported platform+action. Each surface is `available` or `placeholder`. |
 | [`schemas/actions.schema.json`](../schemas/actions.schema.json) and [`schemas/action_examples.schema.json`](../schemas/action_examples.schema.json) | `make check-schemas` validates both, then [`.github/scripts/check_action_examples.py`](../.github/scripts/check_action_examples.py) fails if coverage dropped. |
 
-The docs page already calls `{{< supported-actions "linkedin" >}}`. That
-shortcode renders the actions table and the example tabs from this data. You
-do not edit the page to add an example.
+Every platform docs page calls `{{< supported-actions "<id>" >}}`. That
+shortcode renders the actions table (Action, What it does, Limits / notes,
+Example) and the example tabs from this data. You do not edit the page to add
+an example or to list the actions. `make check-platform-docs` fails a
+hand-written action list or a page that skips the shortcode.
 
 ## Add or fill an example
 
