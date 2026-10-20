@@ -1,5 +1,8 @@
-{{- /* Shared index for /for/ and /use-cases/. Reuses role-page CSS. */ -}}
+{{- /* Shared index for /for/ and /use-cases/. Reuses role-page CSS.
+  Optional .labelPrefix (default "For "); pass labelPrefix "" for use cases. */ -}}
 {{- $page := .page -}}
+{{- $list := dict "section" $page "current" nil -}}
+{{- if isset . "labelPrefix" }}{{ $list = merge $list (dict "labelPrefix" .labelPrefix) }}{{ end -}}
     <main id="main" class="page agent-page role-page">
       <div class="wrap">
         <header class="agent-hero agent-hero-index glass">
@@ -11,7 +14,7 @@
         </header>
         <section class="agent-section" aria-labelledby="pick-title">
           <div class="section-head"><h2 id="pick-title" class="h2">{{ .pickTitle }}</h2></div>
-          {{ partial .listPartial (dict "section" $page "current" nil) }}
+          {{ partial "role-list.html" $list }}
         </section>
       </div>
     </main>

@@ -1,2 +1,20 @@
-{{- /* Cards linking every /for/<slug>/ page, by weight; "current" is skipped. */ -}}
-{{ partial "cast-list.html" (merge . (dict "dataPartial" "role-data.html" "labelPrefix" "For ")) }}
+{{- /* Cards linking pages in .section, by weight; "current" is skipped.
+  Optional .labelPrefix (default "For ") is prepended to the name; pass
+  labelPrefix "" for use cases. Lookup is role-data.html for both page types. */ -}}
+{{- $cur := .current -}}
+{{- $prefix := "For " -}}
+{{- if isset . "labelPrefix" }}{{ $prefix = .labelPrefix }}{{ end -}}
+<ul class="grid grid-3 role-list">
+  {{- range .section.Pages.ByWeight }}
+  {{- if ne . $cur }}
+  {{- $item := partial "role-data.html" . }}
+  <li>
+    <a class="card card-link glass role-card" href="{{ .RelPermalink }}">
+      <img src="{{ $item.art.src | relURL }}" alt="" width="960" height="540" loading="lazy">
+      <span class="label">{{ $prefix }}{{ $item.name }}</span>
+      <span class="h3">{{ $item.headline }}</span>
+    </a>
+  </li>
+  {{- end }}
+  {{- end }}
+</ul>

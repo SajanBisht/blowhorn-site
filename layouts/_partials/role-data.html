@@ -1,9 +1,16 @@
-{{- /* The data/roles.json entry for a /for/<slug>/ page (its "role" param).
-  Fails the build when the page names no role. */ -}}
-{{- return partial "cast-data.html" (dict
-    "page" .
-    "slug" .Params.role
-    "collection" site.Data.roles.roles
-    "file" "data/roles.json"
-    "kind" "role"
-  ) -}}
+{{- /* The data entry for a /for/<slug>/ or /use-cases/<slug>/ page.
+  Role pages set params.role; use-case pages set params.use_case.
+  Hugo keeps the hyphen in the data key for data/use-cases.json. */ -}}
+{{- $slug := .Params.use_case | default .Params.role -}}
+{{- if not $slug }}{{ errorf "no role or use_case param for %s" .Path }}{{ end -}}
+{{- $collection := site.Data.roles.roles -}}
+{{- $file := "data/roles.json" -}}
+{{- $kindName := "role" -}}
+{{- if .Params.use_case -}}
+  {{- $collection = (index site.Data "use-cases").use_cases -}}
+  {{- $file = "data/use-cases.json" -}}
+  {{- $kindName = "use case" -}}
+{{- end -}}
+{{- $match := where $collection "slug" $slug -}}
+{{- if not $match }}{{ errorf "%s: no %s %q for %s" $file $kindName $slug .Path }}{{ end -}}
+{{- return index $match 0 -}}

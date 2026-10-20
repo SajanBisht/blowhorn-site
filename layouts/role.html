@@ -1,14 +1,9 @@
-{{- /* One /for/<slug>/ role page. Pages are added by content/en/for/_content.gotmpl
-  from data/roles.json (schema: schemas/roles.schema.json); the copy comes from the
-  data, the body from the shared cast-page partial. Art is Locked-6 cast on its
-  black ground, each with a Layer5 green accent. Plan: blowhorn-site#82. */ -}}
+{{- /* One /for/<slug>/ page. Adapter: content/en/for/_content.gotmpl. */ -}}
 {{ define "head" }}
-    {{- $r := partial "role-data.html" . }}
-    {{- partial "cast-page-head.html" (dict "page" . "item" $r) }}
+    {{- partial "cast-page-head.html" (dict "page" . "item" (partial "role-data.html" .)) }}
 {{- end }}
 {{ define "main" }}
-    {{- $r := partial "role-data.html" . }}
-    {{- partial "cast-page.html" (dict "page" . "item" $r "kind" "role") }}
+    {{- partial "cast-page.html" (dict "page" . "item" (partial "role-data.html" .) "kind" "role") }}
 {{- end }}
 {{ define "sprite" }}
     {{ partial "sprite.html" . }}

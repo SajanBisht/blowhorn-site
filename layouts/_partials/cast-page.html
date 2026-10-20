@@ -12,7 +12,7 @@
 {{- $moreTitle := cond $isRole "Blowhorn for other roles" "Other use cases" -}}
 {{- $dataFile := cond $isRole "data/roles.json" "data/use-cases.json" -}}
 {{- $kindName := cond $isRole "role" "use case" -}}
-{{- $listPartial := cond $isRole "role-list.html" "use-case-list.html" -}}
+{{- $labelPrefix := cond $isRole "For " "" -}}
     <main id="main" class="page agent-page role-page">
       <div class="wrap">
         <header class="agent-hero glass">
@@ -88,7 +88,7 @@
 
         <section class="agent-section" aria-labelledby="more-title">
           <div class="section-head"><h2 id="more-title" class="h2">{{ $moreTitle }}</h2></div>
-          {{ partial $listPartial (dict "section" $section "current" $p) }}
+          {{ partial "role-list.html" (dict "section" $section "current" $p "labelPrefix" $labelPrefix) }}
         </section>
       </div>
     </main>

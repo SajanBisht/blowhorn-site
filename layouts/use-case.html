@@ -1,14 +1,9 @@
-{{- /* One /use-cases/<slug>/ use-case page. Pages are added by
-  content/en/use-cases/_content.gotmpl from data/use-cases.json (schema:
-  schemas/use-cases.schema.json); the copy comes from the data, the body from
-  the shared cast-page partial (same as the role pages). Plan: blowhorn-site#82. */ -}}
+{{- /* One /use-cases/<slug>/ page. Adapter: content/en/use-cases/_content.gotmpl. */ -}}
 {{ define "head" }}
-    {{- $u := partial "use-case-data.html" . }}
-    {{- partial "cast-page-head.html" (dict "page" . "item" $u) }}
+    {{- partial "cast-page-head.html" (dict "page" . "item" (partial "role-data.html" .)) }}
 {{- end }}
 {{ define "main" }}
-    {{- $u := partial "use-case-data.html" . }}
-    {{- partial "cast-page.html" (dict "page" . "item" $u "kind" "use-case") }}
+    {{- partial "cast-page.html" (dict "page" . "item" (partial "role-data.html" .) "kind" "use-case") }}
 {{- end }}
 {{ define "sprite" }}
     {{ partial "sprite.html" . }}

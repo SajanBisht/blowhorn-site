@@ -1,9 +1,10 @@
-{{- /* Markdown output for a role or use-case index. */ -}}
-{{- $dataPartial := .dataPartial -}}
-{{- $prefix := .labelPrefix | default "" -}}
+{{- /* Markdown output for a role or use-case index.
+  Optional .labelPrefix (default "For "); pass labelPrefix "" for use cases. */ -}}
+{{- $prefix := "For " -}}
+{{- if isset . "labelPrefix" }}{{ $prefix = .labelPrefix }}{{ end -}}
 # {{ .page.Title }}
 
 > {{ .page.Params.lead }}
-{{ range .page.Pages.ByWeight }}{{ $item := partial $dataPartial . }}
+{{ range .page.Pages.ByWeight }}{{ $item := partial "role-data.html" . }}
 - [{{ $prefix }}{{ $item.name }}: {{ $item.headline }}]({{ .Permalink }})
 {{- end }}
