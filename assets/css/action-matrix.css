@@ -165,7 +165,7 @@
 .action-table-wrap { container-type: inline-size; margin: var(--space-6) 0 var(--space-8); }
 .action-table-filters {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-3) var(--space-4);
   align-items: end;
   margin: 0 0 var(--space-4);
