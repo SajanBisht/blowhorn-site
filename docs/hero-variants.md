@@ -66,6 +66,38 @@ never changes while someone is reading the page.
 - Each art keeps its own motion and `prefers-reduced-motion` rules. Switching heroes adds
   no transition.
 
+## Hero media
+
+The visual under the hero copy comes from `media` in `data/hero.json`
+(schema: `schemas/hero.schema.json`). `media.default` names it for every
+hero: `video` (the hero film) or `demo` (the interactive pseudo-app demo
+from `data/hero_demo.json`). A hero can set its own `"media": "demo"` or
+`"media": "video"` to override it, and `?hero=<id>` picks the hero and so
+its media. The pre-paint picker sets `data-hero-media` on `<html>` and only
+the matching `[data-hero-media-only]` visual shows; no-JS visitors get the
+default hero's.
+
+`media.video` holds the film: `mp4` (H.264, faststart) and `webm` (VP9) under
+`static/assets/video/`, a `poster`, its `width` and `height`, and an
+accessible `label` and `description`. Captions are burned into the picture.
+The default is the Battalion Thunder film (source:
+leecalcote/blowhorn `marketing/videos/blowhorn-battalion-thunder`), 1080p,
+about 1.9 MB MP4 and 2.1 MB WebM.
+
+`assets/js/hero-video.js` plays it muted and looping once it is on screen
+(browsers only autoplay muted video), with a Sound on/off toggle and a
+Pause/Play toggle, and pauses it off screen. Under
+`prefers-reduced-motion: reduce` it waits on its poster behind a Play
+button. Without JavaScript the native video controls show.
+
+To re-encode after a new render:
+
+```sh
+ffmpeg -i film.mp4 -c:v libx264 -profile:v high -crf 25 -tune animation -preset slow -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 64k -ac 1 static/assets/video/battalion-thunder.mp4
+ffmpeg -i film.mp4 -c:v libvpx-vp9 -crf 38 -b:v 0 -row-mt 1 -c:a libopus -b:a 48k -ac 1 static/assets/video/battalion-thunder.webm
+ffmpeg -ss 12.2 -i film.mp4 -frames:v 1 -q:v 3 static/assets/video/battalion-thunder-poster.jpg
+```
+
 ## Adding a hero
 
 1. Add the variant to `variants` (with `art` if it is not the stage).
