@@ -2977,6 +2977,9 @@ a.docs-card.platform-card:hover::after, a.docs-card.platform-card:focus-visible:
 }
 .tabs-soon > * + * { margin-top: var(--space-2); }
 .action-example { margin-top: var(--head-gap); }
+/* #action-<id> targets from the actions table: no block padding, so undo the
+   section[id] pull-back and let html scroll-padding-top clear the header. */
+.action-example[id] { scroll-margin-top: 0; }
 .action-shot img {
   display: block;
   width: 100%;
