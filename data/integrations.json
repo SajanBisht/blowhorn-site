@@ -7,6 +7,21 @@
     "supporting": "You give the order. Major Blowhorn takes it to %s and the rest."
   },
   "catalogPath": "/integrations/",
+  "matrix": {
+    "path": "/integrations/actions/",
+    "docsPath": "/docs/reference/platforms/actions/",
+    "label": "Action matrix",
+    "headline": "Every order, every front.",
+    "lede": "Every action on every platform, in one grid. Hover a dot for what it does, click it for usage.",
+    "cta": "See every action on every platform",
+    "docsCta": "Sort and filter it in the docs",
+    "catalogCta": "All integrations",
+    "tally": "%d actions on %d platforms. %d more platforms coming soon.",
+    "exceptions": [
+      { "id": "coming-soon", "label": "Coming soon" },
+      { "id": "none", "label": "Not available" }
+    ]
+  },
   "defaultTreatment": "category",
   "treatments": [
     {

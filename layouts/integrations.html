@@ -16,6 +16,9 @@
           <p class="label">Integrations</p>
           <h1 id="integrations-title" class="display">Every network on the map</h1>
           <p class="body-lg muted"><span data-count-platforms>{{ $counts.platforms }}</span> supported now, <span data-count-soon>{{ $counts.comingSoon }}</span> coming soon, <span data-count-activities>{{ $counts.activities }}</span> actions in the queue. Blowhorn posts as you through your own Chrome or a platform API. It does not post to GitHub: it rallies reactions on the issue.</p>
+          {{- with site.Data.integrations.matrix }}
+          <p class="integrations-matrix-link"><a class="button button-secondary" href="{{ (strings.TrimPrefix "/" .path) | relURL }}" data-matrix-link>{{ .cta }}</a></p>
+          {{- end }}
         </header>
         <nav id="action-filter" class="action-filter" aria-label="Filter by action">
           <p class="label">By action</p>

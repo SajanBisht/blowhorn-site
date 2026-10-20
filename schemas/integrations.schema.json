@@ -5,7 +5,7 @@
   "description": "data/integrations.json: homepage platforms-section treatments and the map of networks. Supported name, logo and actions come from data/platforms/<id>.yaml via hugo.Data.platforms. Coming-soon rows keep their own name and logo. Hyphens never em dashes. GitHub must set posts to false.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["headline", "lede", "major", "catalogPath", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
+  "required": ["headline", "lede", "major", "catalogPath", "matrix", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
   "properties": {
     "$schema": { "type": "string" },
     "headline": {
@@ -26,6 +26,7 @@
       "type": "string",
       "const": "/integrations/"
     },
+    "matrix": { "$ref": "#/definitions/matrix" },
     "defaultTreatment": { "$ref": "#/definitions/treatmentId" },
     "treatments": {
       "type": "array",
@@ -81,6 +82,57 @@
           "maxLength": 200,
           "pattern": "^[^%]*%s[^%]*$",
           "not": { "pattern": "\u2014" }
+        }
+      }
+    },
+    "matrix": {
+      "description": "Copy for the action matrix page (path) and the docs all-actions table (docsPath). Rows, columns and cells come from data/actions.json and data/platforms/<id>.yaml; never list actions or platforms here. Status is shown by exception: a listed action is supported and carries no label or check, so exceptions names only coming-soon (an icon on the platform, with this label as its accessible name and tooltip) and none (an empty cell, with this label as screen-reader text), in that order.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "docsPath", "label", "headline", "lede", "cta", "docsCta", "catalogCta", "tally", "exceptions"],
+      "properties": {
+        "path": { "type": "string", "const": "/integrations/actions/" },
+        "docsPath": { "type": "string", "const": "/docs/reference/platforms/actions/" },
+        "label": { "$ref": "#/definitions/copy" },
+        "headline": { "$ref": "#/definitions/copy" },
+        "lede": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "not": { "pattern": "\u2014" }
+        },
+        "cta": { "$ref": "#/definitions/copy" },
+        "docsCta": { "$ref": "#/definitions/copy" },
+        "catalogCta": { "$ref": "#/definitions/copy" },
+        "tally": {
+          "description": "Three %d, filled in order with live actions, supported platforms and coming-soon platforms from platform-counts.html.",
+          "type": "string",
+          "maxLength": 160,
+          "pattern": "^[^%]*%d[^%]*%d[^%]*%d[^%]*$",
+          "not": { "pattern": "\\u2014" }
+        },
+        "exceptions": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": [
+            { "allOf": [{ "$ref": "#/definitions/matrixStatus" }, { "properties": { "id": { "const": "coming-soon" } } }] },
+            { "allOf": [{ "$ref": "#/definitions/matrixStatus" }, { "properties": { "id": { "const": "none" } } }] }
+          ]
+        }
+      }
+    },
+    "matrixStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string", "enum": ["coming-soon", "none"] },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24,
+          "not": { "pattern": "(\u2014|[Ss]upported)" }
         }
       }
     },
