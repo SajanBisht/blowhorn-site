@@ -1,0 +1,216 @@
+{
+  "$schema": "../schemas/integrations.schema.json",
+  "headline": "One queue. Every network that matters.",
+  "lede": "One queue for every network your audience reads. LinkedIn, X, Reddit and Hacker News go through your own Chrome with the Blowhorn extension. Slack and Bluesky use their APIs. On GitHub, Blowhorn rallies reactions on the issue, it does not post.",
+  "catalogPath": "/integrations/",
+  "defaultTreatment": "category",
+  "treatments": [
+    {
+      "id": "category",
+      "label": "By type",
+      "kind": "category",
+      "note": "Group by how Blowhorn reaches the network."
+    },
+    {
+      "id": "role",
+      "label": "By role",
+      "kind": "role",
+      "note": "Pick a role to highlight the networks it actually uses."
+    },
+    {
+      "id": "constellation",
+      "label": "The map",
+      "kind": "constellation",
+      "note": "Orbiting marks around a live count, to show breadth and room to grow."
+    }
+  ],
+  "categories": [
+    {
+      "id": "chrome",
+      "name": "Your Chrome",
+      "summary": "Blowhorn types and clicks in your own signed-in browser.",
+      "platforms": ["linkedin", "x", "reddit", "hacker-news"]
+    },
+    {
+      "id": "api",
+      "name": "Official APIs",
+      "summary": "Posted as you through the platform's own API, never a borrowed password.",
+      "platforms": ["slack", "bluesky"]
+    },
+    {
+      "id": "rally",
+      "name": "Rally, not posts",
+      "summary": "GitHub does not take a post. Blowhorn rallies reactions on the issue.",
+      "platforms": ["github"]
+    },
+    {
+      "id": "soon",
+      "name": "Coming soon",
+      "summary": "On the map. Not in the queue yet.",
+      "platforms": ["youtube", "instagram", "tiktok", "facebook"]
+    }
+  ],
+  "roles": [
+    {
+      "id": "devrel",
+      "name": "DevRel",
+      "page": "/for/devrel/",
+      "platforms": ["linkedin", "x", "reddit", "hacker-news", "slack", "bluesky", "github"]
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing manager",
+      "page": "/for/marketing/",
+      "platforms": ["linkedin", "x", "slack", "bluesky", "youtube", "instagram", "tiktok", "facebook"]
+    },
+    {
+      "id": "founder",
+      "name": "Founder / maintainer",
+      "page": "/for/founders/",
+      "platforms": ["linkedin", "x", "reddit", "hacker-news", "slack", "bluesky", "github"]
+    },
+    {
+      "id": "amplification",
+      "name": "Team amplification lead",
+      "page": "/for/community/",
+      "platforms": ["linkedin", "x", "slack", "bluesky", "reddit"]
+    }
+  ],
+  "platforms": [
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "status": "supported",
+      "via": "chrome",
+      "viaLabel": "Your Chrome",
+      "posts": true,
+      "logo": "assets/platforms/linkedin-in-bug.png",
+      "docs": "/docs/reference/platforms/linkedin/",
+      "exampleLink": "linkedin.com/feed/update/urn:li:activity:...",
+      "demoMeta": "via your Chrome, as you",
+      "actions": ["Post", "Comment", "Amplify", "Accept", "Withdraw", "Analytics"]
+    },
+    {
+      "id": "x",
+      "name": "X",
+      "status": "supported",
+      "via": "chrome",
+      "viaLabel": "Your Chrome",
+      "posts": true,
+      "logo": "assets/platforms/x-logo-black.png",
+      "docs": "/docs/reference/platforms/x/",
+      "exampleLink": "x.com/you/status/...",
+      "demoMeta": "via your Chrome, as you",
+      "actions": ["Post", "Reply", "Amplify", "Follow", "Analytics"]
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "status": "supported",
+      "via": "chrome",
+      "viaLabel": "Your Chrome",
+      "posts": true,
+      "logo": "assets/platforms/reddit-logo.png",
+      "docs": "/docs/reference/platforms/reddit/",
+      "exampleLink": "reddit.com/r/devops/comments/...",
+      "demoMeta": "via your Chrome, as you",
+      "actions": ["Post", "Comment", "Amplify"]
+    },
+    {
+      "id": "hacker-news",
+      "name": "Hacker News",
+      "status": "supported",
+      "via": "chrome",
+      "viaLabel": "Your Chrome",
+      "posts": true,
+      "logo": "assets/platforms/hacker-news-y18.svg",
+      "docs": "/docs/reference/platforms/hacker-news/",
+      "exampleLink": "news.ycombinator.com/item?id=...",
+      "demoMeta": "via your Chrome, as you",
+      "actions": ["Post", "Comment"]
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "status": "supported",
+      "via": "api",
+      "viaLabel": "Slack API",
+      "posts": true,
+      "logo": "assets/platforms/slack-mark.svg",
+      "docs": "/docs/reference/platforms/slack/",
+      "exampleLink": "community.slack.com/archives/...",
+      "demoMeta": "via the Slack API, as you",
+      "actions": ["Post", "Reply"]
+    },
+    {
+      "id": "bluesky",
+      "name": "Bluesky",
+      "status": "supported",
+      "via": "api",
+      "viaLabel": "Bluesky API",
+      "posts": true,
+      "logo": "assets/platforms/bluesky-butterfly-blue.svg",
+      "docs": "/docs/reference/platforms/bluesky/",
+      "exampleLink": "bsky.app/profile/you/post/...",
+      "demoMeta": "via the Bluesky API, as you",
+      "actions": ["Post", "Reply", "Amplify", "Follow", "Unfollow", "Find", "Analytics"]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "status": "supported",
+      "via": "api",
+      "viaLabel": "Reactions on issues",
+      "posts": false,
+      "logo": "assets/platforms/github-invertocat-black.svg",
+      "docs": "/docs/reference/platforms/github/",
+      "exampleLink": "github.com/org/repo/issues/...",
+      "demoMeta": "reactions on the issue, as you",
+      "actions": ["React", "Follow", "Find"]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "status": "coming-soon",
+      "via": "chrome",
+      "viaLabel": "Coming soon",
+      "posts": false,
+      "logo": "assets/platforms/youtube-simple-icons.svg",
+      "docs": "/docs/reference/platforms/youtube/",
+      "actions": []
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "status": "coming-soon",
+      "via": "chrome",
+      "viaLabel": "Coming soon",
+      "posts": false,
+      "logo": "assets/platforms/instagram-simple-icons.svg",
+      "docs": "/docs/reference/platforms/instagram/",
+      "actions": []
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "status": "coming-soon",
+      "via": "chrome",
+      "viaLabel": "Coming soon",
+      "posts": false,
+      "logo": "assets/platforms/tiktok-simple-icons.svg",
+      "docs": "/docs/reference/platforms/tiktok/",
+      "actions": []
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "status": "coming-soon",
+      "via": "chrome",
+      "viaLabel": "Coming soon",
+      "posts": false,
+      "logo": "assets/platforms/facebook-simple-icons.svg",
+      "docs": "/docs/reference/platforms/facebook/",
+      "actions": []
+    }
+  ]
+}

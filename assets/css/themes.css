@@ -1,0 +1,81 @@
+/* Theme token layers. Reveille is today's look (light default, dark follows
+   the OS). Signal is a dark token layer over the same components. Brand
+   primitives in site.css are unchanged. */
+
+/* Logo swap: Reveille follows the OS, Signal always uses the on-dark file. */
+.logo-on-dark { display: none; }
+.logo-on-light { display: block; }
+@media (prefers-color-scheme: dark) {
+  .logo-on-light { display: none; }
+  .logo-on-dark { display: block; }
+}
+html[data-theme="signal"] .logo-on-light { display: none; }
+html[data-theme="signal"] .logo-on-dark { display: block; }
+html[data-theme="reveille"] .logo-on-light { display: block; }
+html[data-theme="reveille"] .logo-on-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  html[data-theme="reveille"] .logo-on-light { display: none; }
+  html[data-theme="reveille"] .logo-on-dark { display: block; }
+}
+
+html[data-theme="signal"] {
+  color-scheme: dark;
+  --surface: #070B0A;
+  --surface-raised: #0F1513;
+  --surface-tint: #173A34;
+  --ink: #E9EFED;
+  --ink-muted: #9AA8A4;
+  --ink-wordmark: #FFFFFF;
+  --link: var(--teal-bright);
+  --link-hover: var(--mint);
+  --line: #26302D;
+  --focus-ring: var(--teal-bright);
+  --shadow-pop: 4px 4px 0 0 var(--teal-bright);
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --glass-fill: rgba(15, 21, 19, 0.72);
+  --glass-fill-strong: rgba(7, 11, 10, 0.78);
+  --glass-fill-solid: #0F1513;
+  --glass-field: rgba(14, 19, 18, 0.72);
+  --glass-sheen: rgba(255, 255, 255, 0.06);
+  --glass-specular: rgba(255, 255, 255, 0.12);
+  --glass-rim: rgba(0, 211, 169, 0.14);
+  --glass-edge: #26302D;
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.30), 0 16px 40px -14px rgba(0, 0, 0, 0.60);
+  --glass-shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.30), 0 22px 48px -14px rgba(0, 211, 169, 0.22);
+  --ambient-base: #070B0A;
+  --ambient-1: rgba(0, 211, 169, 0.22);
+  --ambient-2: rgba(0, 179, 159, 0.12);
+  --ambient-3: rgba(106, 227, 182, 0.08);
+  --ambient-4: rgba(0, 117, 106, 0.18);
+  --app-canvas: #0E1312;
+  --app-rail: #141B19;
+  --app-line: #26302D;
+  --app-control: #22302C;
+  --app-selected: #1F2A27;
+  --app-ink: #E9EFED;
+  --app-muted: #9AA8A4;
+  --app-accent: var(--teal);
+  --app-on-accent: #04110F;
+  --app-live: #6AE3B6;
+  --app-pending: #E8B04A;
+  --app-tint: rgba(106, 227, 182, 0.10);
+}
+
+/* Signal footer: same shape and glass gradient, recoloured with Signal tokens. */
+html[data-theme="signal"] .site-footer {
+  background: #050807;
+  color: var(--ink-muted);
+}
+html[data-theme="signal"] .site-header {
+  background: rgba(7, 11, 10, 0.72);
+}
+html[data-theme="signal"] body::before {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(0, 211, 169, 0.18), transparent 70%),
+    radial-gradient(40% 40% at 85% 60%, rgba(0, 179, 159, 0.10), transparent 70%),
+    var(--ambient-base);
+}
+
+html[data-theme="signal"] .button-pop:hover {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.55), 2px 2px 0 0 var(--teal-bright);
+}

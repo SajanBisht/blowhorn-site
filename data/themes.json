@@ -1,0 +1,21 @@
+{
+  "$schema": "../schemas/themes.schema.json",
+  "default": "signal",
+  "previewParam": "theme",
+  "themes": [
+    {
+      "id": "signal",
+      "name": "Signal",
+      "home": "signal",
+      "colorScheme": "dark",
+      "note": "Dark technical homepage. Token layer over shared components. Site default."
+    },
+    {
+      "id": "reveille",
+      "name": "Reveille",
+      "home": "reveille",
+      "colorScheme": "light-dark",
+      "note": "Today's exact look: light default, dark follows the OS. Reapply site-wide or per page."
+    }
+  ]
+}

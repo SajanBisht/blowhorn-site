@@ -1,0 +1,39 @@
+{{- /* Integrations catalog at /integrations/, driven by data/integrations.json. */ -}}
+{{ define "main" }}
+    {{- $counts := partial "platform-counts.html" . -}}
+    {{- $cats := site.Data.integrations.categories -}}
+    {{- $byId := dict -}}
+    {{- range site.Data.integrations.platforms }}{{ $byId = merge $byId (dict .id .) }}{{ end -}}
+    <main id="main" class="page integrations-page">
+      <div class="wrap">
+        <header class="page-head">
+          <p class="label">Integrations</p>
+          <h1 id="integrations-title" class="display">Every network on the map</h1>
+          <p class="body-lg muted">{{ $counts.platforms }} supported now, {{ $counts.comingSoon }} coming soon, {{ $counts.activities }} actions in the queue. Blowhorn posts as you through your own Chrome or a platform API. It does not post to GitHub: it rallies reactions on the issue.</p>
+        </header>
+        {{- range $cats }}
+        <section class="section" aria-labelledby="cat-{{ .id }}">
+          <div class="section-head">
+            <h2 id="cat-{{ .id }}" class="h2">{{ .name }}</h2>
+            <p class="muted">{{ .summary }}</p>
+          </div>
+          <ul class="grid grid-3 section-body">
+            {{- range .platforms }}
+            {{- $p := index $byId . }}
+            <li>
+              <a class="card card-link" href="{{ $p.docs | relURL }}">
+                <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
+                <h3 class="h3">{{ $p.name }}</h3>
+                <p>{{ $p.viaLabel }}{{ if eq $p.status "coming-soon" }} · Coming soon{{ end }}</p>
+                {{- if $p.actions }}
+                <p class="caption muted">{{ delimit $p.actions ", " }}</p>
+                {{- end }}
+              </a>
+            </li>
+            {{- end }}
+          </ul>
+        </section>
+        {{- end }}
+      </div>
+    </main>
+{{ end }}

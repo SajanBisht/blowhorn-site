@@ -69,7 +69,8 @@ Every CI step that runs repository logic is a make target, and the workflow call
 | `workflow-check` | actionlint on `site.yml`, `publish-dmg.yml`, `sync-docs.yml`, `cloud-auth-smoke.yml` and `product-ci.yml` | `site.yml` |
 | `test-scripts` | unit tests for the check scripts in `.github/scripts/` | `site.yml` |
 | `site-check` | one production build, then the checks below | `site.yml` |
-| `check-schemas` | `data/hero.json`, `data/roles.json` and `data/use_cases.json` validate against `schemas/`; role and use-case schemas `$ref` shared `line`/`text`/`card` types in `schemas/defs/cast-page.schema.json` (ajv `-r`) ([docs/hero-variants.md](docs/hero-variants.md)) | `site-check` |
+| `check-schemas` | `data/hero.json`, `data/roles.json`, `data/use_cases.json`, `data/themes.json`, `data/integrations.json` and `data/hero_demo.json` validate against `schemas/`; role and use-case schemas `$ref` shared `line`/`text`/`card` types in `schemas/defs/cast-page.schema.json` (ajv `-r`) ([docs/hero-variants.md](docs/hero-variants.md)) | `site-check` |
+| `check-theme` | Production homepage is Signal, Reveille preview keeps today's look, and activity/platform counts in copy match `data/integrations.json` | `site-check` |
 | `validate-html` | html-validate on every built page | `site-check` |
 | `check-links` | every local link, image, font and `srcset` reference resolves | `site-check` |
 | `check-third-party` | no page, or stylesheet or script it loads, requests another host (except the disclosed GitHub release lookup) | `site-check` |

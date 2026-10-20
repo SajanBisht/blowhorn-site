@@ -1,0 +1,96 @@
+{{- /* Signal platforms section: three switchable treatments driven by
+  data/integrations.json. Reuses logo-tile. Old "Say it once" line is not
+  used here. */ -}}
+{{- $data := site.Data.integrations -}}
+{{- $counts := partial "platform-counts.html" . -}}
+{{- $byId := dict -}}
+{{- range $data.platforms }}{{ $byId = merge $byId (dict .id .) }}{{ end -}}
+      <section id="platforms" class="section platforms-signal" aria-labelledby="platforms-title" data-platforms>
+        <div class="wrap">
+          <div class="section-head section-head-center">
+            <p class="label">Platforms</p>
+            <h2 id="platforms-title" class="display">{{ $data.headline }}</h2>
+            <p class="body-lg muted">{{ $data.lede }}</p>
+          </div>
+          <div class="plat-toolbar">
+            <div class="plat-tabs" role="tablist" aria-label="Compare how the map looks">
+              {{- range $i, $t := $data.treatments }}
+              <button type="button" class="plat-tab{{ if eq $t.id $data.defaultTreatment }} is-on{{ end }}" role="tab" id="plat-tab-{{ $t.id }}" aria-selected="{{ if eq $t.id $data.defaultTreatment }}true{{ else }}false{{ end }}" aria-controls="plat-panel-{{ $t.id }}" data-plat-tab="{{ $t.id }}">{{ $t.label }}</button>
+              {{- end }}
+            </div>
+            <p class="plat-count caption" data-plat-count><span data-count-platforms>{{ $counts.platforms }}</span> supported now<span class="muted"> · <span data-count-soon>{{ $counts.comingSoon }}</span> coming soon</span></p>
+          </div>
+
+          {{- range $data.treatments }}
+          <div class="plat-panel{{ if eq .id $data.defaultTreatment }} is-on{{ end }}" id="plat-panel-{{ .id }}" role="tabpanel" aria-labelledby="plat-tab-{{ .id }}" data-plat-panel="{{ .id }}"{{ if ne .id $data.defaultTreatment }} hidden{{ end }}>
+            {{- if eq .kind "category" }}
+            <ul class="plat-cats">
+              {{- range $data.categories }}
+              <li class="plat-cat">
+                <h3 class="h3">{{ .name }}</h3>
+                <p class="caption muted">{{ .summary }}</p>
+                <ul class="plat-row">
+                  {{- range .platforms }}
+                  {{- $p := index $byId . }}
+                  <li>
+                    <a class="platform" href="{{ $p.docs | relURL }}">
+                      <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
+                      <span class="ui">{{ $p.name }}</span>
+                      <span class="caption">{{ $p.viaLabel }}</span>
+                    </a>
+                  </li>
+                  {{- end }}
+                </ul>
+              </li>
+              {{- end }}
+            </ul>
+            {{- else if eq .kind "role" }}
+            <div class="plat-roles">
+              <div class="plat-role-picks" role="group" aria-label="Highlight platforms by role">
+                {{- range $i, $r := $data.roles }}
+                <button type="button" class="plat-role{{ if eq $i 0 }} is-on{{ end }}" data-plat-role="{{ $r.id }}" aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $r.name }}</button>
+                {{- end }}
+              </div>
+              <ul class="plat-row plat-row-roles">
+                {{- range $data.platforms }}
+                {{- $p := . -}}
+                {{- $roles := slice -}}
+                {{- range $data.roles }}{{ if in .platforms $p.id }}{{ $roles = $roles | append .id }}{{ end }}{{ end }}
+                <li data-plat-id="{{ $p.id }}" data-plat-roles="{{ delimit $roles " " }}">
+                  <a class="platform" href="{{ $p.docs | relURL }}">
+                    <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
+                    <span class="ui">{{ $p.name }}</span>
+                    <span class="caption">{{ $p.viaLabel }}</span>
+                  </a>
+                </li>
+                {{- end }}
+              </ul>
+            </div>
+            {{- else if eq .kind "constellation" }}
+            <div class="constellation" data-constellation>
+              <p class="constellation-count">
+                <span class="constellation-num" data-count-platforms>{{ $counts.platforms }}</span>
+                <span class="constellation-label">supported platforms</span>
+                <span class="caption muted"><span data-count-soon>{{ $counts.comingSoon }}</span> more on the way · <span data-count-activities>{{ $counts.activities }}</span> actions</span>
+              </p>
+              <ul class="constellation-orbit" data-constellation-total="{{ len $data.platforms }}">
+                {{- range $i, $p := $data.platforms }}
+                <li class="constellation-item{{ if eq $p.status "coming-soon" }} is-soon{{ end }}" data-n="{{ $i }}">
+                  <a class="platform" href="{{ $p.docs | relURL }}">
+                    <span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="" width="28" height="28"></span>
+                    <span class="visually-hidden">{{ $p.name }}{{ if eq $p.status "coming-soon" }} (coming soon){{ end }}</span>
+                  </a>
+                </li>
+                {{- end }}
+              </ul>
+            </div>
+            {{- end }}
+          </div>
+          {{- end }}
+
+          <p class="section-body plat-catalog"><a class="button button-secondary" href="{{ "integrations/" | relURL }}">See the full integrations catalog</a></p>
+          {{- /* Keep the published fan-title anchor. The live section is the
+            treatments above; the old fan graphic is the Reveille motif. */}}
+          <p class="visually-hidden" id="fan-title">One message fanning out to every platform</p>
+        </div>
+      </section>

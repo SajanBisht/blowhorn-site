@@ -22,6 +22,13 @@ PAGES = {
     "index.html": [
         "glyph-menubar", "glyph-terminal", "glyph-clock", "glyph-extension",
         "glyph-download", "main", "hero-title", "hero-art-title", "fan-title", "platforms", "platforms-title", "how",
+        "how-title", "trust", "trust-title", "download", "download-title", "pricing", "pricing-title",
+    ],
+    "integrations/index.html": [
+        "main", "integrations-title",
+    ],
+    "home-reveille/index.html": [
+        "main", "hero-title", "hero-art-title", "fan-title", "platforms", "platforms-title", "how",
         "how-title", "trust", "trust-title", "download", "download-title",
     ],
     "download/index.html": [

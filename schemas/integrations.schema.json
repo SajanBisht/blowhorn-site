@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blowhorn.ai/schemas/integrations.schema.json",
+  "title": "Integrations catalog and platforms section",
+  "description": "data/integrations.json: every network on the map, the homepage platforms-section treatments, and the copy counts (supported platforms and actions) are derived from. Hyphens never em dashes. GitHub must set posts to false.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["headline", "lede", "catalogPath", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "headline": {
+      "description": "Platforms section h2. Stronger than the old Say it once line, which is not a hero.",
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 80,
+      "not": { "pattern": "\u2014" }
+    },
+    "lede": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 400,
+      "not": { "pattern": "\u2014" }
+    },
+    "catalogPath": {
+      "type": "string",
+      "const": "/integrations/"
+    },
+    "defaultTreatment": { "$ref": "#/definitions/treatmentId" },
+    "treatments": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/treatment" }
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/category" }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/definitions/role" }
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/platform" }
+    }
+  },
+  "definitions": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 40
+    },
+    "treatmentId": {
+      "type": "string",
+      "enum": ["category", "role", "constellation"]
+    },
+    "copy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "not": { "pattern": "\u2014" }
+    },
+    "treatment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind"],
+      "properties": {
+        "id": { "$ref": "#/definitions/treatmentId" },
+        "label": { "$ref": "#/definitions/copy" },
+        "kind": { "$ref": "#/definitions/treatmentId" },
+        "note": {
+          "type": "string",
+          "not": { "pattern": "\u2014" }
+        }
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "summary", "platforms"],
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/copy" },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "not": { "pattern": "\u2014" }
+        },
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/id" }
+        }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "page", "platforms"],
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/copy" },
+        "page": {
+          "type": "string",
+          "pattern": "^/for/[a-z0-9-]+/$"
+        },
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/id" }
+        }
+      }
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "status", "via", "viaLabel", "posts", "logo", "docs", "actions"],
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/copy" },
+        "status": {
+          "type": "string",
+          "enum": ["supported", "coming-soon"]
+        },
+        "via": {
+          "type": "string",
+          "enum": ["chrome", "api"]
+        },
+        "viaLabel": { "$ref": "#/definitions/copy" },
+        "posts": {
+          "description": "true when Blowhorn can publish a post or message as you. GitHub is false: reactions on issues only.",
+          "type": "boolean"
+        },
+        "logo": {
+          "type": "string",
+          "pattern": "^assets/platforms/.+"
+        },
+        "docs": {
+          "type": "string",
+          "pattern": "^/docs/reference/platforms/[a-z0-9-]+/$"
+        },
+        "exampleLink": {
+          "type": "string",
+          "maxLength": 80,
+          "not": { "pattern": "\u2014" }
+        },
+        "demoMeta": {
+          "type": "string",
+          "maxLength": 80,
+          "not": { "pattern": "\u2014" }
+        },
+        "actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "not": { "pattern": "\u2014" }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "id": { "const": "github" } },
+            "required": ["id"]
+          },
+          "then": {
+            "properties": { "posts": { "const": false } },
+            "required": ["posts"]
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "supported" } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "actions": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

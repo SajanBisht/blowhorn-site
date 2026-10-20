@@ -22,8 +22,9 @@ Production rotates these five, one per UTC day:
 4. `sound-wave`: "Real voices make a sound wave."
 5. `own-your-voice`: "Own your voice. Keep your accounts."
 
-"Say it once. Say it everywhere." stays below the fold in the Platforms section.
-It is not a hero.
+The platforms section headline lives in `data/integrations.json` (`headline`).
+It is not a hero. The old line "Say it once. Say it everywhere." stays on the
+Reveille homepage only.
 
 At page load each visitor gets one of
 

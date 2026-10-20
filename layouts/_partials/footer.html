@@ -14,10 +14,8 @@
           <div class="footer-top">
             <div class="footer-brand">
               <a class="footer-logo" href="{{ "" | relURL }}" aria-label="Blowhorn home">
-                <picture>
-                  <source media="(prefers-color-scheme: dark)" srcset="{{ "assets/brand/logo/layer5-blowhorn-lockup-on-dark.svg" | relURL }}">
-                  <img src="{{ "assets/brand/logo/layer5-blowhorn-lockup.svg" | relURL }}" alt="Layer5 Blowhorn" width="220" height="60">
-                </picture>
+                <img class="logo-on-light" src="{{ "assets/brand/logo/layer5-blowhorn-lockup.svg" | relURL }}" alt="Layer5 Blowhorn" width="220" height="60">
+                <img class="logo-on-dark" src="{{ "assets/brand/logo/layer5-blowhorn-lockup-on-dark.svg" | relURL }}" alt="" width="220" height="60">
               </a>
               <p class="footer-tagline">One message out, many ears in.</p>
             </div>
