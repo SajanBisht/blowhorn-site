@@ -14,11 +14,9 @@ layer5io/... repository links and file names pass.
 - "Layer5 Cloud" or "Blowhorn Cloud" (any case) fails on every page,
   footer included.
 - "Layer5" or "Layer 5" (as written, capital L) fails outside a <footer>
-  element and outside the legal pages.
-
-PENDING lists pages whose source is generated elsewhere and is being
-fixed there; their hits are printed as pending, not failures. Remove an
-entry once its fix is synced.
+  element and outside the legal pages. Literal command samples in <code>
+  or <pre> (an org or subject named Layer5) pass this rule, not the one
+  above.
 
 Usage: check_naming.py [BUILD_DIR]
 """
@@ -34,9 +32,6 @@ CLOUD_RE = re.compile(r"\b(?:Layer\s?5|Blowhorn)\s+Cloud\b", re.I)
 COMPANY_RE = re.compile(r"\bLayer\s?5\b")
 # Pages that may name Layer5 (the company). Paths relative to BUILD_DIR.
 COMPANY_ALLOWED = ("legal/index.html", "legal/privacy/index.html", "legal/terms/index.html")
-# Generated CLI reference pages: the CLI strings are being renamed in
-# leecalcote/blowhorn by Blowhorn Bot; the next docs sync clears these.
-PENDING = ("docs/reference/cli/",)
 TEXT_ATTRS = {"alt", "title", "aria-label", "placeholder"}
 META_NAMES = {"description", "og:title", "og:description", "og:site_name",
               "twitter:title", "twitter:description", "application-name"}
@@ -45,12 +40,16 @@ VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
 
 
 class Reader(HTMLParser):
-    """Collect (text, in_footer) pairs a reader of the page sees."""
+    """Collect (text, company_ok) pairs a reader of the page sees.
+
+    company_ok is true in a <footer>, and for text in <code> or <pre>.
+    """
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.stack: list[str] = []
         self.footer = 0
+        self.code = 0
         self.skip = 0
         self.out: list[tuple[str, bool]] = []
 
@@ -68,6 +67,8 @@ class Reader(HTMLParser):
         self.stack.append(tag)
         if tag == "footer":
             self.footer += 1
+        if tag in ("code", "pre"):
+            self.code += 1
         if tag in ("script", "style", "template"):
             self.skip += 1
 
@@ -83,6 +84,8 @@ class Reader(HTMLParser):
             t = self.stack.pop()
             if t == "footer":
                 self.footer -= 1
+            if t in ("code", "pre"):
+                self.code -= 1
             if t in ("script", "style", "template"):
                 self.skip -= 1
             if t == tag:
@@ -90,7 +93,7 @@ class Reader(HTMLParser):
 
     def handle_data(self, data):
         if not self.skip and data.strip():
-            self.out.append((data, self.footer > 0))
+            self.out.append((data, self.footer > 0 or self.code > 0))
 
 
 def page_problems(rel: str, html: str) -> list[str]:
@@ -99,11 +102,11 @@ def page_problems(rel: str, html: str) -> list[str]:
     reader.close()
     found: list[str] = []
     company_ok = rel in COMPANY_ALLOWED
-    for text, in_footer in reader.out:
+    for text, company_here in reader.out:
         text = " ".join(text.split())
         for m in CLOUD_RE.finditer(text):
             found.append(f'{rel}: says "{m.group(0)}" (say Blowhorn): ...{snippet(text, m)}...')
-        if company_ok or in_footer:
+        if company_ok or company_here:
             continue
         for m in COMPANY_RE.finditer(text):
             if CLOUD_RE.match(text, m.start()):
@@ -116,16 +119,14 @@ def snippet(text: str, m: re.Match) -> str:
     return text[max(0, m.start() - 40): m.end() + 40]
 
 
-def check(build: Path) -> tuple[list[str], list[str]]:
+def check(build: Path) -> list[str]:
     failures: list[str] = []
-    pending: list[str] = []
     for path in sorted(build.rglob("*.html")):
         rel = path.relative_to(build).as_posix()
         if rel.startswith("internal/"):
             continue
-        problems = page_problems(rel, path.read_text(encoding="utf-8", errors="replace"))
-        (pending if rel.startswith(PENDING) else failures).extend(problems)
-    return failures, pending
+        failures.extend(page_problems(rel, path.read_text(encoding="utf-8", errors="replace")))
+    return failures
 
 
 def main(argv: list[str]) -> int:
@@ -133,15 +134,13 @@ def main(argv: list[str]) -> int:
     if not build.is_dir():
         print(f"check_naming: no build at {build}; run make build-production first", file=sys.stderr)
         return 2
-    failures, pending = check(build)
-    for line in pending:
-        print(f"check_naming: pending upstream fix: {line}")
+    failures = check(build)
     for line in failures:
         print(f"check_naming: {line}", file=sys.stderr)
     if failures:
         print(f"check_naming: {len(failures)} naming problem(s). Users see Blowhorn (sign in at cloud.blowhorn.ai); Layer5 only in the footer and legal pages.", file=sys.stderr)
         return 1
-    print(f"check_naming: ok ({len(pending)} pending in {', '.join(PENDING)})")
+    print("check_naming: ok")
     return 0
 
 
