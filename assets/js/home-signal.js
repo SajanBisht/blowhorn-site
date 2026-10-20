@@ -124,6 +124,12 @@
 
   document.querySelectorAll("[data-hero-demo]").forEach(bindDemo);
 
+  function defaultPlatTab(section, tabs) {
+    var on = section.querySelector("[data-plat-tab].is-on");
+    if (on) return on.getAttribute("data-plat-tab");
+    return tabs.length ? tabs[0].getAttribute("data-plat-tab") : "";
+  }
+
   function selectTab(section, id) {
     section.querySelectorAll("[data-plat-tab]").forEach(function (tab) {
       var on = tab.getAttribute("data-plat-tab") === id;
@@ -139,10 +145,12 @@
   }
 
   function bindPlatforms(section) {
+    section.classList.add("is-plat-enhanced");
     var tabs = Array.prototype.slice.call(section.querySelectorAll("[data-plat-tab]"));
     tabs.forEach(function (tab, index) {
       tab.tabIndex = tab.classList.contains("is-on") ? 0 : -1;
-      tab.addEventListener("click", function () {
+      tab.addEventListener("click", function (ev) {
+        ev.preventDefault();
         selectTab(section, tab.getAttribute("data-plat-tab"));
       });
       tab.addEventListener("keydown", function (ev) {
@@ -187,6 +195,18 @@
         item.style.setProperty("--n", n || String(i));
       });
     });
+
+    var hash = (window.location.hash || "").replace(/^#/, "");
+    var initial = defaultPlatTab(section, tabs);
+    if (hash.indexOf("plat-panel-") === 0) {
+      initial = hash.slice("plat-panel-".length);
+    } else if (hash.indexOf("action-") === 0) {
+      initial = "action";
+    }
+    if (!initial || !section.querySelector('[data-plat-panel="' + initial + '"]')) {
+      initial = defaultPlatTab(section, tabs);
+    }
+    selectTab(section, initial);
 
     section.querySelectorAll("[data-constellation]").forEach(function (wrap) {
       var btn = wrap.querySelector("[data-constellation-pause]");

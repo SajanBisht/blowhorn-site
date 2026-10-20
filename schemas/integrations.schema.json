@@ -5,7 +5,7 @@
   "description": "data/integrations.json: homepage platforms-section treatments and the map of networks. Supported name, logo and actions come from data/platforms/<id>.yaml via hugo.Data.platforms. Coming-soon rows keep their own name and logo. Hyphens never em dashes. GitHub must set posts to false.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["headline", "lede", "catalogPath", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
+  "required": ["headline", "lede", "major", "catalogPath", "defaultTreatment", "treatments", "categories", "roles", "platforms"],
   "properties": {
     "$schema": { "type": "string" },
     "headline": {
@@ -21,6 +21,7 @@
       "maxLength": 400,
       "not": { "pattern": "\u2014" }
     },
+    "major": { "$ref": "#/definitions/major" },
     "catalogPath": {
       "type": "string",
       "const": "/integrations/"
@@ -28,8 +29,8 @@
     "defaultTreatment": { "$ref": "#/definitions/treatmentId" },
     "treatments": {
       "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
+      "minItems": 4,
+      "maxItems": 4,
       "uniqueItems": true,
       "items": { "$ref": "#/definitions/treatment" }
     },
@@ -59,13 +60,29 @@
     },
     "treatmentId": {
       "type": "string",
-      "enum": ["category", "role", "constellation"]
+      "enum": ["category", "role", "constellation", "action"]
     },
     "copy": {
       "type": "string",
       "minLength": 1,
       "maxLength": 160,
       "not": { "pattern": "\u2014" }
+    },
+    "major": {
+      "description": "Signal home Major card. supporting takes one %s, filled with the first supported platform names from data/platforms, in integrations.json order.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headline", "supporting"],
+      "properties": {
+        "headline": { "$ref": "#/definitions/copy" },
+        "supporting": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[^%]*%s[^%]*$",
+          "not": { "pattern": "\u2014" }
+        }
+      }
     },
     "treatment": {
       "type": "object",

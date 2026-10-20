@@ -6,14 +6,22 @@ content/en/_index.md front matter theme: when set. Reveille is today's look,
 previewable at /home-reveille/ (front matter theme: reveille) and via ?theme=,
 which swaps the token layer only, not homepage layout.
 
+A theme is tokens, CSS and layout partials that read the same data and
+content. Reveille copy is the site's copy. The only approved per-theme
+content file is content/en/home-reveille.md (today's homepage, kept as a
+preview). A new home-signal.md or other theme-named page fails this check.
+
 Activity and platform counts in copy must match supported rows in
 data/integrations.json plus actions in data/platforms/<id>.yaml, and each
-figure must be wrapped in a data-count-* span.
+figure must be wrapped in a data-count-* span. The Signal platforms section
+must ship JS that calls selectTab with defaultPlatTab when the URL has no
+matching hash, so JS enhancement cannot leave all four panels stacked.
 
 Usage: check_theme.py BUILD_DIR
 """
 
 import json
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -21,6 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 COUNT_ATTRS = ("platforms", "activities", "soon")
+APPROVED_THEME_CONTENT = frozenset({"content/en/home-reveille.md"})
 
 
 def front_matter_theme(path: Path):
@@ -43,13 +52,49 @@ def expected_home_theme():
     return override or themes["default"]
 
 
-def yaml_action_names(platform_id: str):
+def yaml_action_ids(platform_id: str):
     yaml_path = ROOT / "data" / "platforms" / f"{platform_id}.yaml"
     return [
-        line.split("name:", 1)[1].strip()
+        line.split("id:", 1)[1].strip()
         for line in yaml_path.read_text(encoding="utf-8").splitlines()
-        if line.startswith("  - name:")
+        if line.startswith("  - id:")
     ]
+
+
+def theme_ids():
+    data = json.loads((ROOT / "data/themes.json").read_text(encoding="utf-8"))
+    return [theme["id"] for theme in data["themes"]]
+
+
+def platforms_js_selects_default(src: str) -> bool:
+    """True when bindPlatforms always calls selectTab, including a no-hash default."""
+    compact = re.sub(r"\s+", "", src)
+    return (
+        "functiondefaultPlatTab(" in compact
+        and "selectTab(section,initial)" in compact
+    )
+
+
+def extra_theme_content(root=ROOT):
+    """Content files named for a theme, other than the approved Reveille preview."""
+    ids = theme_ids()
+    extras = []
+    content = root / "content"
+    if not content.is_dir():
+        return extras
+    for path in content.rglob("*"):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(root).as_posix()
+        if rel in APPROVED_THEME_CONTENT:
+            continue
+        stem = path.stem
+        parts = path.relative_to(content).parts
+        for tid in ids:
+            if stem == f"home-{tid}" or stem.endswith(f"-{tid}") or tid in parts:
+                extras.append(rel)
+                break
+    return extras
 
 
 def counts():
@@ -60,7 +105,7 @@ def counts():
     for item in data["platforms"]:
         if item["status"] == "supported":
             platforms += 1
-            activities += len(yaml_action_names(item["id"]))
+            activities += len(yaml_action_ids(item["id"]))
         elif item["status"] == "coming-soon":
             soon += 1
     return platforms, activities, soon
@@ -139,6 +184,11 @@ def main(root: Path) -> int:
     problems = []
     want_theme = expected_home_theme()
     want_counts = counts()
+    for rel in extra_theme_content():
+        problems.append(
+            f"theme-specific content file {rel}; themes differ by tokens, "
+            "CSS and layout partials only. Approved exception: content/en/home-reveille.md"
+        )
 
     index = root / "index.html"
     if not index.is_file():
@@ -157,6 +207,18 @@ def main(root: Path) -> int:
             problems.append("/index.html demo posts to GitHub")
         if ">Say it once. Say it everywhere.<" in html:
             problems.append("/index.html still uses the old platforms headline")
+        if "Write it once. Deploy to every front." not in html:
+            problems.append("/index.html lost the Major card headline")
+        if "Tab after tab. One post. Somebody call a medic." in html:
+            problems.append("/index.html still uses the old Major card line")
+        panels = html.count('data-plat-panel="')
+        if panels != 4:
+            problems.append(f"/index.html has {panels} platform panels, want 4")
+        js_src = (ROOT / "assets/js/home-signal.js").read_text(encoding="utf-8")
+        if not platforms_js_selects_default(js_src):
+            problems.append(
+                "assets/js/home-signal.js must call selectTab with defaultPlatTab when the hash is empty"
+            )
 
     reveille = root / "home-reveille/index.html"
     if not reveille.is_file():
@@ -180,6 +242,8 @@ def main(root: Path) -> int:
         page = parse(catalog)
         if "integrations-title" not in page.ids:
             problems.append("/integrations/index.html#integrations-title is gone")
+        if "action-filter" not in page.ids:
+            problems.append("/integrations/index.html#action-filter is gone")
         check_counts(page, want_counts, "/integrations/index.html", problems)
 
     for item in problems:
