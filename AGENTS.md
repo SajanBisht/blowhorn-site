@@ -29,6 +29,7 @@ treatments come from `data/integrations.json` plus `data/platforms/*.yaml`.
 The action vocabulary is `data/actions.json`; YAML rows use those ids.
 Examples live in `data/action_examples.json` ([docs/action-examples.md](docs/action-examples.md)).
 Platform docs pages render actions through `{{< supported-actions "id" >}}` (`layouts/_partials/supported-actions.html`); `make check-platform-docs` fails a missing page, a skipped table, or a hand-written action list.
+The central action matrix (`/integrations/actions/`, `layouts/action-matrix.html`) and the docs all-actions table (`{{< all-actions >}}`, `layouts/_partials/action-table.html`) both render from `layouts/_partials/action-matrix.html`: rows are `data/actions.json` (grouped by its `groups`), columns are `data/integrations.json` platforms, page copy is `data/integrations.json` `matrix`. `make check-action-matrix` fails drift or a dead `#action-<id>` link.
 The Signal hero demo is `data/hero_demo.json`.
 
 Role pages (`/for/<slug>/`) and use-case pages (`/use-cases/<slug>/`) are

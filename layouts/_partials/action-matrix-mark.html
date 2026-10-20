@@ -1,0 +1,13 @@
+{{- /* Status mark for the action matrix and its legend. Input: status id
+  (supported, coming-soon, none). Shapes differ, not only colour. Colours
+  are theme tokens through the .mark-* classes in assets/css/action-matrix.css. */ -}}
+{{- $s := . -}}
+{{- if eq $s "supported" -}}
+<svg class="mx-mark mx-yes" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path d="M5.8 10.3l2.7 2.7 5.7-5.9"/></svg>
+{{- else if eq $s "coming-soon" -}}
+<svg class="mx-mark mx-soon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="M10 5.8V10l2.8 1.8"/></svg>
+{{- else if eq $s "none" -}}
+<svg class="mx-mark mx-none" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6.5 10h7"/></svg>
+{{- else -}}
+{{- errorf "action-matrix-mark: unknown status %q" $s -}}
+{{- end -}}

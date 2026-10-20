@@ -126,6 +126,6 @@
           </div>
           {{- end }}
 
-          <p class="section-body plat-catalog"><a class="button button-secondary" href="{{ (strings.TrimPrefix "/" $data.catalogPath) | relURL }}">See the full integrations catalog</a></p>
+          <p class="section-body plat-catalog"><a class="button button-secondary" href="{{ (strings.TrimPrefix "/" $data.catalogPath) | relURL }}">See the full integrations catalog</a>{{ with $data.matrix }} <a class="button button-secondary" href="{{ (strings.TrimPrefix "/" .path) | relURL }}" data-matrix-link>{{ .cta }}</a>{{ end }}</p>
         </div>
       </section>

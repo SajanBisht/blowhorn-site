@@ -41,11 +41,16 @@ include .github/build/Makefile.show-help.mk
 #   check-urls         Production build, then fail on a lost public URL or anchor.
 #   site-check         Production build once, then validate-html, check-links,
 #                      check-third-party, check-urls, check-no-internal,
-#                      check-theme and check-platform-docs (site.yml).
+#                      check-theme, check-platform-docs and
+#                      check-action-matrix (site.yml).
 #   check-no-internal  Fail if the production build contains /internal/.
 #   check-platform-docs Production build, then fail if a supported platform
 #                      lacks a docs page, a page skips the shared actions
 #                      table, or a docs page carries a hand-written action list.
+#   check-action-matrix Production build, then fail if the site action matrix
+#                      (/integrations/actions/) or the docs all-actions table
+#                      drifts from data/actions.json plus data/platforms/, or
+#                      links to a dead page or anchor.
 #   site-internal      Internal build (hugo --environment internal, mounting
 #                      BLOWHORN_DIR, default ../blowhorn) into public-internal/.
 #   preview, preview-internal
@@ -188,6 +193,7 @@ check-urls: build-production
 ## Validate every data file that has a JSON Schema in schemas/ (data/hero.json, data/roles.json, data/use_cases.json, data/themes.json, data/integrations.json, data/hero_demo.json, data/actions.json, data/action_examples.json).
 ## Role and use-case schemas $ref shared line/text/card types; ajv -r loads that file.
 ## check_action_examples.py also requires every supported YAML action to have an example.
+## check_action_matrix.py --source checks action groups, matrix statuses and platform order.
 check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero.schema.json -d data/hero.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/roles.schema.json -r schemas/defs/cast-page.schema.json -d data/roles.json
@@ -198,6 +204,7 @@ check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/actions.schema.json -d data/actions.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/action_examples.schema.json -d data/action_examples.json
 	python3 .github/scripts/check_action_examples.py
+	python3 .github/scripts/check_action_matrix.py --source
 
 ## Production build, then fail if / is not the home-page theme (themes.json default plus _index.md front matter), the Reveille preview lost today's look, or a theme-specific content file appeared outside content/en/home-reveille.md.
 check-theme: build-production
@@ -207,8 +214,12 @@ check-theme: build-production
 check-platform-docs: build-production
 	python3 .github/scripts/check_platform_docs.py $(BUILD_DIR)
 
+## Production build, then fail if the action matrix page or the docs all-actions table drifts from data/actions.json and data/platforms/, links to a dead page or anchor, or loses its links from / and /integrations/.
+check-action-matrix: build-production
+	python3 .github/scripts/check_action_matrix.py $(BUILD_DIR)
+
 ## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
-site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme check-platform-docs
+site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme check-platform-docs check-action-matrix
 
 ## Build for production, then fail if the /internal/ section leaked into it.
 check-no-internal: build-production
@@ -331,6 +342,7 @@ clean:
 	check-schemas \
 	check-theme \
 	check-platform-docs \
+	check-action-matrix \
 	setup \
 	build \
 	build-preview \
