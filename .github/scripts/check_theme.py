@@ -214,16 +214,10 @@ def main(root: Path) -> int:
         panels = html.count('data-plat-panel="')
         if panels != 4:
             problems.append(f"/index.html has {panels} platform panels, want 4")
-        js_ok = False
-        js_dir = root / "js"
-        if js_dir.is_dir():
-            for path in js_dir.glob("home-signal*.js"):
-                if platforms_js_selects_default(path.read_text(encoding="utf-8")):
-                    js_ok = True
-                    break
-        if not js_ok:
+        js_src = (ROOT / "assets/js/home-signal.js").read_text(encoding="utf-8")
+        if not platforms_js_selects_default(js_src):
             problems.append(
-                "/js/home-signal*.js must call selectTab with defaultPlatTab when the hash is empty"
+                "assets/js/home-signal.js must call selectTab with defaultPlatTab when the hash is empty"
             )
 
     reveille = root / "home-reveille/index.html"
