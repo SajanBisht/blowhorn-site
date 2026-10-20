@@ -1,12 +1,16 @@
 {{- /* Machines design 3, One Thunder: teammates and machines wired into the
   Major's one call. Copy and layout from the Figma concept in
-  data/machines.json (id "one-thunder"). */ -}}
+  data/machines.json (id "one-thunder"). Animation in assets/js/machines.js:
+  voice lines flow into the Major, the rings leave the bullhorn and each
+  platform tile lights as the call lands. The logos themselves never move
+  (Bluesky's and X's brand rules). */ -}}
 <div class="machines-panel" data-machines-only="one-thunder">
   <div class="machines-actions machines-actions-end">
     <a class="button button-primary" href="{{ "download/" | relURL }}">Enlist a machine</a>
     <a class="button button-secondary" href="{{ (site.GetPage "/docs/how-to/publish/amplify-a-post").RelPermalink }}">How amplification works</a>
   </div>
   <div class="machines-card machines-thunder">
+    <svg class="machines-voice-wires" aria-hidden="true" focusable="false"></svg>
     <div class="machines-thunder-people">
       <span class="machines-voice is-mate"><img src="{{ "assets/brand/cast/drill-instructor-base.webp" | relURL }}" alt="" width="480" height="270" loading="lazy"><span class="machines-unit-label"><span class="machines-dot is-gold" aria-hidden="true"></span>Ana</span></span>
       <span class="machines-voice is-mate"><img src="{{ "assets/brand/cast/general-base.webp" | relURL }}" alt="" width="480" height="270" loading="lazy"><span class="machines-unit-label"><span class="machines-dot is-gold" aria-hidden="true"></span>You</span></span>
