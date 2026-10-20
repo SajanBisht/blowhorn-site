@@ -26,6 +26,8 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
+from check_action_examples import yaml_action_ids
+
 ROOT = Path(__file__).resolve().parents[2]
 SHORTCODE_RE = re.compile(r'\{\{<\s*supported-actions\s+"([^"]+)"\s*>\}\}')
 HEADING_RE = re.compile(r"^## Supported actions\s*$", re.M)
@@ -116,8 +118,9 @@ class ActionsTableParser(HTMLParser):
             self._th_text.append(data)
 
 
-def check_action_links(docs: str, html: str, supported: bool) -> list[str]:
-    """Problems with the table's columns and its #action-<id> links."""
+def check_action_links(docs: str, html: str, action_ids: list[str] | None) -> list[str]:
+    """Problems with the table's columns and its #action-<id> links.
+    action_ids: the platform's YAML action ids in order, or None (coming soon)."""
     problems: list[str] = []
     page = ActionsTableParser()
     page.feed(html)
@@ -144,12 +147,21 @@ def check_action_links(docs: str, html: str, supported: bool) -> list[str]:
     for target in sorted(set(page.action_links)):
         if target not in page.ids:
             problems.append(f"{docs} links to #{target} but no element has that id")
-    if supported:
-        for name, *links in page.rows:
+    if action_ids is not None:
+        if len(page.rows) != len(action_ids):
+            problems.append(
+                f"{docs} table has {len(page.rows)} action rows, want {len(action_ids)} from its YAML"
+            )
+        for (name, *links), action_id in zip(page.rows, action_ids):
             anchors = [h for h in links if h.startswith(ACTION_ANCHOR_PREFIX)]
-            if len(anchors) != 1:
+            want = f"{ACTION_ANCHOR_PREFIX}{action_id}"
+            if not anchors:
                 problems.append(
                     f"{docs} action {name!r} does not link to its #action-<id> usage section"
+                )
+            elif anchors != [want]:
+                problems.append(
+                    f"{docs} action {name!r} links to {', '.join(anchors)}, want {want}"
                 )
     return problems
 
@@ -311,9 +323,8 @@ def check_built(build_dir: Path, root: Path) -> list[str]:
             problems.append(
                 f"{docs} has {tables} supported-actions tables, want 1"
             )
-        problems.extend(
-            check_action_links(docs, html, item["status"] == "supported")
-        )
+        ids = yaml_action_ids(item["id"], root) if item["status"] == "supported" else None
+        problems.extend(check_action_links(docs, html, ids))
         if EM_DASH in html:
             problems.append(f"{docs} contains an em dash")
         if item["status"] == "supported" and 'id="examples"' not in html:

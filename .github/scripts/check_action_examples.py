@@ -24,8 +24,8 @@ HEADING_RE = re.compile(r"^## blowhorn (.+)$", re.M)
 EM_DASH = "\u2014"
 
 
-def yaml_action_ids(platform_id: str) -> list[str]:
-    path = ROOT / "data" / "platforms" / f"{platform_id}.yaml"
+def yaml_action_ids(platform_id: str, root: Path = ROOT) -> list[str]:
+    path = root / "data" / "platforms" / f"{platform_id}.yaml"
     return [
         line.split("id:", 1)[1].strip()
         for line in path.read_text(encoding="utf-8").splitlines()

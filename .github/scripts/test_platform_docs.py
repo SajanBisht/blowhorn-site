@@ -155,15 +155,21 @@ class PlatformDocsCheckTest(unittest.TestCase):
         data = json.loads((self.tmp / "data/integrations.json").read_text(encoding="utf-8"))
         for item in data["platforms"]:
             if item["status"] == "supported":
-                body = row if row is not None else (
-                    '<tr><th scope="row"><a href="#action-post">Post</a></th>'
-                    '<td data-label="What it does">Posts.</td>'
+                ids = check.yaml_action_ids(item["id"], self.tmp)
+                rows = "".join(
+                    f'<tr><th scope="row"><a href="#action-{a}">{a.title()}</a></th>'
+                    '<td data-label="What it does">Does it.</td>'
                     '<td data-label="Limits / notes">None</td></tr>'
+                    for a in ids
                 )
-                after = examples if examples is not None else (
-                    '<h2 id="examples">Examples</h2>'
-                    '<section class="action-example" id="action-post"><h3>Post</h3></section>'
+                # An override replaces the first row (post on most platforms).
+                body = rows if row is None else row + rows.split("</tr>", 1)[1]
+                after = '<h2 id="examples">Examples</h2>' + "".join(
+                    f'<section class="action-example" id="action-{a}"><h3>{a}</h3></section>'
+                    for a in ids
                 )
+                if examples is not None:
+                    after = examples
             else:
                 body = (
                     '<tr><th scope="row">None yet</th>'
@@ -220,6 +226,18 @@ class PlatformDocsCheckTest(unittest.TestCase):
         problems = check.check_built(build, self.tmp)
         self.assertTrue(
             any("'Post' does not link to its #action-<id>" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_link_to_another_action_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-amplify">Post</a></th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("links to #action-amplify, want #action-post" in p for p in problems),
             problems,
         )
 
