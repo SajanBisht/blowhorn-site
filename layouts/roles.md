@@ -1,1 +1,1 @@
-{{- partial "cast-index-md.html" (dict "page" . "kind" "role") -}}
+{{- partial "cast-index-md.md" (dict "page" . "kind" "role") -}}

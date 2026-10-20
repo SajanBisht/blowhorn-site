@@ -1,6 +1,6 @@
 {{- /* One /for/<slug>/ page per role in data/roles.json (schema:
   schemas/roles.schema.json). The copy lives in the data file; layouts/role.html
-  renders it. lastmod comes from git (enableGitInfo). */ -}}
+  renders it. */ -}}
 {{- range site.Data.roles.roles }}
   {{- $.AddPage (dict
       "kind" "page"
