@@ -35,14 +35,14 @@
         <div class="wrap">
           <div class="section-head">
             <p class="label">How it works</p>
-            <h2 id="how-title" class="display">You give the orders. Your Macs carry them out.</h2>
+            <h2 id="how-title" class="display">You give the orders. Your machines carry them out.</h2>
             <p class="body-lg muted">Your Blowhorn account keeps your queue, profiles and history in sync. The work itself happens in the desktop app on machines you own.</p>
           </div>
           <ol class="grid grid-3 section-body signal-steps">
             <li class="card">
               <p class="label">01</p>
               <h3 class="h3">Write it once</h3>
-              <p>Draft the post in the Mac app, from the Python CLI, or let your agent draft it. Nothing goes out until you approve it.</p>
+              <p>Draft the post in the desktop app, from the Python CLI, or let your agent draft it. Nothing goes out until you approve it.</p>
               {{ partial "code-card.html" (dict "code" "blowhorn post --check-queue --profile all\n" "title" "terminal" "lang" "bash" "prompt" true) }}
             </li>
             <li class="card">
@@ -54,7 +54,7 @@
             <li class="card">
               <p class="label">03</p>
               <h3 class="h3">It goes out as you</h3>
-              <p>Your Mac does the typing and clicking in your own Chrome, at a human pace, signed in as you. Every result lands in Activity.</p>
+              <p>Your machine does the typing and clicking in your own Chrome, at a human pace, signed in as you. Every result lands in Activity.</p>
               {{ partial "code-card.html" (dict "code" "blowhorn report\n" "title" "terminal" "lang" "bash" "prompt" true) }}
             </li>
           </ol>

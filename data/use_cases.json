@@ -54,7 +54,7 @@
         },
         {
           "q": "How does it post?",
-          "a": "LinkedIn, X, Reddit and Hacker News: Blowhorn types in your own Chrome, signed in as you. Slack, Bluesky and GitHub go through their APIs. The Mac app and the Python CLI share the same queue."
+          "a": "LinkedIn, X, Reddit and Hacker News: Blowhorn types in your own Chrome, signed in as you. Slack, Bluesky and GitHub go through their APIs. The desktop app and the Python CLI share the same queue."
         },
         {
           "q": "Will the same post go out twice?",
@@ -136,7 +136,7 @@
           "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you with your Slack session, linked through the Blowhorn extension, or a Slack token you add. Either one is kept in your Blowhorn account."
         },
         {
-          "q": "Does every maintainer need a Mac?",
+          "q": "Does every maintainer need macOS?",
           "a": "Each machine that acts needs macOS 13 or newer today. Windows and Linux: not today. The queue lives in your Blowhorn account."
         }
       ],
@@ -212,11 +212,11 @@
         },
         {
           "q": "Can speakers join from their own laptops?",
-          "a": "You can install Blowhorn on as many of your own Macs as you like. Speakers and teammates joining your account with their own profiles is coming soon."
+          "a": "You can install Blowhorn on as many of your own machines as you like. Speakers and teammates joining your account with their own profiles is coming soon."
         },
         {
           "q": "Windows or Linux at the booth?",
-          "a": "Not today. Blowhorn runs on macOS 13 or newer, as the Mac app or the Python CLI."
+          "a": "Not today. Blowhorn runs on macOS 13 or newer, as the desktop app or the Python CLI."
         }
       ],
       "related": [

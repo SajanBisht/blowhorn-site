@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Users see Blowhorn: never Layer5 Cloud or Blowhorn Cloud, and Layer5 only
-in the footer and on the legal pages.
+in the footer and on the legal pages. Marketing copy says machines, never
+Macs or your Mac.
 
 Run with `make test-scripts` (CI runs it too).
 """
@@ -86,6 +87,41 @@ class TheServiceIsBlowhorn(unittest.TestCase):
         failures = self.build({"docs/reference/cli/auth/index.html": page("<p>Sign in to Layer5 Cloud.</p>")})
         self.assertEqual(len(failures), 1)
         self.assertIn("docs/reference/cli/auth/index.html", failures[0])
+
+    def test_macs_in_marketing_copy_fails(self):
+        failures = self.build({
+            "index.html": page("<h2>You give the orders. Your Macs carry them out.</h2>"),
+            "major/index.html": page("<p>He keeps them on your own Mac.</p>"),
+            "download/index.html": page(head='<meta name="description" content="Install Blowhorn on your Mac">'),
+            "home-oil/index.html": page(footer="<p>Runs on every Mac you own.</p>"),
+            "compare/x/index.html": page('<img src="a.png" alt="Two MACS">'),
+        })
+        self.assertEqual(len(failures), 5)
+        self.assertTrue(all("say machines" in f for f in failures))
+
+    def test_machines_macos_and_the_download_button_pass(self):
+        failures = self.build({"index.html": page(
+            "<h2>You give the orders. Your machines carry them out.</h2>"
+            "<p>One macOS disk image for Apple silicon and Intel.</p>"
+            '<a href="/download/">Download for Mac</a><p>Blowhorn-mac.dmg, Machine 1, machinery</p>')})
+        self.assertEqual(failures, [])
+
+    def test_macs_in_docs_home_reveille_and_code_pass(self):
+        failures = self.build({
+            "docs/reference/requirements/index.html": page("<p>What your Mac needs. Intel Macs work.</p>"),
+            "home-reveille/index.html": page("<h2>Your Macs carry them out.</h2>"),
+            "index.html": page("<pre><code>echo your Mac</code></pre>"),
+        })
+        self.assertEqual(failures, [])
+
+    def test_macs_in_prose_beside_code_still_fails(self):
+        failures = self.build({"index.html": page("<p>Run <code>blowhorn</code> on all your Macs.</p>")})
+        self.assertEqual(len(failures), 1)
+
+    def test_main_fails_on_macs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "index.html").write_text(page("<p>Your Macs share one queue.</p>"), encoding="utf-8")
+            self.assertEqual(check.main(["check_naming.py", tmp]), 1)
 
     def test_main_fails_on_a_problem(self):
         with tempfile.TemporaryDirectory() as tmp:

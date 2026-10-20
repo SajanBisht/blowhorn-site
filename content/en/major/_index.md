@@ -160,9 +160,9 @@ troops:
     id: 'platoon-private'
     img: 'assets/brand/cast/platoon-private-base.webp'
     alt: 'Platoon Private, an orange chicken in a charcoal cap with a coral rank stripe, holding one bayonet rifle'
-    v: 'Backpack full of queued posts, bayonet fixed, never late for formation. He keeps one shared queue across all your Macs, and whichever one is awake picks up the next job. When your post goes out, your teammates'' profiles show up to cheer, with no "hey, can everyone like this?" begging in Slack.'
+    v: 'Backpack full of queued posts, bayonet fixed, never late for formation. He keeps one shared queue across your whole battalion of machines, and whichever one is awake picks up the next job. When your post goes out, your teammates'' profiles show up to cheer, with no "hey, can everyone like this?" begging in Slack.'
     links:
-      - t: "How your Macs share one queue"
+      - t: "How your machines share one queue"
         u: '/docs/explanation/scheduling/'
       - t: "How teammates share one account"
         u: '/docs/explanation/your-data/'
@@ -184,7 +184,7 @@ troops:
     id: 'gi-donkey'
     img: 'assets/brand/cast/gi-donkey-base.webp'
     alt: 'The G.I., a grumpy donkey in a helmet with a coral blanket and padlocked saddlebags'
-    v: 'A grumpy donkey hauling padlocked saddlebags full of your passwords. Other tools ask you to hand your logins to their cloud. He keeps them on your own Mac and doesn''t lend them out, not even to Major. Stubborn? Absolutely. That''s the job description.'
+    v: 'A grumpy donkey hauling padlocked saddlebags full of your passwords. Other tools ask you to hand your logins to their cloud. He keeps them on your own machine and doesn''t lend them out, not even to Major. Stubborn? Absolutely. That''s the job description.'
     links:
       - t: "Where your data lives"
         u: '/docs/explanation/your-data/'

@@ -286,7 +286,7 @@
       "major": "Shipping is half the mission. Telling the world is the other half.",
       "faq": [
         {
-          "q": "Does every maintainer need a Mac?",
+          "q": "Does every maintainer need macOS?",
           "a": "Each machine that acts needs macOS 13 or newer today. Windows and Linux: not today."
         },
         {
