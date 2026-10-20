@@ -7,6 +7,10 @@ weight: 227
 
 Blowhorn works on Reddit in your own signed-in Chrome, through the Blowhorn extension. Sign in to Reddit there once, by hand. The credential Blowhorn checks is `RDDT_USERNAME`.
 
+Posts to the subreddit the row's "Destination" names as `r/<name>`; with
+no subreddit the row is skipped, never guessed. Comments when "Comment
+on" holds a Reddit post or comment address. Amplifies with an upvote.
+
 ## Supported actions
 
 {{< supported-actions "reddit" >}}

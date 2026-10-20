@@ -7,6 +7,13 @@ weight: 228
 
 Blowhorn works on Hacker News in your own Chrome, through the Blowhorn extension, signed in with the username and password in your account (`HN_USERNAME` with `HN_PASSWORD`).
 
+Submits link and text posts and comments from rows. Titles hold 80
+characters; a longer title fails the row rather than truncating,
+because a submission cannot be edited after it lands. At most 2 link
+submissions per profile per UTC day count; only link submissions are
+recorded, so only they count toward the cap. Blowhorn never votes:
+there is nothing to configure and no way to turn it on.
+
 ## Supported actions
 
 {{< supported-actions "hacker-news" >}}
@@ -16,9 +23,8 @@ Blowhorn works on Hacker News in your own Chrome, through the Blowhorn extension
 A link row needs the URL; a text post needs the title and text. A row
 with "Comment on" set becomes a comment on that item. Every submission
 is permanent and every comment lands under your name, so preview each
-new row with `--dry-run` first. Blowhorn never votes: there is nothing
-to configure and no way to turn it on. Submissions HN rate-limits fail
-the row; see [Messages and exit codes](/docs/reference/messages/).
+new row with `--dry-run` first. Submissions HN rate-limits fail the
+row; see [Messages and exit codes](/docs/reference/messages/).
 
 ## Related
 
