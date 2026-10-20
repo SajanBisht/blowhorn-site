@@ -92,6 +92,18 @@ PAGES = {
     "for/agencies/index.html": [
         "main", "role-title", "pains-title", "gets-title", "faq-title", "cta-title",
     ],
+    "use-cases/index.html": [
+        "main", "use-cases-title", "pick-title",
+    ],
+    "use-cases/launch-day/index.html": [
+        "main", "use-case-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "use-cases/open-source-release/index.html": [
+        "main", "use-case-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
+    "use-cases/conference/index.html": [
+        "main", "use-case-title", "pains-title", "gets-title", "faq-title", "cta-title",
+    ],
     "compare/index.html": [
         "main", "matrix-title", "versus-title",
     ],

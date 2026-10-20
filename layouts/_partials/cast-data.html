@@ -1,0 +1,5 @@
+{{- /* Look up one entry in a data collection by slug. Callers: role-data.html
+  and use-case-data.html. Fails the build when the page names nothing. */ -}}
+{{- $match := where .collection "slug" .slug -}}
+{{- if not $match }}{{ errorf "%s: no %s %q for %s" .file .kind .slug .page.Path }}{{ end -}}
+{{- return index $match 0 -}}

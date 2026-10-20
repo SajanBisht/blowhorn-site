@@ -1,0 +1,4 @@
+{{- /* The /use-cases/ index (content/en/use-cases/_index.md): every use-case page. */ -}}
+{{ define "main" }}
+    {{- partial "cast-index.html" (dict "page" . "titleId" "use-cases-title" "pickTitle" "Pick a use case" "listPartial" "use-case-list.html") }}
+{{- end }}

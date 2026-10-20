@@ -17,6 +17,11 @@ The marketing and legal pages do not use Docsy's templates: they render through
 `layouts/legal.html` (each policy at `/legal/<name>/`), `layouts/brand.html` (the Brand page at `/brand/`) and `layouts/404.html` inside
 `layouts/baseof.html`, with the header, footer and icon sprite in `layouts/_partials/`.
 
+Role pages (`/for/<slug>/`) and use-case pages (`/use-cases/<slug>/`) are
+schema-driven from `data/roles.json` and `data/use-cases.json`. They share
+`layouts/_partials/cast-page.html` and the role-page CSS; do not duplicate
+those templates. `make check-schemas` validates both data files.
+
 ## Rules the site holds
 
 - **No third parties beyond the disclosed ones.** The privacy page discloses exactly three:

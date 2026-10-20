@@ -1,0 +1,9 @@
+{{- /* The data/use-cases.json entry for a /use-cases/<slug>/ page (its
+  "use_case" param). Fails the build when the page names no use case. */ -}}
+{{- return partial "cast-data.html" (dict
+    "page" .
+    "slug" .Params.use_case
+    "collection" site.Data.use_cases.use_cases
+    "file" "data/use-cases.json"
+    "kind" "use case"
+  ) -}}

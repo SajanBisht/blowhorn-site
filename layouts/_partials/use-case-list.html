@@ -1,0 +1,2 @@
+{{- /* Cards linking every /use-cases/<slug>/ page, by weight; "current" is skipped. */ -}}
+{{ partial "cast-list.html" (merge . (dict "dataPartial" "use-case-data.html" "labelPrefix" "")) }}

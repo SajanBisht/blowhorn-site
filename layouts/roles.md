@@ -1,6 +1,1 @@
-# {{ .Title }}
-
-> {{ .Params.lead }}
-{{ range .Pages.ByWeight }}{{ $r := partial "role-data.html" . }}
-- [For {{ $r.name }}: {{ $r.headline }}]({{ .Permalink }})
-{{- end }}
+{{- partial "cast-index-md.html" (dict "page" . "dataPartial" "role-data.html" "labelPrefix" "For ") -}}

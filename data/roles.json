@@ -62,6 +62,10 @@
       ],
       "related": [
         {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
+        {
           "label": "Run Blowhorn from your coding agent",
           "page": "/agents"
         },
@@ -140,6 +144,10 @@
       ],
       "related": [
         {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
+        {
           "label": "How amplification works",
           "page": "/docs/how-to/publish/amplify-a-post"
         },
@@ -213,6 +221,10 @@
         }
       ],
       "related": [
+        {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
         {
           "label": "Where your data lives",
           "page": "/docs/explanation/your-data"
@@ -288,6 +300,10 @@
       ],
       "related": [
         {
+          "label": "Open source release",
+          "page": "/use-cases/open-source-release"
+        },
+        {
           "label": "Every platform",
           "page": "/docs/reference/platforms"
         },
@@ -361,6 +377,10 @@
         }
       ],
       "related": [
+        {
+          "label": "Conference",
+          "page": "/use-cases/conference"
+        },
         {
           "label": "Slack",
           "page": "/docs/reference/platforms/slack"

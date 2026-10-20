@@ -55,6 +55,14 @@
                   </ul>
                 </div>
                 <div class="mm-group">
+                  <p class="mm-group-title"><a href="{{ "use-cases/" | relURL }}">By use case</a></p>
+                  <ul class="mm-links">
+                    {{- range sort site.Data.use_cases.use_cases "weight" }}
+                    {{- partial "mm-link.html" (dict "href" (printf "use-cases/%s/" .slug | relURL) "title" .name) }}
+                    {{- end }}
+                  </ul>
+                </div>
+                <div class="mm-group">
                   <p class="mm-group-title"><a href="{{ "ai/" | relURL }}">AI native</a></p>
                   <ul class="mm-links">
                     {{- partial "mm-link.html" (dict "href" ("ai/" | relURL) "title" "AI native" "desc" "Built so agents can run it safely") }}

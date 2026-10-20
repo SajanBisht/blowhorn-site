@@ -1,0 +1,9 @@
+{{- /* Markdown output for a role or use-case index. */ -}}
+{{- $dataPartial := .dataPartial -}}
+{{- $prefix := .labelPrefix | default "" -}}
+# {{ .page.Title }}
+
+> {{ .page.Params.lead }}
+{{ range .page.Pages.ByWeight }}{{ $item := partial $dataPartial . }}
+- [{{ $prefix }}{{ $item.name }}: {{ $item.headline }}]({{ .Permalink }})
+{{- end }}
