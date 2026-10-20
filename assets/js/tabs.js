@@ -43,11 +43,11 @@
     }
   }
 
-  function firstAvailable(tabs) {
-    var i, status;
-    for (i = 0; i < tabs.length; i++) {
-      status = tabs[i].getAttribute("data-tab-status");
-      if (status !== "placeholder") return tabs[i].getAttribute("data-tab");
+  /* The tab layouts/_partials/tabs.html marked is-on: the first available
+     surface, or the template's fallback when every surface is a placeholder. */
+  function markedTab(tabs) {
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].classList.contains("is-on")) return tabs[i].getAttribute("data-tab");
     }
     return tabs.length ? tabs[0].getAttribute("data-tab") : "";
   }
@@ -101,7 +101,7 @@
     if (hash && prefix && hash.indexOf(prefix + "-") === 0) {
       initial = hash.slice(prefix.length + 1);
     }
-    select(root, initial || firstAvailable(tabs), false);
+    select(root, initial || markedTab(tabs), false);
   }
 
   document.querySelectorAll("[data-tabs]").forEach(enhance);

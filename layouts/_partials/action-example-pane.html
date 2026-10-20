@@ -23,7 +23,7 @@
     {{- with $d.cliRef }}{{ $ref = printf `<p class="caption"><a href="%s">CLI reference</a></p>` (. | relURL) }}{{ end -}}
     {{- $html = printf "%s%s%s" $card $note $ref -}}
   {{- else -}}
-    {{- $html = printf `<div class="tabs-soon"><p class="ui">No CLI command for this action</p><p class="caption muted">%s</p></div>` ($d.notes | default "This action has no blowhorn command yet.") -}}
+    {{- $html = printf `<div class="tabs-soon"><p class="ui">Not in the CLI yet</p><p class="caption muted">%s</p></div>` ($d.notes | default "This action has no blowhorn command yet.") -}}
   {{- end -}}
 {{- else if eq $id "rest" -}}
   {{- $html = printf `<div class="tabs-soon"><p class="ui">Coming soon</p><p class="caption muted">%s</p></div>` ($d.notes | default "The Blowhorn REST API for this action is not published yet.") -}}

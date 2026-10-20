@@ -1,5 +1,6 @@
 {
   "$schema": "../schemas/action_examples.schema.json",
+  "defaultSurface": "cli",
   "surfaces": [
     "app",
     "cli",

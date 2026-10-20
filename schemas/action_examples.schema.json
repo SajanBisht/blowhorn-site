@@ -5,7 +5,7 @@
   "description": "data/action_examples.json: one entry per supported platform+action, with App, CLI, REST API, MCP and Skill surfaces. status is available or placeholder. Hyphens never em dashes. Coverage is checked so a supported action cannot drop silently.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["surfaces", "examples"],
+  "required": ["surfaces", "defaultSurface", "examples"],
   "properties": {
     "$schema": { "type": "string" },
     "surfaces": {
@@ -14,6 +14,10 @@
       "minItems": 5,
       "maxItems": 5,
       "items": { "$ref": "#/definitions/surfaceId" }
+    },
+    "defaultSurface": {
+      "description": "Tab an example opens on when every surface is a placeholder (otherwise it opens on the first available surface). cli shows the Not in the CLI yet pane.",
+      "$ref": "#/definitions/surfaceId"
     },
     "examples": {
       "type": "array",

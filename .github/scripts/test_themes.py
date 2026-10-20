@@ -100,7 +100,7 @@ class ThemeSchemaTest(unittest.TestCase):
     def test_em_dash_theme_name_fails(self):
         payload = json.loads((ROOT / "data/themes.json").read_text(encoding="utf-8"))
         broken = copy.deepcopy(payload)
-        broken["themes"][0]["name"] = "Signal — dark"
+        broken["themes"][0]["name"] = "Signal \u2014 dark"
         tmp = write_tmp(broken)
         try:
             result = ajv(ROOT / "schemas/themes.schema.json", tmp)
@@ -151,7 +151,7 @@ class IntegrationsSchemaTest(unittest.TestCase):
     def test_em_dash_headline_fails(self):
         payload = json.loads((ROOT / "data/integrations.json").read_text(encoding="utf-8"))
         broken = copy.deepcopy(payload)
-        broken["headline"] = "Say it once — everywhere"
+        broken["headline"] = "Say it once \u2014 everywhere"
         tmp = write_tmp(broken)
         try:
             result = ajv(ROOT / "schemas/integrations.schema.json", tmp)
@@ -179,13 +179,71 @@ class ThemeContentSplitTest(unittest.TestCase):
             extras = check_theme.extra_theme_content(root)
         self.assertIn("content/en/home-signal.md", extras)
 
-    def test_platforms_js_requires_default_selecttab(self):
+
+
+class HomeSignalPlatformsBehaviorTest(unittest.TestCase):
+    """Run assets/js/home-signal.js in a fake DOM and check what it shows."""
+
+    def run_js(self, **extra):
+        import check_theme
+
+        return check_theme.run_platforms_js(check_theme.platforms_scenario(**extra))
+
+    def visible(self, got):
+        return sorted(k for k, v in got["panels"].items() if v)
+
+    def test_no_hash_shows_only_the_default_treatment(self):
+        import check_theme
+
+        want = check_theme.platforms_scenario()["on"]
+        got = self.run_js()
+        self.assertEqual(got["tab"], want)
+        self.assertEqual(got["ariaSelected"], [want])
+        self.assertEqual(self.visible(got), [want])
+        self.assertTrue(got["enhanced"])
+        self.assertEqual(check_theme.platforms_default_problems(), [])
+
+    def test_no_marked_tab_falls_back_to_the_first(self):
+        tabs = self.run_js()["panels"].keys()
+        got = self.run_js(on="")
+        self.assertEqual(self.visible(got), [list(tabs)[0]])
+
+    def test_panel_hash_opens_that_panel(self):
+        got = self.run_js(hash="#plat-panel-action")
+        self.assertEqual(got["tab"], "action")
+        self.assertEqual(self.visible(got), ["action"])
+
+    def test_action_hash_opens_the_action_panel(self):
+        got = self.run_js(hash="#action-post")
+        self.assertEqual(self.visible(got), ["action"])
+
+    def test_unknown_panel_hash_falls_back_to_default(self):
+        import check_theme
+
+        want = check_theme.platforms_scenario()["on"]
+        got = self.run_js(hash="#plat-panel-nope")
+        self.assertEqual(self.visible(got), [want])
+
+    def test_click_and_arrow_keys_switch_panels(self):
+        import check_theme
+
+        tabs = check_theme.platforms_scenario()["tabs"]
+        got = self.run_js(click=tabs[-1])
+        self.assertEqual(self.visible(got), [tabs[-1]])
+        got = self.run_js(on=tabs[0], key="ArrowRight")
+        self.assertEqual(self.visible(got), [tabs[1]])
+
+    def test_script_that_skips_the_default_fails_the_check(self):
         import check_theme
 
         src = (ROOT / "assets/js/home-signal.js").read_text(encoding="utf-8")
-        self.assertTrue(check_theme.platforms_js_selects_default(src))
-        broken = src.replace("function defaultPlatTab", "function otherTab")
-        self.assertFalse(check_theme.platforms_js_selects_default(broken))
+        broken = src.replace("selectTab(section, initial);", "")
+        self.assertNotEqual(src, broken)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "home-signal.js"
+            path.write_text(broken, encoding="utf-8")
+            problems = check_theme.platforms_default_problems(path)
+        self.assertTrue(problems, "a script that never selects a panel must fail")
 
 
 class HeroDemoSchemaTest(unittest.TestCase):

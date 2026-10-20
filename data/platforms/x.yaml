@@ -14,7 +14,7 @@ actions:
     behavior: Retweets or quotes a post from each of your profiles.
   - id: follow
     behavior: Follows the accounts you list, skipping anyone you already follow.
-    limits: At most 400 follows per profile a day, and 15 in any 15 minutes.
+    limits: At most 400 follows per profile a day, and 15 in any 15 minutes, counted from that profile's follow log on this computer.
   - id: analytics
     behavior: Records your follower and following counts on each run, so you can watch the trend.
     limits: Read-only.

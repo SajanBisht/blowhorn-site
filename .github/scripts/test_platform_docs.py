@@ -146,25 +146,160 @@ class PlatformDocsCheckTest(unittest.TestCase):
             problems,
         )
 
-    def test_built_html_shared_table_passes(self):
+    def build_pages(self, row=None, headers=None, examples=None):
+        """Write a built page per platform. row/headers/examples override the
+        supported-platform defaults: one linked action row and its section."""
         build = self.tmp / "public"
-        headers = "".join(f'<th scope="col">{h}</th>' for h in check.REQUIRED_HEADERS)
+        cols = headers if headers is not None else check.REQUIRED_HEADERS
+        head = "".join(f'<th scope="col">{h}</th>' for h in cols)
         data = json.loads((self.tmp / "data/integrations.json").read_text(encoding="utf-8"))
         for item in data["platforms"]:
-            extra = (
-                '<h2 id="examples">Examples</h2>'
-                if item["status"] == "supported"
-                else '<th scope="row">None yet</th>'
-            )
+            if item["status"] == "supported":
+                ids = check.yaml_action_ids(item["id"], self.tmp)
+                rows = "".join(
+                    f'<tr><th scope="row"><a href="#action-{a}">{a.title()}</a></th>'
+                    '<td data-label="What it does">Does it.</td>'
+                    '<td data-label="Limits / notes">None</td></tr>'
+                    for a in ids
+                )
+                # An override replaces the first row (post on most platforms).
+                body = rows if row is None else row + rows.split("</tr>", 1)[1]
+                after = '<h2 id="examples">Examples</h2>' + "".join(
+                    f'<section class="action-example" id="action-{a}"><h3>{a}</h3></section>'
+                    for a in ids
+                )
+                if examples is not None:
+                    after = examples
+            else:
+                body = (
+                    '<tr><th scope="row">None yet</th>'
+                    '<td data-label="What it does">Coming soon.</td>'
+                    '<td data-label="Limits / notes">None</td></tr>'
+                )
+                after = ""
             write(
                 check.built_page(build, item["docs"]),
                 "<html><body>"
                 f'<section data-supported-actions="{item["id"]}">'
-                f'<table class="supported-actions"><thead><tr>{headers}</tr></thead>'
-                f"<tbody><tr>{extra}</tr></tbody></table></section>"
+                f'<table class="supported-actions"><thead><tr>{head}</tr></thead>'
+                f"<tbody>{body}</tbody></table></section>{after}"
                 "</body></html>",
             )
+        return build
+
+    def test_built_html_shared_table_passes(self):
+        build = self.build_pages()
         self.assertEqual(check.check_built(build, self.tmp), [])
+
+    def test_built_html_dead_action_anchor_fails(self):
+        build = self.build_pages(
+            examples='<h2 id="examples">Examples</h2>'
+            '<section class="action-example" id="action-comment"></section>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("#action-post but no element has that id" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_example_column_fails(self):
+        build = self.build_pages(headers=(*check.REQUIRED_HEADERS, "Example"))
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Example' column" in p for p in problems), problems)
+
+    def test_built_html_example_cell_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-post">Post</a></th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td>'
+            '<td data-label="Example"><a href="#action-post">See example</a></td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Example' column" in p for p in problems), problems)
+
+    def test_built_html_unlinked_action_name_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row">Post</th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("'Post' does not link to its #action-<id>" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_link_to_another_action_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-amplify">Post</a></th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("links to #action-amplify, want #action-post" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_supported_label_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-post">Post</a></th>'
+            '<td data-label="What it does">Supported. Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Supported' label" in p for p in problems), problems)
+
+    def test_built_html_check_mark_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-post">Post</a> \u2713</th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("check icon" in p for p in problems), problems)
+
+    def test_built_html_check_icon_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-post">Post</a>'
+            '<svg class="icon-check"><use href="#glyph-check"></use></svg></th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("check icon" in p for p in problems), problems)
+
+    def test_built_html_status_column_without_exceptions_fails(self):
+        build = self.build_pages(headers=(*check.REQUIRED_HEADERS, "Status"))
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Status' column" in p for p in problems), problems)
+
+    def test_built_html_coming_soon_icon_passes(self):
+        build = self.build_pages()
+        data = json.loads((self.tmp / "data/integrations.json").read_text(encoding="utf-8"))
+        soon = next(i for i in data["platforms"] if i["status"] == "coming-soon")
+        write(
+            check.built_page(build, soon["docs"]),
+            "<html><body>"
+            f'<section data-supported-actions="{soon["id"]}" aria-label="Supported actions">'
+            '<table class="supported-actions"><thead><tr>'
+            + "".join(f'<th scope="col">{h}</th>' for h in check.REQUIRED_HEADERS)
+            + '</tr></thead><tbody><tr><th scope="row">None yet <span role="img" '
+            'aria-label="Coming soon" title="Coming soon" data-action-status="coming-soon">'
+            '<svg aria-hidden="true"></svg></span></th>'
+            '<td data-label="What it does">This platform isn\'t available yet.</td>'
+            '<td data-label="Limits / notes">None</td></tr></tbody></table></section>'
+            "</body></html>",
+        )
+        self.assertEqual(check.check_built(build, self.tmp), [])
+
+    def test_built_html_missing_column_fails(self):
+        build = self.build_pages(headers=("Action", "What it does"))
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("missing the 'Limits / notes' column" in p for p in problems),
+            problems,
+        )
 
 
 if __name__ == "__main__":

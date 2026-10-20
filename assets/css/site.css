@@ -2894,7 +2894,14 @@ a.docs-card.platform-card:hover::after, a.docs-card.platform-card:focus-visible:
 .supported-actions thead th { font-weight: 600; color: var(--ink-wordmark); }
 .supported-actions tbody th { font-weight: 600; color: var(--ink); }
 .supported-actions th:last-child,
-.supported-actions td:last-child { white-space: nowrap; padding-right: 0; }
+.supported-actions td:last-child { padding-right: 0; }
+.supported-actions-status {
+  display: inline-flex;
+  vertical-align: -3px;
+  margin-left: var(--space-1);
+  color: var(--ink-muted, currentColor);
+  cursor: help;
+}
 @media (max-width: 719px) {
   .supported-actions-wrap { overflow-x: visible; }
   .supported-actions { min-width: 0; }

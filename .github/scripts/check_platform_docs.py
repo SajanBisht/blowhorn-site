@@ -11,6 +11,10 @@ list or table. Other docs pages that list a platform's actions the same
 way (a Supported actions heading, or a markdown table of Action / What
 it does) fail too.
 
+In the built table every action name links to its usage section on the
+same page (#action-<id>), every #action- link on the page lands on an
+element with that id, and there is no Example column.
+
 Usage: check_platform_docs.py [BUILD_DIR]
 """
 
@@ -19,7 +23,10 @@ from __future__ import annotations
 import json
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
+
+from check_action_examples import yaml_action_ids
 
 ROOT = Path(__file__).resolve().parents[2]
 SHORTCODE_RE = re.compile(r'\{\{<\s*supported-actions\s+"([^"]+)"\s*>\}\}')
@@ -29,7 +36,134 @@ TABLE_HEADER_RE = re.compile(
     re.M,
 )
 EM_DASH = "\u2014"
-REQUIRED_HEADERS = ("Action", "What it does", "Limits / notes", "Example")
+REQUIRED_HEADERS = ("Action", "What it does", "Limits / notes")
+FORBIDDEN_HEADERS = ("Example",)
+# A listed action is supported: no Supported label and no check mark in the
+# table. Exceptions show an icon with an accessible name, never a text label.
+SUPPORTED_TEXT_RE = re.compile(r"\bsupported\b", re.I)
+CHECK_MARKS = ("\u2713", "\u2714", "\u2705", "\u2611")
+CHECK_ICON_RE = re.compile(r"(?:check|tick)", re.I)
+ACTION_ANCHOR_PREFIX = "#action-"
+
+
+class ActionsTableParser(HTMLParser):
+    """Collect ids, #action- links, table column headers and row-header links."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.ids: set[str] = set()
+        self.action_links: list[str] = []
+        self.col_headers: list[str] = []
+        self.data_labels: list[str] = []
+        self.rows: list[list[str]] = []
+        self._depth = 0
+        self._in_th: str | None = None
+        self._th_text: list[str] = []
+        self._row_links: list[str] | None = None
+        self.table_text: list[str] = []
+        self.table_icons: list[str] = []
+        self.status_marks = 0
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if a.get("id"):
+            self.ids.add(a["id"])
+        href = a.get("href") or ""
+        if tag == "a" and href.startswith(ACTION_ANCHOR_PREFIX):
+            self.action_links.append(href[1:])
+        if tag == "table" and "supported-actions" in (a.get("class") or "").split():
+            self._depth += 1
+            return
+        if not self._depth:
+            return
+        if tag == "table":
+            self._depth += 1
+        for name in ("class", "id", "href", "aria-label", "title", "alt", "src", "data-action-status"):
+            value = a.get(name) or ""
+            if name in ("aria-label", "title", "alt"):
+                self.table_text.append(value)
+            if tag in ("svg", "use", "img", "span", "i") and CHECK_ICON_RE.search(value):
+                self.table_icons.append(f"<{tag} {name}={value!r}>")
+        if a.get("data-action-status"):
+            self.status_marks += 1
+        if a.get("data-label") is not None:
+            self.data_labels.append(a["data-label"])
+        if tag == "th":
+            self._in_th = a.get("scope") or ""
+            self._th_text = []
+            if self._in_th == "row":
+                self._row_links = []
+        if tag == "a" and self._in_th == "row" and self._row_links is not None:
+            self._row_links.append(href)
+
+    def handle_endtag(self, tag):
+        if not self._depth:
+            return
+        if tag == "table":
+            self._depth -= 1
+            return
+        if tag == "th" and self._in_th is not None:
+            text = " ".join("".join(self._th_text).split())
+            if self._in_th == "col":
+                self.col_headers.append(text)
+            elif self._in_th == "row":
+                self.rows.append([text, *(self._row_links or [])])
+            self._in_th = None
+            self._row_links = None
+
+    def handle_data(self, data):
+        if self._depth:
+            self.table_text.append(data)
+        if self._in_th is not None:
+            self._th_text.append(data)
+
+
+def check_action_links(docs: str, html: str, action_ids: list[str] | None) -> list[str]:
+    """Problems with the table's columns and its #action-<id> links.
+    action_ids: the platform's YAML action ids in order, or None (coming soon)."""
+    problems: list[str] = []
+    page = ActionsTableParser()
+    page.feed(html)
+    for header in REQUIRED_HEADERS:
+        if header not in page.col_headers:
+            problems.append(f"{docs} table is missing the {header!r} column")
+    for header in FORBIDDEN_HEADERS:
+        if header in page.col_headers or header in page.data_labels:
+            problems.append(
+                f"{docs} table has an {header!r} column; the action name links to its usage section"
+            )
+    if "Status" in page.col_headers and not page.status_marks:
+        problems.append(
+            f"{docs} table has a 'Status' column but every row is supported; drop it"
+        )
+    text = " ".join(page.table_text)
+    if SUPPORTED_TEXT_RE.search(text):
+        problems.append(
+            f"{docs} actions table shows a 'Supported' label; a listed action is supported"
+        )
+    if any(mark in text for mark in CHECK_MARKS) or page.table_icons:
+        found = ", ".join(page.table_icons) or "a check mark character"
+        problems.append(f"{docs} actions table shows a check icon ({found})")
+    for target in sorted(set(page.action_links)):
+        if target not in page.ids:
+            problems.append(f"{docs} links to #{target} but no element has that id")
+    if action_ids is not None:
+        if len(page.rows) != len(action_ids):
+            problems.append(
+                f"{docs} table has {len(page.rows)} action rows, want {len(action_ids)} from its YAML"
+            )
+        for (name, *links), action_id in zip(page.rows, action_ids):
+            anchors = [h for h in links if h.startswith(ACTION_ANCHOR_PREFIX)]
+            want = f"{ACTION_ANCHOR_PREFIX}{action_id}"
+            if not anchors:
+                problems.append(
+                    f"{docs} action {name!r} does not link to its #action-<id> usage section"
+                )
+            elif anchors != [want]:
+                problems.append(
+                    f"{docs} action {name!r} links to {', '.join(anchors)}, want {want}"
+                )
+    return problems
 
 
 def integrations(root: Path) -> dict:
@@ -189,15 +323,13 @@ def check_built(build_dir: Path, root: Path) -> list[str]:
             problems.append(
                 f"{docs} has {tables} supported-actions tables, want 1"
             )
-        for header in REQUIRED_HEADERS:
-            needle = f'<th scope="col">{header}</th>'
-            if needle not in html:
-                problems.append(f"{docs} table is missing the {header!r} column")
+        ids = yaml_action_ids(item["id"], root) if item["status"] == "supported" else None
+        problems.extend(check_action_links(docs, html, ids))
         if EM_DASH in html:
             problems.append(f"{docs} contains an em dash")
         if item["status"] == "supported" and 'id="examples"' not in html:
             problems.append(f"{docs} lost the Examples heading from the shared table")
-        if item["status"] == "coming-soon" and ">None yet<" not in html:
+        if item["status"] == "coming-soon" and not re.search(r">None yet\s*<", html):
             problems.append(f"{docs} coming-soon table is missing the None yet row")
     return problems
 

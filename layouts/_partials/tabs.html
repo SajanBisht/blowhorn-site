@@ -3,15 +3,20 @@
   panes, and syncs a group (localStorage) so picking CLI switches every
   tabset in that group.
   Params: id (prefix), group (optional, e.g. surface), label, panes
-  (slice of dict id, name, inner HTML). */ -}}
+  (slice of dict id, name, status, inner HTML), fallback (optional pane id
+  to open on when every pane is a placeholder; default the first pane). */ -}}
 {{- $prefix := .id -}}
 {{- $group := .group | default "" -}}
 {{- $label := .label | default "Examples" -}}
 {{- $panes := .panes -}}
+{{- $fallback := .fallback | default "" -}}
 {{- if not $panes }}{{ errorf "tabs: no panes" }}{{ end -}}
 {{- $initial := "" -}}
 {{- range $panes }}
   {{- if and (eq $initial "") (ne .status "placeholder") }}{{ $initial = .id }}{{ end }}
+{{- end -}}
+{{- if not $initial }}
+  {{- range $panes }}{{ if eq .id $fallback }}{{ $initial = .id }}{{ end }}{{ end -}}
 {{- end -}}
 {{- if not $initial }}{{ $initial = (index $panes 0).id }}{{ end -}}
 <div class="tabs" data-tabs{{ with $group }} data-tabs-group="{{ . }}"{{ end }} data-tabs-id="{{ $prefix }}">

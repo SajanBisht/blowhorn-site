@@ -1,5 +1,6 @@
 {{- /* Tabbed examples for one platform action, from data/action_examples.json.
-  Input: platform, action. Surfaces follow data.action_examples.surfaces. */ -}}
+  Input: platform, action. Surfaces follow data.action_examples.surfaces;
+  a tab set with no available surface opens on data.action_examples.defaultSurface. */ -}}
 {{- $platform := .platform -}}
 {{- $action := .action -}}
 {{- if not $platform }}{{ errorf "action-examples: set platform" }}{{ end -}}
@@ -22,6 +23,6 @@
 {{- end -}}
 <section class="action-example" id="{{ $resolved.slug }}" aria-labelledby="{{ $resolved.slug }}-title">
   <h3 id="{{ $resolved.slug }}-title" class="h3">{{ $resolved.name }}</h3>
-  {{ partial "tabs.html" (dict "id" $prefix "group" "surface" "label" (printf "%s %s examples" $platform $resolved.name) "panes" $panes) }}
+  {{ partial "tabs.html" (dict "id" $prefix "group" "surface" "label" (printf "%s %s examples" $platform $resolved.name) "panes" $panes "fallback" site.Data.action_examples.defaultSurface) }}
 </section>
 {{- /**/ -}}
