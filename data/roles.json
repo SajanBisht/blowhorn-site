@@ -345,7 +345,7 @@
       "gets": [
         {
           "t": "Slack as you, nothing installed",
-          "b": "Blowhorn works through your own sign-in. No Blowhorn app to install, no app slot used, no bot user to invite."
+          "b": "It posts with your user token as you. A bot token is optional if your workspace prefers it."
         },
         {
           "t": "Supporters contribute their profile",
@@ -369,7 +369,7 @@
         },
         {
           "q": "Does Blowhorn install a Slack app?",
-          "a": "No. It works through your own Slack session and posts as you, never as a bot."
+          "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you. It posts with your user token as you; a bot token is optional if your workspace prefers it."
         },
         {
           "q": "Discord or Mastodon?",

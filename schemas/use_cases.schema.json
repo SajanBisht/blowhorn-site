@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://blowhorn.ai/schemas/use-cases.schema.json",
+  "$id": "https://blowhorn.ai/schemas/use_cases.schema.json",
   "title": "Use case pages",
-  "description": "data/use-cases.json: one /use-cases/<slug>/ page per use case, built by content/en/use-cases/_content.gotmpl through layouts/use-case.html (shared cast-page partials with the role pages). Public marketing copy only: every claim comes from Blowhorn's canonical differentiators in their wording rules. Plain text, hyphens never em dashes.",
+  "description": "data/use_cases.json: one /use-cases/<slug>/ page per use case, built by content/en/use-cases/_content.gotmpl through layouts/use-case.html (shared cast-page partials with the role pages). Public marketing copy only: every claim comes from Blowhorn's canonical differentiators in their wording rules. Plain text, hyphens never em dashes.",
   "type": "object",
   "additionalProperties": false,
   "required": [

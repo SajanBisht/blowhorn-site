@@ -1,24 +1,17 @@
 {{- /* Shared body for a /for/<slug>/ role page or a /use-cases/<slug>/ use-case
   page. Copy comes from the data entry (.item); chrome is the agent-page
   components (agent-hero, agent-section, card, bubble, major-says, agent-faq,
-  agent-cta). Plan: blowhorn-site#82. */ -}}
+  agent-cta). Kind labels come from cast-kind.html. Plan: blowhorn-site#82. */ -}}
 {{- $p := .page -}}
 {{- $item := .item -}}
-{{- $isRole := eq .kind "role" -}}
+{{- $meta := partial "cast-kind.html" (dict "kind" .kind "name" $item.name) -}}
 {{- $section := $p.Parent -}}
-{{- $titleId := cond $isRole "role-title" "use-case-title" -}}
-{{- $eyebrow := cond $isRole (printf "For %s" $item.name) $item.name -}}
-{{- $getsTitle := cond $isRole (printf "What Blowhorn does for %s" $item.name) "How Blowhorn runs it" -}}
-{{- $moreTitle := cond $isRole "Blowhorn for other roles" "Other use cases" -}}
-{{- $dataFile := cond $isRole "data/roles.json" "data/use-cases.json" -}}
-{{- $kindName := cond $isRole "role" "use case" -}}
-{{- $labelPrefix := cond $isRole "For " "" -}}
     <main id="main" class="page agent-page role-page">
       <div class="wrap">
         <header class="agent-hero glass">
           <div class="agent-hero-copy">
-            <p class="label"><a href="{{ $section.RelPermalink }}">{{ $section.LinkTitle }}</a> · {{ $eyebrow }}</p>
-            <h1 id="{{ $titleId }}" class="display">{{ $item.headline }}</h1>
+            <p class="label"><a href="{{ $section.RelPermalink }}">{{ $section.LinkTitle }}</a> · {{ $meta.labelPrefix }}{{ $item.name }}</p>
+            <h1 id="{{ $meta.titleId }}" class="display">{{ $item.headline }}</h1>
             <p class="body-lg muted">{{ $item.lead }}</p>
             <p class="actions">
               <a class="button button-primary button-pop" href="{{ "download/" | relURL }}">
@@ -43,7 +36,7 @@
         </section>
 
         <section class="agent-section" aria-labelledby="gets-title">
-          <div class="section-head"><h2 id="gets-title" class="h2">{{ $getsTitle }}</h2></div>
+          <div class="section-head"><h2 id="gets-title" class="h2">{{ $meta.getsTitle }}</h2></div>
           <ul class="grid {{ if eq (len $item.gets) 4 }}grid-4{{ else }}grid-3{{ end }}">
             {{- range $item.gets }}
             <li class="card glass"><h3 class="h3">{{ .t }}</h3><p>{{ .b }}</p></li>
@@ -80,15 +73,15 @@
           <p class="actions">
             {{- range $item.related }}
             {{- $pg := site.GetPage .page }}
-            {{- if not $pg }}{{ errorf "%s: %s %q links %q, which is not a page" $dataFile $kindName $item.slug .page }}{{ end }}
+            {{- if not $pg }}{{ errorf "%s: %s %q links %q, which is not a page" $meta.file $meta.kindName $item.slug .page }}{{ end }}
             <a class="button button-secondary" href="{{ $pg.RelPermalink }}">{{ .label }}</a>
             {{- end }}
           </p>
         </section>
 
         <section class="agent-section" aria-labelledby="more-title">
-          <div class="section-head"><h2 id="more-title" class="h2">{{ $moreTitle }}</h2></div>
-          {{ partial "role-list.html" (dict "section" $section "current" $p "labelPrefix" $labelPrefix) }}
+          <div class="section-head"><h2 id="more-title" class="h2">{{ $meta.moreTitle }}</h2></div>
+          {{ partial "role-list.html" (dict "section" $section "current" $p "kind" $meta.kind) }}
         </section>
       </div>
     </main>

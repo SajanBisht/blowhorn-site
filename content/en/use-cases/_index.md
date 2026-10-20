@@ -1,5 +1,5 @@
 {
-  "title": "Blowhorn by use case",
+  "title": "Use cases",
   "linkTitle": "Use cases",
   "layout": "use-cases",
   "description": "Blowhorn use cases: launch-day amplification, open source release announcements, and conference promotion, from one queue.",

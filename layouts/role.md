@@ -1,2 +1,2 @@
-{{- $r := partial "role-data.html" . -}}
-{{- partial "cast-page-md.html" (dict "item" $r "getsTitle" (printf "What Blowhorn does for %s" $r.name)) -}}
+{{- $item := partial "role-data.html" (dict "page" . "kind" "role") -}}
+{{- partial "cast-page-md.html" (dict "item" $item "kind" "role") -}}

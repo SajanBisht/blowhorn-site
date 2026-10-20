@@ -18,11 +18,12 @@ The marketing and legal pages do not use Docsy's templates: they render through
 `layouts/baseof.html`, with the header, footer and icon sprite in `layouts/_partials/`.
 
 Role pages (`/for/<slug>/`) and use-case pages (`/use-cases/<slug>/`) are
-schema-driven from `data/roles.json` and `data/use-cases.json`. Shared
+schema-driven from `data/roles.json` and `data/use_cases.json`. Shared
 `line`/`text`/`card` types live in `schemas/defs/cast-page.schema.json`
-(`make check-schemas` loads it with ajv `-r`). Pages share
-`layouts/_partials/cast-page.html` and the role-page CSS; lookups go
-through `role-data.html` / `role-list.html`. Do not duplicate those.
+(`make check-schemas` loads it with ajv `-r`). Kind labels live in
+`cast-kind.html`; lookups go through `role-data.html` / `role-list.html`.
+Pages share `layouts/_partials/cast-page.html` and the role-page CSS.
+Do not duplicate those.
 
 ## Rules the site holds
 

@@ -1,12 +1,12 @@
 {
-  "$schema": "../schemas/use-cases.schema.json",
+  "$schema": "../schemas/use_cases.schema.json",
   "use_cases": [
     {
       "slug": "launch-day",
       "name": "Launch day",
       "weight": 10,
       "headline": "The first hour is the launch.",
-      "lead": "Schedule the announcement and its amplifications ahead of time. Every profile you add joins the same sound wave at the moment you pick.",
+      "lead": "Schedule the announcement and its amplifications ahead of time. Every profile you run joins the same sound wave at the moment you pick.",
       "description": "Plan a product launch so the announcement goes out everywhere at the right moment, and every profile you add amplifies it in the first hour.",
       "art": {
         "src": "assets/brand/cast/major-6-hat-left-horn.webp",
@@ -33,7 +33,7 @@
         },
         {
           "t": "Every profile joins at once",
-          "b": "Every profile you add joins the same sound wave at the moment you pick, each posting as themselves."
+          "b": "Every profile you run joins the same sound wave at the moment you pick, each posting as itself."
         },
         {
           "t": "One pause, sent once",
@@ -62,7 +62,7 @@
       ],
       "related": [
         {
-          "label": "Blowhorn for Founders",
+          "label": "Blowhorn for founders",
           "page": "/for/founders"
         },
         {
@@ -70,7 +70,7 @@
           "page": "/for/devrel"
         },
         {
-          "label": "Blowhorn for Marketing managers",
+          "label": "Blowhorn for marketing managers",
           "page": "/for/marketing"
         },
         {
@@ -84,7 +84,7 @@
       "name": "Open source release",
       "weight": 20,
       "headline": "Ship the tag. Tell every channel, as you.",
-      "lead": "Announce a release on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky from one queue. Maintainers amplify from their own profiles, as themselves.",
+      "lead": "Announce a release on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky from one queue, as you.",
       "description": "Announce a release or project milestone on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky from one queue, as yourself.",
       "art": {
         "src": "assets/brand/cast/trench-trooper-base.webp",
@@ -110,12 +110,12 @@
           "b": "GitHub reactions, Slack as you, Hacker News submit and comment, plus LinkedIn, X, Reddit and Bluesky, from one queue."
         },
         {
-          "t": "Maintainers amplify as themselves",
-          "b": "Each maintainer adds their own profile and joins the wave, posting as themselves."
+          "t": "Amplify from your profiles",
+          "b": "Queue the release from every profile you run, each posting as itself. Team invites are coming soon."
         },
         {
           "t": "No votes, no Slack app",
-          "b": "Hacker News submit and comment only, capped per profile per day. Slack uses your sign-in; no Blowhorn app in the workspace."
+          "b": "Hacker News submit and comment only, capped per profile per day. Slack posts with your user token as you; a bot token is optional if your workspace prefers it."
         },
         {
           "t": "Human-paced by design",
@@ -131,7 +131,7 @@
         },
         {
           "q": "Does Blowhorn install a Slack app?",
-          "a": "No. It works through your own Slack session and posts as you, never as a bot."
+          "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you. It posts with your user token as you; a bot token is optional if your workspace prefers it."
         },
         {
           "q": "Does every maintainer need a Mac?",
@@ -162,7 +162,7 @@
       "name": "Conference",
       "weight": 30,
       "headline": "Queue the week. Walk the floor.",
-      "lead": "Queue the pre-event, day-of and follow-up posts once. As long as one of your machines is awake, it covers the schedule while you're at the booth.",
+      "lead": "Queue the pre-event, day-of and follow-up posts once. As long as one of your machines is awake that is set up for that profile, it covers the schedule while you're at the booth.",
       "description": "Promote a talk, booth or meetup before, during and after the event, from one queue, while any awake machine covers the schedule.",
       "art": {
         "src": "assets/brand/cast/sleeper-cell-base.webp",
@@ -178,8 +178,8 @@
           "b": "Everyone meant to post. The session started anyway."
         },
         {
-          "t": "Replies live in seven tabs",
-          "b": "LinkedIn, X, Reddit, Slack and the rest, each in its own window, while you're on the floor."
+          "t": "A comment is another tab",
+          "b": "Sending a comment or reply means another composer for LinkedIn, X, Reddit and Hacker News, while you're on the floor."
         }
       ],
       "gets": [
@@ -188,16 +188,16 @@
           "b": "Pre-event, day-of and follow-up posts in one queue, on any awake machine set up for the profile."
         },
         {
-          "t": "Speakers amplify as themselves",
-          "b": "Speakers and teammates add their own profiles and join the wave. Nobody posts for them."
+          "t": "Your profiles join the wave",
+          "b": "Queue the week from every profile you run, each posting as itself. Team invites are coming soon."
         },
         {
           "t": "Many profiles, one desk",
-          "b": "Every brand and speaker profile you speak for, from one menu bar app, each in its own Chrome profile."
+          "b": "Every brand and project profile you run, from one menu bar app."
         },
         {
           "t": "Reply without seven tabs",
-          "b": "Comment and reply from the same queue you posted from. LinkedIn, X, Reddit and Hacker News run in your own Chrome."
+          "b": "Send comments and replies from the same queue you posted from. LinkedIn, X, Reddit and Hacker News run in your own Chrome."
         }
       ],
       "prompt": "Queue pre-event, day-of and follow-up posts for the talk, then --dry-run.",
@@ -209,7 +209,7 @@
         },
         {
           "q": "Can speakers join from their own laptops?",
-          "a": "Yes. Install Blowhorn on as many machines as you like. Each speaker's browser session stays in their own Chrome."
+          "a": "You can install Blowhorn on as many of your own Macs as you like. Speakers and teammates joining your account with their own profiles is coming soon."
         },
         {
           "q": "Windows or Linux at the booth?",
@@ -222,11 +222,11 @@
           "page": "/for/devrel"
         },
         {
-          "label": "Blowhorn for Founders",
+          "label": "Blowhorn for founders",
           "page": "/for/founders"
         },
         {
-          "label": "Blowhorn for Community managers",
+          "label": "Blowhorn for community managers",
           "page": "/for/community"
         },
         {

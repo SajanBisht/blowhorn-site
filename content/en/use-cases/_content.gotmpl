@@ -1,13 +1,20 @@
-{{- /* One /use-cases/<slug>/ page per use case in data/use-cases.json (schema:
-  schemas/use-cases.schema.json). The copy lives in the data file;
+{{- /* One /use-cases/<slug>/ page per use case in data/use_cases.json (schema:
+  schemas/use_cases.schema.json). The copy lives in the data file;
   layouts/use-case.html renders it through the shared cast-page partial.
-  Hugo keeps the hyphen in the data key for use-cases.json. */ -}}
-{{- range (index site.Data "use-cases").use_cases }}
+  lastmod comes from git (enableGitInfo). */ -}}
+{{- $titles := dict
+  "launch-day" "launch day"
+  "open-source-release" "open source releases"
+  "conference" "conferences"
+-}}
+{{- range site.Data.use_cases.use_cases }}
+  {{- $for := index $titles .slug -}}
+  {{- if not $for }}{{ errorf "data/use_cases.json: no page title for %q" .slug }}{{ end -}}
   {{- $.AddPage (dict
       "kind" "page"
       "path" .slug
-      "title" .name
+      "title" (printf "Blowhorn for %s" $for)
       "weight" .weight
-      "params" (dict "use_case" .slug "description" .description "lastmod" "2026-10-20")
+      "params" (dict "slug" .slug "description" .description)
     ) }}
 {{- end }}

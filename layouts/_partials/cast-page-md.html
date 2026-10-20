@@ -1,5 +1,7 @@
-{{- /* Markdown output for a role or use-case page. */ -}}
+{{- /* Markdown output for a role or use-case page. Kind selects the gets
+  section title through cast-kind.html. */ -}}
 {{- $item := .item -}}
+{{- $meta := partial "cast-kind.html" (dict "kind" .kind "name" $item.name) -}}
 # {{ $item.headline }}
 
 > {{ $item.lead }}
@@ -9,7 +11,7 @@
 - **{{ .t }}.** {{ .b }}
 {{- end }}
 
-## {{ .getsTitle }}
+## {{ $meta.getsTitle }}
 {{ range $item.gets }}
 - **{{ .t }}.** {{ .b }}
 {{- end }}

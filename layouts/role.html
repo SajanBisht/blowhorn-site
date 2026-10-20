@@ -1,9 +1,9 @@
 {{- /* One /for/<slug>/ page. Adapter: content/en/for/_content.gotmpl. */ -}}
 {{ define "head" }}
-    {{- partial "cast-page-head.html" (dict "page" . "item" (partial "role-data.html" .)) }}
+    {{- partial "cast-page-head.html" (dict "page" . "item" (partial "role-data.html" (dict "page" . "kind" "role"))) }}
 {{- end }}
 {{ define "main" }}
-    {{- partial "cast-page.html" (dict "page" . "item" (partial "role-data.html" .) "kind" "role") }}
+    {{- partial "cast-page.html" (dict "page" . "item" (partial "role-data.html" (dict "page" . "kind" "role")) "kind" "role") }}
 {{- end }}
 {{ define "sprite" }}
     {{ partial "sprite.html" . }}

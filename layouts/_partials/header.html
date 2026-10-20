@@ -7,8 +7,7 @@
   groups are listed open. Off the home page the section links lead back to the
   home page's sections. */ -}}
 {{- $home := cond .IsHome "" ("" | relURL) -}}
-{{- /* Hugo keeps the hyphen in the data key for data/use-cases.json. */ -}}
-{{- $useCases := (index site.Data "use-cases").use_cases -}}
+{{- $useCases := site.Data.use_cases.use_cases -}}
 {{- $compare := site.GetPage "/compare" -}}
 {{- $agents := site.GetPage "/agents" -}}
 {{- define "_partials/mm-link.html" -}}
