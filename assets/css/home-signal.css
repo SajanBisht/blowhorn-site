@@ -332,7 +332,29 @@
   margin-top: var(--space-4);
 }
 @media (min-width: 640px) { .plat-row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.plat-catalog { text-align: center; }
+.plat-catalog { text-align: center; margin-top: var(--space-8); }
+
+/* Signal restores the brand's white tiles. Reveille's #platforms rules frost
+   the tile and invert X/GitHub in OS dark; do not change those. */
+html[data-theme="signal"] #platforms .logo-tile {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: 0 0 0 var(--stroke-hairline) var(--line), var(--shadow-soft);
+}
+html[data-theme="signal"] #platforms .logo-tile img,
+html[data-theme="signal"] #platforms .logo-tile img[src*="x-logo-black"],
+html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-black"] {
+  filter: none;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="signal"] #platforms .logo-tile img,
+  html[data-theme="signal"] #platforms .logo-tile img[src*="x-logo-black"],
+  html[data-theme="signal"] #platforms .logo-tile img[src*="github-invertocat-black"] {
+    filter: none;
+  }
+}
 
 .plat-role-picks { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-6); }
 .plat-role {
@@ -358,9 +380,10 @@
 .constellation {
   --total: 11;
   position: relative;
-  min-height: 28rem;
+  min-height: 34rem;
   display: grid;
   place-items: center;
+  padding-block: var(--space-12);
 }
 .constellation-count { text-align: center; z-index: 1; }
 .constellation-num {
@@ -387,7 +410,7 @@
   top: 50%;
   margin: -24px 0 0 -24px;
   --angle: calc((var(--n, 0) * 360deg) / var(--total, 11));
-  transform: rotate(var(--angle)) translate(min(38vw, 220px)) rotate(calc(-1 * var(--angle)));
+  transform: rotate(var(--angle)) translate(min(30vw, 200px)) rotate(calc(-1 * var(--angle)));
 }
 .constellation-item .platform { padding: var(--space-2); }
 .constellation-item .platform:hover,
@@ -433,15 +456,7 @@
 
 .signal-roles .role-art {
   margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-4);
-  background: #000;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-4);
-  overflow: hidden;
 }
-.signal-roles .role-art img { max-height: 100%; width: auto; object-fit: contain; }
 .usecases { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-top: var(--space-8); }
 .usecases .label { margin: 0 var(--space-2) 0 0; }
 .usecases a {
@@ -480,7 +495,27 @@
 
 @media (max-width: 860px) {
   .pricing-signal { padding: var(--space-8); }
-  .constellation { min-height: 22rem; }
+  .constellation { min-height: 28rem; }
+}
+
+/* On a narrow screen the orbit clips; show the same wrapping map reduced-motion uses. */
+@media (max-width: 639px) {
+  .constellation { min-height: 0; padding-block: var(--space-6); }
+  .constellation-orbit {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    inset: auto;
+    animation: none;
+  }
+  .constellation-item {
+    position: static;
+    margin: 0;
+    transform: none;
+  }
+  .constellation-item .logo-tile { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
