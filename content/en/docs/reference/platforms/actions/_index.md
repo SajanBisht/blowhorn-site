@@ -1,12 +1,12 @@
 ---
 title: "All actions"
 linkTitle: "All actions"
-description: "Every Blowhorn action on every platform in one table. Sort by a column, or filter by text, platform and status."
+description: "Every action Blowhorn takes on each platform, in one table. Sort by action or platform, or filter."
 weight: 213
 ---
 
-One row per action and platform. Each action links to its usage on that
-platform's page. For the at-a-glance grid, see the
+Each action links to its usage on that platform's page. For the
+at-a-glance grid, including coming-soon platforms, see the
 [action matrix](/integrations/actions/).
 
 {{< all-actions >}}

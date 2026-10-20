@@ -10,7 +10,7 @@
     if (!tip || !table) return;
     var tipTitle = tip.querySelector(".matrix-tip-title");
     var tipBody = tip.querySelector(".matrix-tip-body");
-    var heads = Array.prototype.slice.call(table.querySelectorAll(".matrix-heads th"));
+    var heads = Array.prototype.slice.call(table.querySelectorAll(".matrix-heads > *"));
     var current = null;
     root.classList.add("is-enhanced");
 

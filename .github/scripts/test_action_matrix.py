@@ -30,9 +30,22 @@ def write(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def render_matrix(want: dict) -> str:
+DOT = '<svg class="mx-mark mx-dot"><circle/></svg>'
+CLOCK = '<svg class="mx-mark mx-soon"><circle/></svg>'
+
+
+def render_matrix(want: dict, supported_mark: str = DOT, soon_mark: str = CLOCK) -> str:
     """Markup with the attributes layouts/action-matrix.html writes."""
-    heads = "".join(f'<th data-matrix-platform="{p}"><a href="/x/">{p}</a></th>' for p in want["platforms"])
+    heads = []
+    for p in want["platforms"]:
+        name = want["names"][p]
+        if p in want["soon"]:
+            label = want["labels"]["coming-soon"]
+            heads.append(
+                f'<th data-matrix-platform="{p}" data-status="coming-soon"><a href="/x/" title="{name}: {label}">{soon_mark}</a></th>'
+            )
+        else:
+            heads.append(f'<th data-matrix-platform="{p}"><a href="/x/" title="{name}">logo</a></th>')
     body = []
     actions_by_group: dict[str, list[str]] = {}
     data = json.loads((ROOT / "data/actions.json").read_text(encoding="utf-8"))
@@ -45,23 +58,27 @@ def render_matrix(want: dict) -> str:
             cells = []
             for pid in want["platforms"]:
                 status, href = want["cells"][f"{aid}:{pid}"]
-                inner = f'<a href="{href}">x</a>' if href else "<span>x</span>"
+                if status == "supported":
+                    inner = f'<a href="{href}">{supported_mark}<span>{aid} on {pid}</span></a>'
+                else:
+                    inner = f'<span>{want["labels"][status]}</span>'
                 cells.append(f'<td data-matrix-cell="{aid}:{pid}" data-status="{status}">{inner}</td>')
             rows.append(f'<tr data-matrix-action="{aid}"><th>{aid}</th>{"".join(cells)}</tr>')
         body.append(f'<tbody data-matrix-group="{gid}">{"".join(rows)}</tbody>')
-    return f'<div data-action-matrix><table><thead><tr>{heads}</tr></thead>{"".join(body)}</table></div>'
+    return f'<div data-action-matrix><table><thead><tr><td></td>{"".join(heads)}</tr></thead>{"".join(body)}</table></div>'
 
 
-def render_table(want: dict, docs: dict) -> str:
+def render_table(want: dict, docs: dict, extra: str = "") -> str:
     """Markup with the attributes layouts/_partials/action-table.html writes."""
     rows = []
-    for key in want["keys"]:
+    for key in want["supported_keys"]:
         status, href = want["cells"][key]
         pid = key.split(":", 1)[1]
-        link = href or docs[pid]
+        name = want["names"][pid]
         rows.append(
-            f'<tr data-row="{key}" data-status="{status}"><th><a href="{link}">a</a></th>'
-            f'<td><a href="{docs[pid]}">{pid}</a></td></tr>'
+            f'<tr data-row="{key}" data-status="{status}"><th><a href="{href}">a</a></th>'
+            f'<td data-label="Platform"><a href="{docs[pid]}" title="{name}"><img src="l.svg" alt="{name}"></a></td>'
+            f'<td data-label="What it does">{extra}does</td></tr>'
         )
     return f'<section data-action-table><table><tbody>{"".join(rows)}</tbody></table></section>'
 
@@ -80,7 +97,7 @@ class ActionMatrixCheckTest(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tmp)
 
-    def render(self, want=None):
+    def render(self, want=None, matrix_kw=None, table_extra=""):
         want = want or check.expected(self.root)
         docs = {p["id"]: p["docs"] for p in self.integrations["platforms"]}
         # Platform docs pages carry an #action-<id> section per listed action.
@@ -88,8 +105,8 @@ class ActionMatrixCheckTest(unittest.TestCase):
             ids = check.yaml_action_ids(self.root, p["id"]) or []
             sections = "".join(f'<section id="action-{a}"></section>' for a in ids)
             write(check.built_file(self.build, p["docs"]), f"<main>{sections}</main>")
-        write(check.built_file(self.build, self.matrix["path"]), render_matrix(want))
-        write(check.built_file(self.build, self.matrix["docsPath"]), render_table(want, docs))
+        write(check.built_file(self.build, self.matrix["path"]), render_matrix(want, **(matrix_kw or {})))
+        write(check.built_file(self.build, self.matrix["docsPath"]), render_table(want, docs, table_extra))
         link = f'<a href="{self.matrix["path"]}" data-matrix-link>all</a>'
         write(check.built_file(self.build, "/"), link)
         write(check.built_file(self.build, "/integrations/"), link)
@@ -132,9 +149,9 @@ class ActionMatrixCheckTest(unittest.TestCase):
         self.edit_json("data/actions.json", lambda d: d["groups"].append({"id": "spare", "name": "Spare", "summary": "Empty."}))
         self.assert_flags("group spare holds no action")
 
-    def test_status_order_fails(self):
-        self.edit_json("data/integrations.json", lambda d: d["matrix"]["statuses"].reverse())
-        self.assert_flags("matrix statuses")
+    def test_exception_order_fails(self):
+        self.edit_json("data/integrations.json", lambda d: d["matrix"]["exceptions"].reverse())
+        self.assert_flags("matrix exceptions")
 
     def test_supported_after_coming_soon_fails(self):
         self.edit_json("data/integrations.json", lambda d: d["platforms"].reverse())
@@ -157,14 +174,49 @@ class ActionMatrixCheckTest(unittest.TestCase):
         want = check.expected(self.root)
         key = want["keys"][0]
         want["keys"] = want["keys"][1:]
+        want["supported_keys"] = [k for k in want["supported_keys"] if k != key]
         self.render(want)
         self.assert_flags(f"missing 1 cell(s): {key}")
 
     def test_out_of_order_fails(self):
         want = check.expected(self.root)
         want["keys"] = list(reversed(want["keys"]))
+        want["supported_keys"] = list(reversed(want["supported_keys"]))
         self.render(want)
         self.assert_flags("out of order")
+
+    def test_docs_table_lists_supported_pairs_only(self):
+        want = check.expected(self.root)
+        self.assertTrue(want["supported_keys"])
+        self.assertTrue(all(want["cells"][k][0] == "supported" for k in want["supported_keys"]))
+        self.assertLess(len(want["supported_keys"]), len(want["keys"]))
+
+    def test_supported_word_fails(self):
+        self.render(table_extra="Supported. ")
+        self.assert_flags("renders the word 'supported'")
+
+    def test_check_mark_fails(self):
+        self.render(matrix_kw={"supported_mark": '<svg class="mx-mark mx-yes"><path/></svg>'})
+        found = self.problems()
+        self.assertTrue(any("renders a check mark" in p for p in found), found)
+        self.assertTrue(any("want only the neutral dot" in p for p in found), found)
+
+    def test_soon_column_without_clock_fails(self):
+        self.render(matrix_kw={"soon_mark": ""})
+        self.assert_flags("lacks its one clock mark")
+
+    def test_exception_label_drift_fails(self):
+        self.edit_json("data/integrations.json", lambda d: d["matrix"]["exceptions"][1].update(label="Absent"))
+        self.assert_flags("want the none label 'Absent'")
+
+    def test_status_mark_in_docs_table_fails(self):
+        self.render(table_extra=CLOCK)
+        self.assert_flags("shows a status mark")
+
+    def test_docs_logo_without_name_fails(self):
+        page = check.built_file(self.build, self.matrix["docsPath"])
+        page.write_text(page.read_text(encoding="utf-8").replace('alt="LinkedIn"', 'alt=""', 1), encoding="utf-8")
+        self.assert_flags("platform logo must carry alt and title 'LinkedIn'")
 
     def test_wrong_status_fails(self):
         want = check.expected(self.root)
@@ -173,14 +225,21 @@ class ActionMatrixCheckTest(unittest.TestCase):
         self.render(want)
         self.assert_flags("post:linkedin is 'none', data says 'supported'")
 
+    def test_link_on_exception_cell_fails(self):
+        want = check.expected(self.root)
+        want["cells"] = dict(want["cells"])
+        want["cells"]["post:youtube"] = ("supported", "/docs/reference/platforms/youtube/")
+        self.render(want)
+        self.assert_flags("post:youtube is 'supported', data says 'coming-soon'")
+
     def test_dead_anchor_fails(self):
         target = check.built_file(self.build, "/docs/reference/platforms/linkedin/")
         target.write_text("<main></main>", encoding="utf-8")
         self.assert_flags("has no id='action-post'")
 
     def test_missing_platform_page_fails(self):
-        check.built_file(self.build, "/docs/reference/platforms/youtube/").unlink()
-        self.assert_flags("/docs/reference/platforms/youtube/, which has no built page")
+        check.built_file(self.build, "/docs/reference/platforms/x/").unlink()
+        self.assert_flags("/docs/reference/platforms/x/#action-post, which has no built page")
 
     def test_home_without_matrix_link_fails(self):
         check.built_file(self.build, "/").write_text("<main></main>", encoding="utf-8")

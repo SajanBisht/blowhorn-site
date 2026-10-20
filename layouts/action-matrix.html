@@ -2,14 +2,18 @@
   platform, at a glance. Rows, columns and cells come from
   layouts/_partials/action-matrix.html (data/actions.json plus
   data/platforms/<id>.yaml via data/integrations.json); copy from
-  data/integrations.json matrix. Theme tokens only, so Reveille and Signal
-  both apply. Without JS each cell keeps a title tooltip; with
+  data/integrations.json matrix. Status by exception: a supported cell is a
+  plain dot, a cell the platform lacks is empty, and a coming-soon platform
+  carries one clock on its logo; labels from matrix.exceptions are
+  accessible names and tooltips only. Theme tokens only, so Reveille and
+  Signal both apply. Without JS each dot keeps a title tooltip; with
   assets/js/action-matrix.js one shared tooltip follows hover and focus. */ -}}
 {{ define "main" }}
     {{- $mx := partialCached "action-matrix.html" . "action-matrix" -}}
     {{- $copy := $mx.copy -}}
     {{- $counts := partial "platform-counts.html" . -}}
     {{- $cols := len $mx.platforms -}}
+    {{- $soon := index $mx.labels "coming-soon" -}}
     <main id="main" class="page matrix-page">
       <div class="wrap">
         <header class="page-head">
@@ -18,12 +22,6 @@
           <p class="body-lg muted">{{ $copy.lede }}</p>
           <p class="matrix-tally ui">{{ printf $copy.tally $counts.activities $counts.platforms $counts.comingSoon }}</p>
         </header>
-
-        <ul class="matrix-legend">
-          {{- range $mx.statusList }}
-          <li class="matrix-legend-item is-{{ .id }}">{{ partial "action-matrix-mark.html" .id }}<span>{{ .label }}</span></li>
-          {{- end }}
-        </ul>
 
         <div class="matrix-stage" data-action-matrix>
           <div class="matrix-frame">
@@ -37,19 +35,15 @@
                   {{- end }}
                 </colgroup>
                 <thead>
-                  <tr class="matrix-bands">
-                    <td class="matrix-corner"></td>
-                    {{- range $mx.bands }}
-                    <th scope="colgroup" colspan="{{ .span }}" class="matrix-band is-{{ .id }}"><span>{{ .label }}</span></th>
-                    {{- end }}
-                  </tr>
                   <tr class="matrix-heads">
-                    <th scope="col" class="matrix-corner"><span class="label">Action</span></th>
+                    <td class="matrix-corner"></td>
                     {{- range $mx.platforms }}
-                    <th scope="col" class="matrix-plat{{ if eq .status "coming-soon" }} is-soon{{ end }}" data-matrix-platform="{{ .id }}">
-                      <a href="{{ .docs | relURL }}">
+                    {{- $isSoon := eq .status "coming-soon" }}
+                    <th scope="col" class="matrix-plat{{ if $isSoon }} is-soon{{ end }}" data-matrix-platform="{{ .id }}"{{ if $isSoon }} data-status="coming-soon"{{ end }}>
+                      <a href="{{ .docs | relURL }}" title="{{ .name }}{{ if $isSoon }}: {{ $soon }}{{ end }}">
                         <span class="logo-tile"><img src="{{ .logo | relURL }}" alt="" width="28" height="28"></span>
-                        <span class="matrix-plat-name">{{ .name }}</span>
+                        {{- if $isSoon }}<span class="matrix-plat-flag">{{ partial "action-matrix-mark.html" .status }}</span>{{ end }}
+                        <span class="visually-hidden">{{ .name }}{{ if $isSoon }}, {{ $soon }}{{ end }}</span>
                       </a>
                     </th>
                     {{- end }}
@@ -62,17 +56,14 @@
                   </tr>
                   {{- range .actions }}
                   <tr class="matrix-row" data-matrix-action="{{ .id }}">
-                    <th scope="row" class="matrix-action">
-                      <span class="matrix-action-name">{{ .name }}</span>
-                      <span class="matrix-action-desc">{{ .description }}</span>
-                    </th>
+                    <th scope="row" class="matrix-action" title="{{ .description }}">{{ .name }}</th>
                     {{- range .cells }}
-                    {{- $tip := printf "%s on %s: %s" .actionName .platformName .statusLabel }}
                     <td class="matrix-cell is-{{ .status }}" data-matrix-cell="{{ .action }}:{{ .platform }}" data-status="{{ .status }}">
-                      {{- if .href }}
-                      <a href="{{ .href | relURL }}" title="{{ $tip }}. {{ .note }}" data-tip-title="{{ $tip }}" data-tip="{{ .note }}">{{ partial "action-matrix-mark.html" .status }}<span class="visually-hidden">{{ $tip }}. {{ .note }}</span></a>
-                      {{- else }}
-                      <span class="matrix-cell-none" title="{{ $tip }}. {{ .note }}" data-tip-title="{{ $tip }}" data-tip="{{ .note }}">{{ partial "action-matrix-mark.html" .status }}<span class="visually-hidden">{{ $tip }}.</span></span>
+                      {{- if .href -}}
+                      {{- $tip := printf "%s on %s" .actionName .platformName -}}
+                      <a href="{{ .href | relURL }}" title="{{ $tip }}: {{ .note }}" data-tip-title="{{ $tip }}" data-tip="{{ .note }}">{{ partial "action-matrix-mark.html" .status }}<span class="visually-hidden">{{ $tip }}</span></a>
+                      {{- else -}}
+                      <span class="visually-hidden">{{ .statusLabel }}</span>
                       {{- end -}}
                     </td>
                     {{- end }}

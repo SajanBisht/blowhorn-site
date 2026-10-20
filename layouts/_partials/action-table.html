@@ -1,9 +1,12 @@
-{{- /* The docs all-actions table: one row per action and platform, from
-  layouts/_partials/action-matrix.html (the same data as the site matrix at
-  /integrations/actions/). Without JS it is a plain table and every row shows.
-  assets/js/action-table.js reveals the filter bar (text, platform, status)
-  and turns the sortable column headers (action, platform, status) into
-  buttons. The action cell names its group from data/actions.json.
+{{- /* The docs all-actions table: one row per supported action and
+  platform, from layouts/_partials/action-matrix.html (the same data as the
+  site matrix at /integrations/actions/). Status by exception: a listed
+  action is supported, so rows carry no status column, label or check, and
+  platforms with nothing listed yet (coming soon) stay on the matrix. The
+  platform cell is the logo only, named by alt and title.
+  Without JS it is a plain table and every row shows. assets/js/action-table.js
+  reveals the filter bar (text, platform) and turns the Action and Platform
+  headers into sort buttons.
   Usage: shortcode {{< all-actions >}}, or partial "action-table.html" . */ -}}
 {{- $mx := partialCached "action-matrix.html" . "action-matrix" -}}
 <section class="action-table-wrap" data-action-table aria-label="All actions on all platforms">
@@ -16,17 +19,8 @@
       <label class="ui" for="action-table-platform">Platform</label>
       <select id="action-table-platform" data-filter="platform">
         <option value="">All platforms</option>
-        {{- range $mx.platforms }}
+        {{- range where $mx.platforms "status" "supported" }}
         <option value="{{ .id }}">{{ .name }}</option>
-        {{- end }}
-      </select>
-    </div>
-    <div class="action-table-field">
-      <label class="ui" for="action-table-status">Status</label>
-      <select id="action-table-status" data-filter="status">
-        <option value="">All statuses</option>
-        {{- range $mx.statusList }}
-        <option value="{{ .id }}">{{ .label }}</option>
         {{- end }}
       </select>
     </div>
@@ -38,19 +32,15 @@
       <tr>
         <th scope="col" data-sort="action">Action</th>
         <th scope="col" data-sort="platform">Platform</th>
-        <th scope="col" data-sort="status">Status</th>
         <th scope="col">What it does</th>
       </tr>
     </thead>
     <tbody>
-    {{- range $i, $r := $mx.rows }}
-      {{- $statusIndex := 0 -}}
-      {{- range $si, $s := $mx.statusOrder }}{{ if eq $s $r.status }}{{ $statusIndex = $si }}{{ end }}{{ end -}}
-      {{- $href := $r.href | default $r.platformDocs }}
-      <tr data-row="{{ $r.action }}:{{ $r.platform }}" data-platform="{{ $r.platform }}" data-status="{{ $r.status }}" data-order="{{ $i }}" data-k-action="{{ lower $r.actionName }}" data-k-platform="{{ lower $r.platformName }}" data-k-status="{{ $statusIndex }}">
-        <th scope="row"><a href="{{ $href | relURL }}">{{ $r.actionName }}</a> <span class="action-table-group">{{ $r.groupName }}</span></th>
-        <td data-label="Platform"><a href="{{ $r.platformDocs | relURL }}">{{ $r.platformName }}</a></td>
-        <td data-label="Status"><span class="action-status is-{{ $r.status }}">{{ partial "action-matrix-mark.html" $r.status }}{{ $r.statusLabel }}</span></td>
+    {{- range $i, $r := $mx.supportedRows }}
+      {{- $p := index (where $mx.platforms "id" $r.platform) 0 }}
+      <tr data-row="{{ $r.action }}:{{ $r.platform }}" data-platform="{{ $r.platform }}" data-status="{{ $r.status }}" data-order="{{ $i }}" data-k-action="{{ lower $r.actionName }}" data-k-platform="{{ lower $r.platformName }}" data-text="{{ lower (printf "%s %s %s %s" $r.actionName $r.platformName $r.note $r.limits) }}">
+        <th scope="row"><a href="{{ $r.href | relURL }}">{{ $r.actionName }}</a></th>
+        <td data-label="Platform"><a class="action-table-plat" href="{{ $r.platformDocs | relURL }}" title="{{ $r.platformName }}"><span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="{{ $r.platformName }}" width="20" height="20"></span></a></td>
         <td data-label="What it does"><span>{{ $r.note }}{{ with $r.limits }} <span class="muted">{{ . }}</span>{{ end }}</span></td>
       </tr>
     {{- end }}

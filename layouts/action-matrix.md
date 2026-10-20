@@ -10,9 +10,8 @@
 ## {{ .name }}
 
 {{ .summary }}
-
-| Action |{{ range $mx.platforms }} {{ .name }} |{{ end }}
-| --- |{{ range $mx.platforms }} --- |{{ end }}
-{{ range .actions }}| {{ .name }} |{{ range .cells }} {{ if .href }}[{{ .statusLabel }}]({{ .href }}){{ else }}{{ .statusLabel }}{{ end }} |{{ end }}
-{{ end }}{{ end }}
+{{ range .actions }}
+- **{{ .name }}**: {{ $links := slice }}{{ range where .cells "status" "supported" }}{{ $links = $links | append (printf "[%s](%s)" .platformName .href) }}{{ end }}{{ delimit $links ", " }}
+{{- end }}
+{{ end }}
 [{{ $copy.docsCta }}]({{ $copy.docsPath }})

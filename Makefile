@@ -193,7 +193,7 @@ check-urls: build-production
 ## Validate every data file that has a JSON Schema in schemas/ (data/hero.json, data/roles.json, data/use_cases.json, data/themes.json, data/integrations.json, data/hero_demo.json, data/actions.json, data/action_examples.json).
 ## Role and use-case schemas $ref shared line/text/card types; ajv -r loads that file.
 ## check_action_examples.py also requires every supported YAML action to have an example.
-## check_action_matrix.py --source checks action groups, matrix statuses and platform order.
+## check_action_matrix.py --source checks action groups, matrix exceptions and platform order.
 check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero.schema.json -d data/hero.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/roles.schema.json -r schemas/defs/cast-page.schema.json -d data/roles.json

@@ -7,20 +7,19 @@
   actions through action-resolve.html, as the supported-actions table and
   the /integrations/ by-action filter do.
   Cell status: supported (the platform yaml lists the action, linked to
-  <docs>#action-<id>), coming-soon (the platform is coming soon, linked to
-  its docs page), none (a supported platform that doesn't list it, no link).
+  <docs>#action-<id>), coming-soon (the platform is coming soon), none (a
+  supported platform that doesn't list it). Status is shown by exception:
+  supported carries no label; coming-soon and none take their labels from
+  data/integrations.json matrix.exceptions.
   Usage: partialCached "action-matrix.html" . "action-matrix"
   Returns dict: groups (each with actions, each with cells), platforms
-  (integration-row maps), statuses (dict id -> label), statusOrder,
-  bands (supported and coming-soon column spans), rows (flat cells). */ -}}
+  (integration-row maps), labels (dict exception id -> label), exceptions
+  (the data list), rows (flat cells), supportedRows (rows with status
+  supported), copy (the matrix block). */ -}}
 {{- $m := site.Data.integrations.matrix -}}
 {{- if not $m }}{{ errorf "action-matrix: data/integrations.json has no matrix block" }}{{ end -}}
-{{- $statuses := dict -}}
-{{- $statusOrder := slice -}}
-{{- range $m.statuses }}
-  {{- $statuses = merge $statuses (dict .id .label) -}}
-  {{- $statusOrder = $statusOrder | append .id -}}
-{{- end -}}
+{{- $labels := dict "supported" "" -}}
+{{- range $m.exceptions }}{{ $labels = merge $labels (dict .id .label) }}{{ end -}}
 {{- $platforms := slice -}}
 {{- range site.Data.integrations.platforms }}{{ $platforms = $platforms | append (partial "integration-row.html" .) }}{{ end -}}
 {{- $nSupported := len (where $platforms "status" "supported") -}}
@@ -30,9 +29,6 @@
 {{- range $platforms }}
   {{- if eq .status "coming-soon" }}{{ $seenSoon = true }}{{ else if $seenSoon }}{{ errorf "action-matrix: supported platform %q follows a coming-soon one; keep data/integrations.json platforms supported first" .id }}{{ end -}}
 {{- end -}}
-{{- $bands := slice -}}
-{{- with $nSupported }}{{ $bands = $bands | append (dict "id" "supported" "label" (index $statuses "supported") "span" .) }}{{ end -}}
-{{- with $nSoon }}{{ $bands = $bands | append (dict "id" "coming-soon" "label" (index $statuses "coming-soon") "span" .) }}{{ end -}}
 {{- $groupIds := slice -}}
 {{- range site.Data.actions.groups }}{{ $groupIds = $groupIds | append .id }}{{ end -}}
 {{- range site.Data.actions.actions }}
@@ -50,19 +46,18 @@
       {{- range $p.resolved }}{{ if eq .id $v.id }}{{ $hit = . }}{{ end }}{{ end -}}
       {{- $status := "none" -}}
       {{- $href := "" -}}
-      {{- $note := printf "Not available on %s." $p.name -}}
+      {{- $note := printf "%s on %s." (index $labels "none") $p.name -}}
       {{- $limits := "" -}}
       {{- if eq $p.status "coming-soon" -}}
         {{- $status = "coming-soon" -}}
-        {{- $href = $p.docs -}}
-        {{- $note = printf "%s is coming soon. Its actions are listed once it ships." $p.name -}}
+        {{- $note = printf "%s: %s." $p.name (index $labels "coming-soon") -}}
       {{- else if $hit -}}
         {{- $status = "supported" -}}
         {{- $href = printf "%s#%s" $p.docs $hit.slug -}}
         {{- $note = $hit.description -}}
         {{- $limits = $hit.limits -}}
       {{- end -}}
-      {{- $cell := dict "action" $v.id "actionName" $base.name "group" $g.id "groupName" $g.name "groupIndex" $gi "platform" $p.id "platformName" $p.name "platformDocs" $p.docs "status" $status "statusLabel" (index $statuses $status) "href" $href "note" $note "limits" $limits -}}
+      {{- $cell := dict "action" $v.id "actionName" $base.name "group" $g.id "groupName" $g.name "groupIndex" $gi "platform" $p.id "platformName" $p.name "platformDocs" $p.docs "status" $status "statusLabel" (index $labels $status) "href" $href "note" $note "limits" $limits -}}
       {{- $cells = $cells | append $cell -}}
       {{- $rows = $rows | append $cell -}}
     {{- end -}}
@@ -72,4 +67,4 @@
   {{- $groups = $groups | append (dict "id" $g.id "name" $g.name "summary" $g.summary "actions" $acts) -}}
 {{- end -}}
 {{- if ne (len $rows) (mul (len site.Data.actions.actions) (len $platforms)) }}{{ errorf "action-matrix: every action must sit in exactly one group" }}{{ end -}}
-{{- return dict "groups" $groups "platforms" $platforms "statuses" $statuses "statusOrder" $statusOrder "statusList" $m.statuses "bands" $bands "rows" $rows "copy" $m -}}
+{{- return dict "groups" $groups "platforms" $platforms "labels" $labels "exceptions" $m.exceptions "rows" $rows "supportedRows" (where $rows "status" "supported") "copy" $m -}}

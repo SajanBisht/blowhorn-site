@@ -1,7 +1,9 @@
 /* Docs all-actions table (layouts/_partials/action-table.html). Without
    this file the table is plain and every row shows. With it: the filter bar
-   appears (text, platform, status), and each sortable column header becomes
-   a button that sorts ascending, then descending (aria-sort tells which). */
+   appears (text, platform), and the Action and Platform headers become
+   buttons that sort ascending, then descending (aria-sort tells which).
+   The text filter also matches the platform name, which the logo-only
+   cell carries in data-text. */
 (function () {
   document.querySelectorAll("[data-action-table]").forEach(function (root) {
     var form = root.querySelector("[data-action-table-filters]");
@@ -12,22 +14,16 @@
     var rows = Array.prototype.slice.call(tbody.rows);
     var q = form.querySelector('[data-filter="q"]');
     var platform = form.querySelector('[data-filter="platform"]');
-    var status = form.querySelector('[data-filter="status"]');
     var total = rows.length;
     form.hidden = false;
     root.classList.add("is-enhanced");
-    rows.forEach(function (row) {
-      row.setAttribute("data-text", row.textContent.replace(/\s+/g, " ").toLowerCase());
-    });
 
     function filter() {
       var needle = (q.value || "").trim().toLowerCase();
       var p = platform.value;
-      var s = status.value;
       var shown = 0;
       rows.forEach(function (row) {
         var hit = (!p || row.getAttribute("data-platform") === p) &&
-          (!s || row.getAttribute("data-status") === s) &&
           (!needle || row.getAttribute("data-text").indexOf(needle) !== -1);
         row.hidden = !hit;
         if (hit) shown += 1;
@@ -38,11 +34,10 @@
 
     var heads = Array.prototype.slice.call(root.querySelectorAll("thead th[data-sort]"));
     function sortBy(key, dir) {
-      var numeric = key === "status";
       var sorted = rows.slice().sort(function (a, b) {
         var x = a.getAttribute("data-k-" + key);
         var y = b.getAttribute("data-k-" + key);
-        var c = numeric ? Number(x) - Number(y) : x.localeCompare(y);
+        var c = x.localeCompare(y);
         if (c === 0) c = Number(a.getAttribute("data-order")) - Number(b.getAttribute("data-order"));
         else if (dir === "descending") c = -c;
         return c;
@@ -69,7 +64,6 @@
 
     q.addEventListener("input", filter);
     platform.addEventListener("change", filter);
-    status.addEventListener("change", filter);
     filter();
   });
 })();

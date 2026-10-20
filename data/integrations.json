@@ -12,15 +12,14 @@
     "docsPath": "/docs/reference/platforms/actions/",
     "label": "Action matrix",
     "headline": "Every order, every front.",
-    "lede": "What Blowhorn can do on each platform, in one grid. Hover a cell to see what it does, then click through for usage in the docs.",
+    "lede": "Every action on every platform, in one grid. Hover a dot for what it does, click it for usage.",
     "cta": "See every action on every platform",
-    "docsCta": "Sort and filter the full table in the docs",
-    "catalogCta": "See the full integrations catalog",
-    "tally": "%d actions live across %d platforms. %d more platforms coming soon.",
-    "statuses": [
-      { "id": "supported", "label": "Supported" },
+    "docsCta": "Sort and filter it in the docs",
+    "catalogCta": "All integrations",
+    "tally": "%d actions on %d platforms. %d more platforms coming soon.",
+    "exceptions": [
       { "id": "coming-soon", "label": "Coming soon" },
-      { "id": "none", "label": "Not supported" }
+      { "id": "none", "label": "Not available" }
     ]
   },
   "defaultTreatment": "category",
