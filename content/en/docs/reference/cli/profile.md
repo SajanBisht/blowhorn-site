@@ -82,7 +82,7 @@ blowhorn profile current [OPTIONS]
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile current' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile current' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
@@ -112,7 +112,7 @@ blowhorn profile delete [OPTIONS] name
 | `--yes` | boolean | `false` | Confirm the move to data/profiles/.trash/; without it the command refuses and exits 1 |
 | `--json` | boolean | `false` | Emit machine-readable JSON output |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile delete' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile delete' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
@@ -141,7 +141,7 @@ blowhorn profile get [OPTIONS] name
 | --- | --- | --- | --- |
 | `--json` | boolean | `false` | Emit machine-readable JSON output |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile get' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile get' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
@@ -165,7 +165,7 @@ blowhorn profile list [OPTIONS]
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile list' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile list' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
@@ -181,7 +181,7 @@ Output: text.
 
 Write KEY=VALUE pairs safely. GitHub keys (GH_TOKEN, GH_USERNAME) are stored in the profile's GitHub credential in the store, where runs read them, and never in the file; a blank value clears a key. Every other key goes into data/profiles/&lt;name&gt;/config.yaml: the file is round-tripped with its key order preserved, rewritten atomically under a file lock, and only the README template keys (plus GH_USERNAME, slack_workspaces and the &lt;WORKSPACE&gt;_SLACK_\* session keys) are accepted unless --allow-unknown is passed. Every refusal comes before anything is written. The output names the keys that changed and never echoes a value. Replacing a credential an API check judges (GH_TOKEN, the Bluesky handle or app password, a Slack token or captured session) sets that platform back to not checked in profile status until the next check, because each such check records which credential it judged. A browser platform's check is about its saved session and stays.
 
---create makes a new profile in both halves: it resolves EMAIL to the Layer5 Cloud user the profile is bound to, writes the profile's row in the store's profiles, and only then scaffolds data/profiles/&lt;name&gt;/config.yaml from the template plus data/ and browser/. EMAIL is required. --create needs the store: when it cannot be reached the create is refused with exit 3, nothing is written on either side and no directory is scaffolded, because a profile with no row is one no job can select. An email no Layer5 Cloud user holds, or one that several hold, is refused by name; --subject &lt;uuid&gt; names the user directly on those two branches, is refused when it names no live user, and is refused when EMAIL resolves to someone else. A profile is never created without a Layer5 Cloud user: there is no --force. The same email already bound to another profile, or a name held by another user's profile, is refused rather than renamed.
+--create makes a new profile in both halves: it resolves EMAIL to the Blowhorn user the profile is bound to, writes the profile's row in the store's profiles, and only then scaffolds data/profiles/&lt;name&gt;/config.yaml from the template plus data/ and browser/. EMAIL is required. --create needs the store: when it cannot be reached the create is refused with exit 3, nothing is written on either side and no directory is scaffolded, because a profile with no row is one no job can select. An email no Blowhorn user holds, or one that several hold, is refused by name; --subject &lt;uuid&gt; names the user directly on those two branches, is refused when it names no live user, and is refused when EMAIL resolves to someone else. A profile is never created without a Blowhorn user: there is no --force. The same email already bound to another profile, or a name held by another user's profile, is refused rather than renamed.
 
 --register adds a profile that exists only under data/profiles/ to the store's profiles: the same resolution and refusals, no scaffold, EMAIL read from config.yaml when not given, and safe to run again.
 
@@ -196,13 +196,13 @@ blowhorn profile set [OPTIONS] name [assignments...]
 
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
-| `--create` | boolean | `false` | Create a new profile: resolve EMAIL to its Layer5 Cloud user, write its row in the store's profiles, then scaffold data/profiles/&lt;name&gt;/\{config.yaml,data/,browser/\} from the README template; needs the store, and refuses to touch a profile that already exists |
+| `--create` | boolean | `false` | Create a new profile: resolve EMAIL to its Blowhorn user, write its row in the store's profiles, then scaffold data/profiles/&lt;name&gt;/\{config.yaml,data/,browser/\} from the README template; needs the store, and refuses to touch a profile that already exists |
 | `--register` | boolean | `false` | Add a profile that already exists under data/profiles/ to the store's profiles: the same resolution and refusals as --create, no scaffold, EMAIL read from config.yaml when not given, safe to run again |
-| `--subject` | string |  | The Layer5 Cloud user id (a uuid) the profile is bound to, for an EMAIL no user holds or several hold; refused when it names no live user, or when EMAIL resolves to someone else |
+| `--subject` | string |  | The Blowhorn user id (a uuid) the profile is bound to, for an EMAIL no user holds or several hold; refused when it names no live user, or when EMAIL resolves to someone else |
 | `--allow-unknown` | boolean | `false` | Accept keys outside the config.yaml template (the template keys, GH_USERNAME, slack_workspaces and &lt;WORKSPACE&gt;_SLACK_\* are always accepted) |
 | `--json` | boolean | `false` | Emit machine-readable JSON output |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile set' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile set' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
@@ -271,7 +271,7 @@ blowhorn profile switch [OPTIONS] name
 | Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--platform` | string |  | Platform scope for 'blowhorn profile'. One of: bluesky, linkedin, reddit, slack, x, all ('all' means every platform listed here) |
-| `--pace` | string |  | Accepted by 'blowhorn profile switch' because --pace is a global flag, but this command does no paced work -- it opens no browser and sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
+| `--pace` | string |  | Accepted by 'blowhorn profile switch' because --pace is a global flag, but this command does no paced work -- it sleeps between nothing -- so the value changes nothing about how it runs and appears only in the Pace column of the -v summary. Resolved as CLI flag, then BLOWHORN_PACE, then defaults.pace in .blowhorn.yaml (normal when none is set); an unrecognized value is rejected before anything runs |
 
 Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `--log-dir`, `--profile`, `--exclude`, `--headless`, `--chrome-launch`, `--headed`, `--dry-run`, `--verbose`.
 
