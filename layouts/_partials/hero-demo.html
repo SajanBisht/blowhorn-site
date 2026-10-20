@@ -1,5 +1,8 @@
-{{- /* Signal hero visual: interactive pseudo-app demo (data/hero_demo.json)
-  or a looping video slot. Destinations with posts:true come from
+{{- /* Signal hero visual. data/hero.json "media" picks it per hero: the hero
+  film (hero-video.html, from media.video) or the interactive pseudo-app
+  demo (data/hero_demo.json, or its own looping video slot). Only the
+  visuals the rotation uses are rendered; hero-rotation-head.html shows the
+  picked hero's one ([data-hero-media-only]). Destinations with posts:true come from
   data/integrations.json; name and logo come from hugo.Data.platforms.
   Always labelled as a demo with example data. */ -}}
 {{- $demo := site.Data.hero_demo -}}
@@ -8,18 +11,27 @@
   {{- if and (eq .status "supported") .posts }}{{ $dest = $dest | append (partial "integration-row.html" .) }}{{ end -}}
 {{- end -}}
 {{- $showVideo := and (eq $demo.mode "video") $demo.video.src -}}
+{{- $rot := partial "hero-rotation.html" . -}}
+{{- /* hero-art-title is in the site contract: the film carries it when it is
+  rendered, otherwise the demo does. */ -}}
+{{- $artId := cond (in $rot.medias "video") "hero-demo-title" "hero-art-title" -}}
 <div class="hero-visual wrap">
+{{- if in $rot.medias "video" }}
+  {{ partial "hero-video.html" $rot.video }}
+{{- end }}
+{{- if in $rot.medias "demo" }}
+  <div data-hero-media-only="demo">
 {{- if $showVideo }}
-      <figure class="hero-video" aria-labelledby="hero-art-title">
-        <figcaption id="hero-art-title" class="visually-hidden">{{ $demo.video.alt }}</figcaption>
+      <figure class="hero-video" aria-labelledby="{{ $artId }}">
+        <figcaption id="{{ $artId }}" class="visually-hidden">{{ $demo.video.alt }}</figcaption>
         <span class="demo-flag">{{ $demo.label }}</span>
         <video autoplay muted loop playsinline poster="{{ with $demo.video.poster }}{{ . | relURL }}{{ end }}" aria-label="{{ $demo.video.alt }}">
           <source src="{{ $demo.video.src | relURL }}">
         </video>
       </figure>
 {{- else if eq $demo.mode "video" }}
-      <figure class="hero-video hero-video-slot" aria-labelledby="hero-art-title">
-        <figcaption id="hero-art-title">{{ $demo.video.alt }}</figcaption>
+      <figure class="hero-video hero-video-slot" aria-labelledby="{{ $artId }}">
+        <figcaption id="{{ $artId }}">{{ $demo.video.alt }}</figcaption>
         <span class="demo-flag">{{ $demo.label }}</span>
         <p class="slot-label">Video slot: HyperFrames tour, not recorded yet</p>
         {{- with $demo.video.poster }}
@@ -49,8 +61,8 @@
             </p>
           </form>
         </div>
-        <figure class="app" aria-labelledby="hero-art-title" data-component="app-mock">
-          <figcaption id="hero-art-title" class="visually-hidden">{{ $demo.ariaLabel }}</figcaption>
+        <figure class="app" aria-labelledby="{{ $artId }}" data-component="app-mock">
+          <figcaption id="{{ $artId }}" class="visually-hidden">{{ $demo.ariaLabel }}</figcaption>
           <div class="app-bar" aria-hidden="true"><span></span><span></span><span></span><em>Blowhorn</em></div>
           <div class="app-body">
             <aside class="app-rail" aria-hidden="true">
@@ -99,5 +111,7 @@
         </figure>
         <script type="application/json" id="hero-demo-data">{{ dict "steps" $demo.statusSteps "title" $demo.title | jsonify | safeJS }}</script>
       </div>
+{{- end }}
+  </div>
 {{- end }}
     </div>

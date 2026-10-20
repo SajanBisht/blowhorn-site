@@ -13,6 +13,7 @@
       "$ref": "#/definitions/id"
     },
     "rotation": { "$ref": "#/definitions/rotation" },
+    "media": { "$ref": "#/definitions/media" },
     "variants": {
       "description": "Every variant. Only those listed in rotation.ids are shown; omit ids to rotate every variant.",
       "type": "array",
@@ -22,6 +23,36 @@
     }
   },
   "definitions": {
+    "mediaKind": {
+      "description": "What fills the Signal home page's hero visual: video is the hero film from media.video (autoplays muted and looping, with sound and pause toggles; under prefers-reduced-motion it waits on its poster for a play click), demo is the interactive pseudo-app from data/hero_demo.json.",
+      "type": "string",
+      "enum": ["video", "demo"]
+    },
+    "media": {
+      "description": "The Signal hero visual. default applies to every variant without its own media; ?hero=<id> picks the variant, and so its media. Without this object the hero shows the demo.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default"],
+      "properties": {
+        "default": { "$ref": "#/definitions/mediaKind" },
+        "video": {
+          "description": "The hero film. Required when any hero uses video (the build fails otherwise). Captions are burned into the picture, so there is no separate track.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mp4", "webm", "poster", "width", "height", "label", "description"],
+          "properties": {
+            "mp4": { "description": "H.264/AAC MP4 with faststart, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.mp4$" },
+            "webm": { "description": "VP9/Opus WebM of the same film, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.webm$" },
+            "poster": { "description": "Still shown before the film plays and under reduced motion, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.(jpg|png|webp)$" },
+            "width": { "type": "integer", "minimum": 1 },
+            "height": { "type": "integer", "minimum": 1 },
+            "label": { "description": "Short accessible name for the film. Hyphens never em dashes.", "type": "string", "minLength": 1, "maxLength": 80, "not": { "pattern": "\u2014" } },
+            "description": { "description": "What the film shows, read by screen readers. Hyphens never em dashes.", "type": "string", "minLength": 1, "maxLength": 400, "not": { "pattern": "\u2014" } },
+            "source": { "description": "Where the film's sources live, for maintainers. Not rendered.", "type": "string" }
+          }
+        }
+      }
+    },
     "id": {
       "description": "URL-safe id, used in ?hero=<id>, data-hero and data-hero-only.",
       "type": "string",
@@ -86,6 +117,10 @@
           "description": "The illustration beside the copy, a partial in layouts/_partials/hero-art/: stage is Major Blowhorn barking into your own Chrome, fan is one message fanning out to every platform. Defaults to stage.",
           "type": "string",
           "enum": ["stage", "fan"]
+        },
+        "media": {
+          "description": "This hero's visual on the Signal home page, overriding media.default.",
+          "$ref": "#/definitions/mediaKind"
         },
         "differentiators": {
           "description": "Numbers of the claims this copy rests on in Blowhorn's canonical differentiators list. Copy may only state what those claims allow.",

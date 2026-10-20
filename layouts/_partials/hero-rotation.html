@@ -1,15 +1,19 @@
 {{- /* The home page hero rotation, from data/hero.json (schema:
   schemas/hero.schema.json). Returns heroes (id, headline, subhead, art, in
-  rotation order), arts (each art once), default (the variant no-JS visitors
-  see), mode and intervalSeconds. Fails the build when rotation.ids names an
+  rotation order), arts (each art once), medias (each Signal hero visual
+  once: video or demo), video (media.video), default (the variant no-JS
+  visitors see), defaultMedia (its visual), mode and intervalSeconds. Fails the build when rotation.ids names an
   unknown variant or when default is not in the rotation. Mode and interval
   are schema-checked; this partial only resolves ids. See docs/hero-variants.md. */ -}}
 {{- $data := site.Data.hero -}}
 {{- $cfg := $data.rotation -}}
 {{- $ids := slice -}}
 {{- with $cfg.ids }}{{ $ids = . }}{{ else }}{{ range $data.variants }}{{ $ids = $ids | append .id }}{{ end }}{{ end -}}
+{{- $mediaDefault := "demo" -}}
+{{- with $data.media }}{{ $mediaDefault = .default }}{{ end -}}
 {{- $heroes := slice -}}
 {{- $arts := slice -}}
+{{- $medias := slice -}}
 {{- range $ids -}}
   {{- $match := where $data.variants "id" . -}}
   {{- if not $match -}}
@@ -17,13 +21,22 @@
   {{- end -}}
   {{- $v := index $match 0 -}}
   {{- $art := $v.art | default "stage" -}}
-  {{- $heroes = $heroes | append (dict "id" $v.id "headline" $v.headline "subhead" $v.subhead "art" $art) -}}
+  {{- $media := $v.media | default $mediaDefault -}}
+  {{- $heroes = $heroes | append (dict "id" $v.id "headline" $v.headline "subhead" $v.subhead "art" $art "media" $media) -}}
   {{- if not (in $arts $art) }}{{ $arts = $arts | append $art }}{{ end -}}
+  {{- if not (in $medias $media) }}{{ $medias = $medias | append $media }}{{ end -}}
 {{- end -}}
 {{- $default := partial "hero-variant.html" . -}}
 {{- if not (in $ids $default.id) -}}
   {{- errorf "data/hero.json: default %q must be one of the rotating ids, or no-JS visitors would get no hero" $default.id -}}
 {{- end -}}
+{{- $video := dict -}}
+{{- with $data.media }}{{ with .video }}{{ $video = . }}{{ end }}{{ end -}}
+{{- if and (in $medias "video") (not $video.mp4) -}}
+  {{- errorf "data/hero.json: a hero uses media video, but media.video is missing" -}}
+{{- end -}}
+{{- $defaultMedia := $mediaDefault -}}
+{{- with $default.media }}{{ $defaultMedia = . }}{{ end -}}
 {{- $seconds := 0 -}}
 {{- with $cfg.intervalSeconds }}{{ $seconds = . }}{{ end -}}
-{{- return dict "heroes" $heroes "arts" $arts "default" $default.id "mode" $cfg.mode "intervalSeconds" (int $seconds) -}}
+{{- return dict "heroes" $heroes "arts" $arts "medias" $medias "video" $video "defaultMedia" $defaultMedia "default" $default.id "mode" $cfg.mode "intervalSeconds" (int $seconds) -}}
