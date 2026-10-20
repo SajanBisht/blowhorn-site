@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail if the built site names the service anything but Blowhorn.
+"""Fail if the built site names the service anything but Blowhorn, or says Macs.
 
 Users see one product, Blowhorn: they sign in at cloud.blowhorn.ai and
 there is no "Layer5 Cloud" or "Blowhorn Cloud" (Yi, 2026-10-20). Layer5,
@@ -17,6 +17,13 @@ layer5io/... repository links and file names pass.
   element and outside the legal pages. Literal command samples in <code>
   or <pre> (an org or subject named Layer5) pass this rule, not the one
   above.
+- "Macs" or "your Mac" (also "my", "this" or "every" Mac, and "own
+  Mac") fails outside the docs and the archived /home-reveille/ page.
+  Blowhorn runs on any number of your machines, so marketing copy says
+  machines (or soldiers, recruits, battalion), never Macs (Yi,
+  2026-10-20). "macOS", "for Mac" on a download button and the
+  Blowhorn-mac.dmg file name pass; docs keep macOS-specific detail.
+  Text in <code> or <pre> passes.
 
 Usage: check_naming.py [BUILD_DIR]
 """
@@ -30,6 +37,9 @@ from pathlib import Path
 
 CLOUD_RE = re.compile(r"\b(?:Layer\s?5|Blowhorn)\s+Cloud\b", re.I)
 COMPANY_RE = re.compile(r"\bLayer\s?5\b")
+MACS_RE = re.compile(r"\bMacs\b|\b(?:your|my|this|every)\s+(?:own\s+)?Mac\b|\bown\s+Mac\b", re.I)
+# Pages where "Macs" may stay: macOS-specific docs and the archived original home.
+MACS_ALLOWED_PREFIXES = ("docs/", "home-reveille/")
 # Pages that may name Layer5 (the company). Paths relative to BUILD_DIR.
 COMPANY_ALLOWED = ("legal/index.html", "legal/privacy/index.html", "legal/terms/index.html")
 TEXT_ATTRS = {"alt", "title", "aria-label", "placeholder"}
@@ -40,9 +50,10 @@ VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
 
 
 class Reader(HTMLParser):
-    """Collect (text, company_ok) pairs a reader of the page sees.
+    """Collect (text, company_ok, in_code) triples a reader of the page sees.
 
     company_ok is true in a <footer>, and for text in <code> or <pre>.
+    in_code is true only for text in <code> or <pre>.
     """
 
     def __init__(self) -> None:
@@ -51,17 +62,17 @@ class Reader(HTMLParser):
         self.footer = 0
         self.code = 0
         self.skip = 0
-        self.out: list[tuple[str, bool]] = []
+        self.out: list[tuple[str, bool, bool]] = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         for name in TEXT_ATTRS:
             if a.get(name):
-                self.out.append((a[name], self.footer > 0))
+                self.out.append((a[name], self.footer > 0, False))
         if tag == "meta":
             key = (a.get("name") or a.get("property") or "").lower()
             if key in META_NAMES and a.get("content"):
-                self.out.append((a["content"], False))
+                self.out.append((a["content"], False, False))
         if tag in VOID:
             return
         self.stack.append(tag)
@@ -93,7 +104,7 @@ class Reader(HTMLParser):
 
     def handle_data(self, data):
         if not self.skip and data.strip():
-            self.out.append((data, self.footer > 0 or self.code > 0))
+            self.out.append((data, self.footer > 0 or self.code > 0, self.code > 0))
 
 
 def page_problems(rel: str, html: str) -> list[str]:
@@ -102,10 +113,14 @@ def page_problems(rel: str, html: str) -> list[str]:
     reader.close()
     found: list[str] = []
     company_ok = rel in COMPANY_ALLOWED
-    for text, company_here in reader.out:
+    macs_ok = rel.startswith(MACS_ALLOWED_PREFIXES)
+    for text, company_here, in_code in reader.out:
         text = " ".join(text.split())
         for m in CLOUD_RE.finditer(text):
             found.append(f'{rel}: says "{m.group(0)}" (say Blowhorn): ...{snippet(text, m)}...')
+        if not macs_ok and not in_code:
+            for m in MACS_RE.finditer(text):
+                found.append(f'{rel}: says "{m.group(0)}" (say machines): ...{snippet(text, m)}...')
         if company_ok or company_here:
             continue
         for m in COMPANY_RE.finditer(text):
@@ -138,7 +153,7 @@ def main(argv: list[str]) -> int:
     for line in failures:
         print(f"check_naming: {line}", file=sys.stderr)
     if failures:
-        print(f"check_naming: {len(failures)} naming problem(s). Users see Blowhorn (sign in at cloud.blowhorn.ai); Layer5 only in the footer and legal pages.", file=sys.stderr)
+        print(f"check_naming: {len(failures)} naming problem(s). Users see Blowhorn (sign in at cloud.blowhorn.ai); Layer5 only in the footer and legal pages; machines, never Macs.", file=sys.stderr)
         return 1
     print("check_naming: ok")
     return 0
