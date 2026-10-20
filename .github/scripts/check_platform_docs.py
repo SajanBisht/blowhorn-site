@@ -36,6 +36,11 @@ TABLE_HEADER_RE = re.compile(
 EM_DASH = "\u2014"
 REQUIRED_HEADERS = ("Action", "What it does", "Limits / notes")
 FORBIDDEN_HEADERS = ("Example",)
+# A listed action is supported: no Supported label and no check mark in the
+# table. Exceptions show an icon with an accessible name, never a text label.
+SUPPORTED_TEXT_RE = re.compile(r"\bsupported\b", re.I)
+CHECK_MARKS = ("\u2713", "\u2714", "\u2705", "\u2611")
+CHECK_ICON_RE = re.compile(r"(?:check|tick)", re.I)
 ACTION_ANCHOR_PREFIX = "#action-"
 
 
@@ -53,6 +58,9 @@ class ActionsTableParser(HTMLParser):
         self._in_th: str | None = None
         self._th_text: list[str] = []
         self._row_links: list[str] | None = None
+        self.table_text: list[str] = []
+        self.table_icons: list[str] = []
+        self.status_marks = 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -68,6 +76,14 @@ class ActionsTableParser(HTMLParser):
             return
         if tag == "table":
             self._depth += 1
+        for name in ("class", "id", "href", "aria-label", "title", "alt", "src", "data-action-status"):
+            value = a.get(name) or ""
+            if name in ("aria-label", "title", "alt"):
+                self.table_text.append(value)
+            if tag in ("svg", "use", "img", "span", "i") and CHECK_ICON_RE.search(value):
+                self.table_icons.append(f"<{tag} {name}={value!r}>")
+        if a.get("data-action-status"):
+            self.status_marks += 1
         if a.get("data-label") is not None:
             self.data_labels.append(a["data-label"])
         if tag == "th":
@@ -94,6 +110,8 @@ class ActionsTableParser(HTMLParser):
             self._row_links = None
 
     def handle_data(self, data):
+        if self._depth:
+            self.table_text.append(data)
         if self._in_th is not None:
             self._th_text.append(data)
 
@@ -111,6 +129,18 @@ def check_action_links(docs: str, html: str, supported: bool) -> list[str]:
             problems.append(
                 f"{docs} table has an {header!r} column; the action name links to its usage section"
             )
+    if "Status" in page.col_headers and not page.status_marks:
+        problems.append(
+            f"{docs} table has a 'Status' column but every row is supported; drop it"
+        )
+    text = " ".join(page.table_text)
+    if SUPPORTED_TEXT_RE.search(text):
+        problems.append(
+            f"{docs} actions table shows a 'Supported' label; a listed action is supported"
+        )
+    if any(mark in text for mark in CHECK_MARKS) or page.table_icons:
+        found = ", ".join(page.table_icons) or "a check mark character"
+        problems.append(f"{docs} actions table shows a check icon ({found})")
     for target in sorted(set(page.action_links)):
         if target not in page.ids:
             problems.append(f"{docs} links to #{target} but no element has that id")
@@ -288,7 +318,7 @@ def check_built(build_dir: Path, root: Path) -> list[str]:
             problems.append(f"{docs} contains an em dash")
         if item["status"] == "supported" and 'id="examples"' not in html:
             problems.append(f"{docs} lost the Examples heading from the shared table")
-        if item["status"] == "coming-soon" and ">None yet<" not in html:
+        if item["status"] == "coming-soon" and not re.search(r">None yet\s*<", html):
             problems.append(f"{docs} coming-soon table is missing the None yet row")
     return problems
 
