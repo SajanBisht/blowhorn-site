@@ -5,15 +5,30 @@
   platforms with nothing listed yet (coming soon) stay on the matrix. The
   platform cell is the logo only, named by alt and title.
   Without JS it is a plain table and every row shows. assets/js/action-table.js
-  reveals the filter bar (text, platform) and turns the Action and Platform
+  reveals the filter bar (action type and platform dropdowns; action
+  options are the data/actions.json actions with at least one supported
+  platform, grouped by actions.json groups) and turns the Action and Platform
   headers into sort buttons.
   Usage: shortcode {{< all-actions >}}, or partial "action-table.html" . */ -}}
 {{- $mx := partialCached "action-matrix.html" . "action-matrix" -}}
 <section class="action-table-wrap" data-action-table aria-label="All actions on all platforms">
   <div class="action-table-filters" data-action-table-filters hidden>
-    <div class="action-table-field action-table-field-text">
-      <label class="ui" for="action-table-q">Filter</label>
-      <input id="action-table-q" type="search" placeholder="Action, platform or text" autocomplete="off" data-filter="q">
+    <div class="action-table-field">
+      <label class="ui" for="action-table-action">Action</label>
+      <select id="action-table-action" data-filter="action">
+        <option value="">All actions</option>
+        {{- range $g := $mx.groups }}
+        {{- $acts := slice }}
+        {{- range $g.actions }}{{ if where .cells "status" "supported" }}{{ $acts = $acts | append . }}{{ end }}{{ end }}
+        {{- with $acts }}
+        <optgroup label="{{ $g.name }}">
+          {{- range . }}
+          <option value="{{ .id }}">{{ .name }}</option>
+          {{- end }}
+        </optgroup>
+        {{- end }}
+        {{- end }}
+      </select>
     </div>
     <div class="action-table-field">
       <label class="ui" for="action-table-platform">Platform</label>
@@ -38,7 +53,7 @@
     <tbody>
     {{- range $i, $r := $mx.supportedRows }}
       {{- $p := index (where $mx.platforms "id" $r.platform) 0 }}
-      <tr data-row="{{ $r.action }}:{{ $r.platform }}" data-platform="{{ $r.platform }}" data-status="{{ $r.status }}" data-order="{{ $i }}" data-k-action="{{ lower $r.actionName }}" data-k-platform="{{ lower $r.platformName }}" data-text="{{ lower (printf "%s %s %s %s" $r.actionName $r.platformName $r.note $r.limits) }}">
+      <tr data-row="{{ $r.action }}:{{ $r.platform }}" data-action="{{ $r.action }}" data-platform="{{ $r.platform }}" data-status="{{ $r.status }}" data-order="{{ $i }}" data-k-action="{{ lower $r.actionName }}" data-k-platform="{{ lower $r.platformName }}">
         <th scope="row"><a href="{{ $r.href | relURL }}">{{ $r.actionName }}</a></th>
         <td data-label="Platform"><a class="action-table-plat" href="{{ $r.platformDocs | relURL }}" title="{{ $r.platformName }}"><span class="logo-tile"><img src="{{ $p.logo | relURL }}" alt="{{ $r.platformName }}" width="20" height="20"></span></a></td>
         <td data-label="What it does"><span>{{ $r.note }}{{ with $r.limits }} <span class="muted">{{ . }}</span>{{ end }}</span></td>

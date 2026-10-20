@@ -1,9 +1,8 @@
 /* Docs all-actions table (layouts/_partials/action-table.html). Without
    this file the table is plain and every row shows. With it: the filter bar
-   appears (text, platform), and the Action and Platform headers become
-   buttons that sort ascending, then descending (aria-sort tells which).
-   The text filter also matches the platform name, which the logo-only
-   cell carries in data-text. */
+   appears (action type and platform dropdowns, both built from data), and
+   the Action and Platform headers become buttons that sort ascending, then
+   descending (aria-sort tells which). */
 (function () {
   document.querySelectorAll("[data-action-table]").forEach(function (root) {
     var form = root.querySelector("[data-action-table-filters]");
@@ -12,19 +11,19 @@
     var empty = root.querySelector("[data-action-table-empty]");
     if (!form || !tbody) return;
     var rows = Array.prototype.slice.call(tbody.rows);
-    var q = form.querySelector('[data-filter="q"]');
+    var action = form.querySelector('[data-filter="action"]');
     var platform = form.querySelector('[data-filter="platform"]');
     var total = rows.length;
     form.hidden = false;
     root.classList.add("is-enhanced");
 
     function filter() {
-      var needle = (q.value || "").trim().toLowerCase();
+      var a = action.value;
       var p = platform.value;
       var shown = 0;
       rows.forEach(function (row) {
         var hit = (!p || row.getAttribute("data-platform") === p) &&
-          (!needle || row.getAttribute("data-text").indexOf(needle) !== -1);
+          (!a || row.getAttribute("data-action") === a);
         row.hidden = !hit;
         if (hit) shown += 1;
       });
@@ -62,7 +61,7 @@
       });
     });
 
-    q.addEventListener("input", filter);
+    action.addEventListener("change", filter);
     platform.addEventListener("change", filter);
     filter();
   });
