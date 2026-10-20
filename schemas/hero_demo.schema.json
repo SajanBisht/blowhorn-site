@@ -2,17 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://blowhorn.ai/schemas/hero_demo.schema.json",
   "title": "Home page hero demo",
-  "description": "data/hero_demo.json: the interactive pseudo-app demo in the Signal hero, or a looping video slot. Destinations come from data/integrations.json (platforms with posts true). Always labelled as a demo with example data. Hyphens never em dashes.",
+  "description": "data/hero_demo.json: the interactive pseudo-app demo in the Signal hero (the hero film lives in data/hero.json media.video). Destinations come from data/integrations.json (platforms with posts true). Always labelled as a demo with example data. Hyphens never em dashes.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["mode", "label", "exampleLabel", "ariaLabel", "composeLabel", "sendLabel", "title", "message", "meta", "statusSteps", "video"],
+  "required": ["label", "exampleLabel", "ariaLabel", "composeLabel", "sendLabel", "title", "message", "meta", "statusSteps"],
   "properties": {
     "$schema": { "type": "string" },
-    "mode": {
-      "description": "demo shows the interactive app mock. video shows a looping muted playsinline video when video.src is set, otherwise the labelled video slot.",
-      "type": "string",
-      "enum": ["demo", "video"]
-    },
     "label": {
       "description": "Visible badge on the mock, e.g. Demo.",
       "type": "string",
@@ -90,31 +85,6 @@
           "sub": { "type": "string", "minLength": 1, "maxLength": 80, "not": { "pattern": "\u2014" } },
           "status": { "type": "string", "minLength": 1, "maxLength": 24, "not": { "pattern": "\u2014" } },
           "on": { "type": "boolean" }
-        }
-      }
-    },
-    "video": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["src", "poster", "alt"],
-      "properties": {
-        "src": {
-          "description": "Root-relative or site-relative path to a looping mp4. Empty until the HyperFrames tour is recorded.",
-          "type": "string",
-          "maxLength": 200,
-          "pattern": "^$|^assets/.+\\.(mp4|webm)$"
-        },
-        "poster": {
-          "description": "Root-relative poster image. Empty until the tour is recorded.",
-          "type": "string",
-          "maxLength": 200,
-          "pattern": "^$|^assets/.+\\.(png|jpg|jpeg|webp)$"
-        },
-        "alt": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 160,
-          "not": { "pattern": "\u2014" }
         }
       }
     }
