@@ -181,15 +181,22 @@ check-third-party: build-production
 check-urls: build-production
 	python3 .github/scripts/check-site-contract.py $(BUILD_DIR)
 
-## Validate every data file that has a JSON Schema in schemas/ (data/hero.json, data/roles.json, data/use_cases.json).
+## Validate every data file that has a JSON Schema in schemas/ (data/hero.json, data/roles.json, data/use_cases.json, data/themes.json, data/integrations.json, data/hero_demo.json).
 ## Role and use-case schemas $ref shared line/text/card types; ajv -r loads that file.
 check-schemas:
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero.schema.json -d data/hero.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/roles.schema.json -r schemas/defs/cast-page.schema.json -d data/roles.json
 	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/use_cases.schema.json -r schemas/defs/cast-page.schema.json -d data/use_cases.json
+	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/themes.schema.json -d data/themes.json
+	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/integrations.schema.json -d data/integrations.json
+	npx --yes ajv-cli@$(AJV_CLI_VERSION) validate --strict=false -s schemas/hero_demo.schema.json -d data/hero_demo.json
+
+## Production build, then fail if / is not the home-page theme (themes.json default plus _index.md front matter) or the Reveille preview lost today's look.
+check-theme: build-production
+	python3 .github/scripts/check_theme.py $(BUILD_DIR)
 
 ## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
-site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal
+site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme
 
 ## Build for production, then fail if the /internal/ section leaked into it.
 check-no-internal: build-production
@@ -310,6 +317,7 @@ clean:
 
 .PHONY: \
 	check-schemas \
+	check-theme \
 	setup \
 	build \
 	build-preview \

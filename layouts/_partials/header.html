@@ -16,10 +16,8 @@
 <header class="site-header">
       <div class="wrap">
         <a class="brand" href="{{ "" | relURL }}" aria-label="Blowhorn home">
-          <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="{{ "assets/brand/logo/blowhorn-lockup-horizontal-on-dark.svg" | relURL }}">
-            <img src="{{ "assets/brand/logo/blowhorn-lockup-horizontal.svg" | relURL }}" alt="Blowhorn" width="176" height="44">
-          </picture>
+          <img class="logo-on-light" src="{{ "assets/brand/logo/blowhorn-lockup-horizontal.svg" | relURL }}" alt="Blowhorn" width="176" height="44">
+          <img class="logo-on-dark" src="{{ "assets/brand/logo/blowhorn-lockup-horizontal-on-dark.svg" | relURL }}" alt="" width="176" height="44">
         </a>
         <button type="button" class="mm-toggle" aria-expanded="false" aria-controls="site-menu" hidden>
           <span class="mm-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
