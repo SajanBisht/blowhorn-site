@@ -14,5 +14,5 @@
 - **{{ $a.name }}**: {{ $a.description }}{{ with $a.limits }} Limits: {{ . }}{{ end }} ([example]({{ printf "#%s" $a.slug }}))
 {{- end }}
 {{- else }}
-- **None yet**: Coming soon. `blowhorn post` doesn't support it today.
+- **None yet**: Coming soon. This platform isn't available yet.
 {{- end }}
