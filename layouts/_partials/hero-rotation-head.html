@@ -3,9 +3,10 @@
   except the one named on <html data-hero data-hero-art>; with no JavaScript those
   attributes are never set and the default variant shows. The script sets them:
   ?hero=<n> (1-based) or ?hero=<id> forces a hero, for review; otherwise
-  floor(now / interval) modulo the number of heroes, so every visitor sees the
-  same hero in the same interval. It runs once, at load: the hero never changes
-  under a reader. See docs/hero-variants.md. */ -}}
+  utc-day uses floor(UTC days since the epoch) modulo the number of heroes, and
+  interval uses floor(now / intervalSeconds). Config comes from data/hero.json
+  via hero-rotation.html. It runs once, at load: the hero never changes under
+  a reader. See docs/hero-variants.md. */ -}}
 {{- $rot := partial "hero-rotation.html" . -}}
 {{- $defaultArt := "stage" -}}
 {{- range $rot.heroes }}{{ if eq .id $rot.default }}{{ $defaultArt = .art }}{{ end }}{{ end -}}
@@ -18,11 +19,19 @@
     <style>{{ printf `[data-hero-only], [data-hero-art-only] { display: none; } %s { display: revert; } %s { display: revert; }` (delimit $copy ", ") (delimit $art ", ") | safeCSS }}</style>
     <script>
       (function () {
-        var heroes = {{ $picks | jsonify | safeJS }}, ms = {{ $rot.intervalMs }}, i = -1, q = null, k;
+        var heroes = {{ $picks | jsonify | safeJS }}, mode = {{ $rot.mode | jsonify | safeJS }}, seconds = {{ $rot.intervalSeconds }}, fallback = {{ $rot.default | jsonify | safeJS }}, i = -1, q = null, k;
         try { q = new URLSearchParams(window.location.search).get('hero'); } catch (e) {}
         if (q && /^[0-9]+$/.test(q)) { i = parseInt(q, 10) - 1; }
         else if (q) { for (k = 0; k < heroes.length; k++) { if (heroes[k].id === q) { i = k; } } }
-        if (!(i >= 0 && i < heroes.length)) { i = Math.floor(Date.now() / ms) % heroes.length; }
+        if (!(i >= 0 && i < heroes.length)) {
+          i = mode === 'interval' && seconds > 0
+            ? Math.floor(Date.now() / (seconds * 1000)) % heroes.length
+            : Math.floor(Date.now() / 86400000) % heroes.length;
+        }
+        if (!(i >= 0 && i < heroes.length)) {
+          i = 0;
+          for (k = 0; k < heroes.length; k++) { if (heroes[k].id === fallback) { i = k; } }
+        }
         document.documentElement.setAttribute('data-hero', heroes[i].id);
         document.documentElement.setAttribute('data-hero-art', heroes[i].art);
       })();

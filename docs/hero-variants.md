@@ -9,32 +9,40 @@ Copy may only state what those differentiators allow, in their wording rules.
 
 ## The rotation
 
-`rotation` lists the ids of the heroes that take turns, in order. Today that is two:
+`rotation` is the config object. `rotation.mode` is `utc-day` (production) or
+`interval`. `rotation.ids` lists the heroes that take turns, in order. Omit `ids`
+to rotate every variant. Variants not listed stay in the file for later.
+
+Production rotates these five, one per UTC day:
 
 1. `not-a-bot`: "Not a bot. You, at full volume." over the hero stage, Major Blowhorn
-   barking into your own Chrome while the post types itself.
-2. `one-message`: "One message. Many ears." over the one-to-many fan.
+   barking into your own Chrome while the post types itself. Default and fallback.
+2. `real-you`: "The real you, everywhere at once."
+3. `your-fleet`: "Your fleet. Your Chrome. Your voice."
+4. `sound-wave`: "Real voices make a sound wave."
+5. `own-your-voice`: "Own your voice. Keep your accounts."
 
-The other variants stay in the file, out of rotation, until they are added to the list.
-Leave `rotation` out to rotate every variant.
+"Say it once. Say it everywhere." stays below the fold in the Platforms section.
+It is not a hero.
 
-At page load each visitor gets
+At page load each visitor gets one of
 
 ```
-rotation[floor(now / interval) % rotation.length]
+rotation.ids[floor(UTC days since the epoch) % length]   # mode: utc-day
+rotation.ids[floor(now / intervalSeconds) % length]      # mode: interval
 ```
 
-where `now` is the browser's clock in milliseconds since the epoch and `interval` is
-`params.hero_rotation.interval_seconds` in [`hugo.toml`](../hugo.toml) (60 seconds by
-default, so the switch is easy to see; raise it to 86400 for a daily turn). Every visitor
-sees the same hero in the same interval. The pick happens once: the hero never changes
-while someone is reading the page.
+`utc-day` is whole UTC days since the Unix epoch, so every visitor sees the same
+hero on the same day and the turn happens at 00:00 UTC. `interval` needs
+`rotation.intervalSeconds` (a positive integer). The pick happens once: the hero
+never changes while someone is reading the page.
 
 ## How it renders
 
 - [`layouts/_partials/hero-rotation.html`](../layouts/_partials/hero-rotation.html) reads
-  the data and the interval and fails the build if `rotation` names an unknown variant,
-  if `default` is not in `rotation`, or if the interval is not above 0.
+  the data file and fails the build if `rotation.ids` names an unknown variant,
+  if `default` is not in the rotating ids, or if interval mode has no positive
+  `intervalSeconds`.
 - [`layouts/home.html`](../layouts/home.html) renders the hero once: one `h1` and one
   subhead holding a `<span data-hero-only="<id>">` per rotating hero, the shared label,
   buttons and social proof, and one figure per art used by the rotation, each from its own
@@ -60,16 +68,16 @@ while someone is reading the page.
 ## Adding a hero
 
 1. Add the variant to `variants` (with `art` if it is not the stage).
-2. Add its id to `rotation`.
+2. Add its id to `rotation.ids`.
 3. For a new illustration, add `layouts/_partials/hero-art/<art>.html` (a `figure` with
    `class="hero-art"` and `data-hero-art-only="<art>"`, every id in it unique on the
    page) and add `<art>` to the `art` enum in the schema.
 
 ## Review URLs
 
-`?hero=<n>` (1-based position in `rotation`) or `?hero=<id>` (any id in `rotation`)
-forces a hero, for example `https://blowhorn.ai/?hero=2` or
-`http://localhost:1313/?hero=one-message` on a local `make site`. Anything else is
+`?hero=<n>` (1-based position in `rotation.ids`) or `?hero=<id>` (any id in
+`rotation.ids`) forces a hero, for example `https://blowhorn.ai/?hero=2` or
+`http://localhost:1313/?hero=real-you` on a local `make site`. Anything else is
 ignored and the time rule applies.
 
 No analytics or third-party script may be added to measure heroes (`check-third-party`).

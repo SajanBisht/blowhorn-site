@@ -38,9 +38,10 @@
 {{- end }}
 
 {{ define "main" }}
-    {{- /* The hero rotates: data/hero.json "rotation" lists the heroes, every one is
-      rendered once, and the picker in hero-rotation-head.html shows one of them before
-      first paint. Hidden ones are display: none, so only one headline is read out. */}}
+    {{- /* The hero rotates: data/hero.json "rotation" names the mode and the heroes,
+      every rotating one is rendered once, and the picker in hero-rotation-head.html
+      shows one of them before first paint. Hidden ones are display: none, so only
+      one headline is read out. */}}
     {{- $rot := partial "hero-rotation.html" . }}
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
