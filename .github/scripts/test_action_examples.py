@@ -101,6 +101,50 @@ class ActionExamplesSchemaTest(unittest.TestCase):
         for platform, action in check.supported_pairs():
             self.assertIn(action, vocab, f"{platform} {action}")
 
+    def test_comment_page_does_not_leak_post_example_flags(self):
+        comment = (
+            ROOT / "content/en/docs/reference/cli/comment.md"
+        ).read_text(encoding="utf-8")
+        flags = check.allowed_flags(comment, "comment")
+        self.assertIn("--platform", flags)
+        self.assertIn("--target", flags)
+        self.assertIn("--profile", flags)
+        self.assertNotIn("--check-queue", flags)
+        self.assertNotIn("--amplify", flags)
+
+    def test_subcommand_must_match_cliref(self):
+        problems = check.check_cli_available(
+            "x",
+            "reply",
+            {
+                "command": "blowhorn post --platform x --profile lee",
+                "cliRef": "/docs/reference/cli/comment/",
+            },
+        )
+        self.assertTrue(any("does not match cliRef" in p for p in problems), problems)
+
+    def test_flag_must_belong_to_heading_section(self):
+        problems = check.check_cli_available(
+            "linkedin",
+            "comment",
+            {
+                "command": "blowhorn comment --check-queue --platform linkedin",
+                "cliRef": "/docs/reference/cli/comment/",
+            },
+        )
+        self.assertTrue(any("not a comment flag" in p for p in problems), problems)
+
+    def test_analytics_history_since_is_in_its_section(self):
+        problems = check.check_cli_available(
+            "linkedin",
+            "analytics",
+            {
+                "command": "blowhorn analytics history --platform linkedin --json --since 12m",
+                "cliRef": "/docs/reference/cli/analytics/",
+            },
+        )
+        self.assertEqual(problems, [])
+
     def test_missing_surface_fails_schema(self):
         payload = json.loads(
             (ROOT / "data/action_examples.json").read_text(encoding="utf-8")

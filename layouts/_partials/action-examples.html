@@ -18,7 +18,7 @@
   {{- $surf := index $ex.surfaces $sid -}}
   {{- if not $surf }}{{ errorf "action-examples: %s %s missing surface %s" $platform $action $sid }}{{ end -}}
   {{- $inner := partial "action-example-pane.html" (dict "surface" $sid "data" $surf "platform" $platform "action" $action "actionName" $resolved.name) -}}
-  {{- $panes = $panes | append (dict "id" $sid "name" (index $labels $sid) "inner" $inner) -}}
+  {{- $panes = $panes | append (dict "id" $sid "name" (index $labels $sid) "status" $surf.status "inner" $inner) -}}
 {{- end -}}
 <section class="action-example" id="{{ $resolved.slug }}" aria-labelledby="{{ $resolved.slug }}-title">
   <h3 id="{{ $resolved.slug }}-title" class="h3">{{ $resolved.name }}</h3>

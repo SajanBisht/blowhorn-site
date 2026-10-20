@@ -3,7 +3,9 @@
 
 Every supported action on every supported platform must have an
 data/action_examples.json entry (placeholders allowed). CLI commands marked
-available must use flags that appear on the named CLI reference page.
+available must name a subcommand whose CLI reference page matches, and each
+flag must belong to that subcommand's section (plus shared flags when the
+section says it takes them), not merely appear somewhere on the page.
 
 Usage: check_action_examples.py
 """
@@ -17,6 +19,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 FLAG_RE = re.compile(r"--[a-z][a-z0-9-]*")
+FLAG_CELL_RE = re.compile(r"`(--[a-z][a-z0-9-]*)`")
+HEADING_RE = re.compile(r"^## blowhorn (.+)$", re.M)
 EM_DASH = "\u2014"
 
 
@@ -43,6 +47,106 @@ def supported_pairs() -> list[tuple[str, str]]:
 def cli_page(cli_ref: str) -> Path:
     slug = cli_ref.strip("/").rsplit("/", 1)[-1]
     return ROOT / "content" / "en" / "docs" / "reference" / "cli" / f"{slug}.md"
+
+
+def split_command(command: str) -> tuple[list[str], list[str]]:
+    """Return (subcommand words, flags) from a blowhorn command string."""
+    body = command.strip()
+    if not body.startswith("blowhorn "):
+        return [], FLAG_RE.findall(command)
+    words = []
+    for token in body.split()[1:]:
+        if token.startswith("-"):
+            break
+        words.append(token)
+    return words, FLAG_RE.findall(command)
+
+
+def shared_flag_ids(text: str | None = None) -> set[str]:
+    raw = text
+    if raw is None:
+        raw = (ROOT / "content/en/docs/reference/cli/shared-flags.md").read_text(
+            encoding="utf-8"
+        )
+    return set(FLAG_CELL_RE.findall(raw))
+
+
+def cli_sections(text: str) -> dict[str, str]:
+    parts = HEADING_RE.split(text)
+    sections = {}
+    # split keeps captures: preamble, heading1, body1, heading2, body2, ...
+    i = 1
+    while i + 1 < len(parts):
+        sections[parts[i].strip()] = parts[i + 1]
+        i += 2
+    return sections
+
+
+def flags_in_section(section: str) -> set[str]:
+    """Flags from that section's Flag table, not from Examples bash blocks."""
+    flags: set[str] = set()
+    in_table = False
+    for line in section.splitlines():
+        if line.startswith("| Flag"):
+            in_table = True
+            continue
+        if in_table:
+            if line.startswith("| ---"):
+                continue
+            if not line.startswith("|"):
+                in_table = False
+                continue
+            flags.update(FLAG_CELL_RE.findall(line))
+    return flags
+
+
+def allowed_flags(page_text: str, heading: str) -> set[str]:
+    sections = cli_sections(page_text)
+    if heading not in sections:
+        return set()
+    body = sections[heading]
+    flags = flags_in_section(body)
+    if "shared flags" in body.lower():
+        flags |= shared_flag_ids()
+    return flags
+
+
+def check_cli_available(platform: str, action: str, cli: dict) -> list[str]:
+    problems: list[str] = []
+    label = f"{platform} {action}"
+    command = cli.get("command") or ""
+    ref = cli.get("cliRef") or ""
+    if not command.startswith("blowhorn "):
+        problems.append(f"{label} CLI command does not start with blowhorn")
+        return problems
+    words, flags = split_command(command)
+    if not words:
+        problems.append(f"{label} CLI command has no subcommand")
+        return problems
+    page = cli_page(ref)
+    slug = ref.strip("/").rsplit("/", 1)[-1]
+    if words[0] != slug:
+        problems.append(
+            f"{label} subcommand {words[0]!r} does not match cliRef {ref}"
+        )
+    if not page.is_file():
+        problems.append(f"{label} cliRef {ref} has no {page.relative_to(ROOT)}")
+        return problems
+    heading = " ".join(words)
+    text = page.read_text(encoding="utf-8")
+    allowed = allowed_flags(text, heading)
+    if heading not in cli_sections(text):
+        problems.append(
+            f"{label} has no {heading!r} section on {page.relative_to(ROOT)}"
+        )
+        return problems
+    for flag in flags:
+        if flag not in allowed:
+            problems.append(
+                f"{label} uses {flag} which is not a {heading} flag "
+                f"on {page.relative_to(ROOT)}"
+            )
+    return problems
 
 
 def main() -> int:
@@ -81,20 +185,7 @@ def main() -> int:
             problems.append(f"example {key[0]} {key[1]} contains an em dash")
         cli = ex["surfaces"]["cli"]
         if cli["status"] == "available":
-            command = cli.get("command") or ""
-            ref = cli.get("cliRef") or ""
-            if not command.startswith("blowhorn "):
-                problems.append(f"{key[0]} {key[1]} CLI command does not start with blowhorn")
-            page = cli_page(ref)
-            if not page.is_file():
-                problems.append(f"{key[0]} {key[1]} cliRef {ref} has no {page.relative_to(ROOT)}")
-            else:
-                text = page.read_text(encoding="utf-8")
-                for flag in FLAG_RE.findall(command):
-                    if flag not in text:
-                        problems.append(
-                            f"{key[0]} {key[1]} uses {flag} which is not on {page.relative_to(ROOT)}"
-                        )
+            problems.extend(check_cli_available(key[0], key[1], cli))
         shot = ex["surfaces"]["app"].get("screenshot") or ""
         expected = f"assets/docs/actions/{ex['platform']}/{ex['action']}.png"
         if shot != expected:

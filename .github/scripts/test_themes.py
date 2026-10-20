@@ -171,6 +171,21 @@ class ThemeContentSplitTest(unittest.TestCase):
         import check_theme
 
         self.assertIn("signal", check_theme.theme_ids())
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "content" / "en" / "home-signal.md"
+            path.parent.mkdir(parents=True)
+            path.write_text("---\ntitle: Signal home\n---\n", encoding="utf-8")
+            extras = check_theme.extra_theme_content(root)
+        self.assertIn("content/en/home-signal.md", extras)
+
+    def test_platforms_js_requires_default_selecttab(self):
+        import check_theme
+
+        src = (ROOT / "assets/js/home-signal.js").read_text(encoding="utf-8")
+        self.assertTrue(check_theme.platforms_js_selects_default(src))
+        broken = src.replace("function defaultPlatTab", "function otherTab")
+        self.assertFalse(check_theme.platforms_js_selects_default(broken))
 
 
 class HeroDemoSchemaTest(unittest.TestCase):

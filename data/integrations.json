@@ -2,6 +2,10 @@
   "$schema": "../schemas/integrations.schema.json",
   "headline": "One queue. Every network that matters.",
   "lede": "One queue for every network your audience reads. LinkedIn, X, Reddit and Hacker News go through your own Chrome with the Blowhorn extension. Slack and Bluesky use their APIs. On GitHub, Blowhorn rallies reactions on the issue, it does not post.",
+  "major": {
+    "headline": "Write it once. Deploy to every front.",
+    "supporting": "You give the order. Major Blowhorn takes it to %s and the rest."
+  },
   "catalogPath": "/integrations/",
   "defaultTreatment": "category",
   "treatments": [

@@ -25,8 +25,6 @@
       tab.classList.toggle("is-on", on);
       tab.setAttribute("aria-selected", on ? "true" : "false");
       tab.setAttribute("tabindex", on ? "0" : "-1");
-      if (on) tab.setAttribute("aria-current", "true");
-      else tab.removeAttribute("aria-current");
     });
     panels.forEach(function (panel) {
       var on = panel.getAttribute("data-tab-panel") === id;
@@ -43,6 +41,15 @@
         });
       }
     }
+  }
+
+  function firstAvailable(tabs) {
+    var i, status;
+    for (i = 0; i < tabs.length; i++) {
+      status = tabs[i].getAttribute("data-tab-status");
+      if (status !== "placeholder") return tabs[i].getAttribute("data-tab");
+    }
+    return tabs.length ? tabs[0].getAttribute("data-tab") : "";
   }
 
   function saved(group) {
@@ -94,7 +101,7 @@
     if (hash && prefix && hash.indexOf(prefix + "-") === 0) {
       initial = hash.slice(prefix.length + 1);
     }
-    select(root, initial || tabs[0].getAttribute("data-tab"), false);
+    select(root, initial || firstAvailable(tabs), false);
   }
 
   document.querySelectorAll("[data-tabs]").forEach(enhance);

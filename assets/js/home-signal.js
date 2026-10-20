@@ -124,6 +124,12 @@
 
   document.querySelectorAll("[data-hero-demo]").forEach(bindDemo);
 
+  function defaultPlatTab(section, tabs) {
+    var on = section.querySelector("[data-plat-tab].is-on");
+    if (on) return on.getAttribute("data-plat-tab");
+    return tabs.length ? tabs[0].getAttribute("data-plat-tab") : "";
+  }
+
   function selectTab(section, id) {
     section.querySelectorAll("[data-plat-tab]").forEach(function (tab) {
       var on = tab.getAttribute("data-plat-tab") === id;
@@ -191,11 +197,16 @@
     });
 
     var hash = (window.location.hash || "").replace(/^#/, "");
+    var initial = defaultPlatTab(section, tabs);
     if (hash.indexOf("plat-panel-") === 0) {
-      selectTab(section, hash.slice("plat-panel-".length));
+      initial = hash.slice("plat-panel-".length);
     } else if (hash.indexOf("action-") === 0) {
-      selectTab(section, "action");
+      initial = "action";
     }
+    if (!initial || !section.querySelector('[data-plat-panel="' + initial + '"]')) {
+      initial = defaultPlatTab(section, tabs);
+    }
+    selectTab(section, initial);
 
     section.querySelectorAll("[data-constellation]").forEach(function (wrap) {
       var btn = wrap.querySelector("[data-constellation-pause]");

@@ -13,12 +13,15 @@ preview). A new home-signal.md or other theme-named page fails this check.
 
 Activity and platform counts in copy must match supported rows in
 data/integrations.json plus actions in data/platforms/<id>.yaml, and each
-figure must be wrapped in a data-count-* span.
+figure must be wrapped in a data-count-* span. The Signal platforms section
+must ship JS that calls selectTab with defaultPlatTab when the URL has no
+matching hash, so JS enhancement cannot leave all four panels stacked.
 
 Usage: check_theme.py BUILD_DIR
 """
 
 import json
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -61,6 +64,15 @@ def yaml_action_ids(platform_id: str):
 def theme_ids():
     data = json.loads((ROOT / "data/themes.json").read_text(encoding="utf-8"))
     return [theme["id"] for theme in data["themes"]]
+
+
+def platforms_js_selects_default(src: str) -> bool:
+    """True when bindPlatforms always calls selectTab, including a no-hash default."""
+    compact = re.sub(r"\s+", "", src)
+    return (
+        "functiondefaultPlatTab(" in compact
+        and "selectTab(section,initial)" in compact
+    )
 
 
 def extra_theme_content(root=ROOT):
@@ -195,6 +207,24 @@ def main(root: Path) -> int:
             problems.append("/index.html demo posts to GitHub")
         if ">Say it once. Say it everywhere.<" in html:
             problems.append("/index.html still uses the old platforms headline")
+        if "Write it once. Deploy to every front." not in html:
+            problems.append("/index.html lost the Major card headline")
+        if "Tab after tab. One post. Somebody call a medic." in html:
+            problems.append("/index.html still uses the old Major card line")
+        panels = html.count('data-plat-panel="')
+        if panels != 4:
+            problems.append(f"/index.html has {panels} platform panels, want 4")
+        js_ok = False
+        js_dir = root / "js"
+        if js_dir.is_dir():
+            for path in js_dir.glob("home-signal*.js"):
+                if platforms_js_selects_default(path.read_text(encoding="utf-8")):
+                    js_ok = True
+                    break
+        if not js_ok:
+            problems.append(
+                "/js/home-signal*.js must call selectTab with defaultPlatTab when the hash is empty"
+            )
 
     reveille = root / "home-reveille/index.html"
     if not reveille.is_file():

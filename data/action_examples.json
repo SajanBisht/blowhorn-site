@@ -213,10 +213,8 @@
           "screenshot": "assets/docs/actions/x/reply.png"
         },
         "cli": {
-          "status": "available",
-          "command": "blowhorn post --platform x --profile lee",
-          "cliRef": "/docs/reference/cli/post/",
-          "notes": "X replies ride with blowhorn post, not blowhorn comment. Put the tweet URL in the queue's Comment on column."
+          "status": "placeholder",
+          "notes": "X replies are not a distinct blowhorn command yet. Queue the tweet URL in Comment on."
         },
         "rest": {
           "status": "placeholder",
@@ -438,10 +436,8 @@
           "screenshot": "assets/docs/actions/hacker-news/comment.png"
         },
         "cli": {
-          "status": "available",
-          "command": "blowhorn post --platform hn --profile lee --dry-run",
-          "cliRef": "/docs/reference/cli/post/",
-          "notes": "Hacker News comments use the queue's Comment on column. blowhorn comment does not take --platform hn."
+          "status": "placeholder",
+          "notes": "Hacker News comments are not a distinct blowhorn command yet. Queue the item URL in Comment on."
         },
         "rest": {
           "status": "placeholder",
