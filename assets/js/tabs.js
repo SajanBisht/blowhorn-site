@@ -43,11 +43,15 @@
     }
   }
 
-  function firstAvailable(tabs) {
+  function firstAvailable(root, tabs) {
     var i, status;
     for (i = 0; i < tabs.length; i++) {
       status = tabs[i].getAttribute("data-tab-status");
       if (status !== "placeholder") return tabs[i].getAttribute("data-tab");
+    }
+    var fallback = root.getAttribute("data-tabs-fallback") || "";
+    for (i = 0; i < tabs.length; i++) {
+      if (tabs[i].getAttribute("data-tab") === fallback) return fallback;
     }
     return tabs.length ? tabs[0].getAttribute("data-tab") : "";
   }
@@ -101,7 +105,7 @@
     if (hash && prefix && hash.indexOf(prefix + "-") === 0) {
       initial = hash.slice(prefix.length + 1);
     }
-    select(root, initial || firstAvailable(tabs), false);
+    select(root, initial || firstAvailable(root, tabs), false);
   }
 
   document.querySelectorAll("[data-tabs]").forEach(enhance);

@@ -146,25 +146,90 @@ class PlatformDocsCheckTest(unittest.TestCase):
             problems,
         )
 
-    def test_built_html_shared_table_passes(self):
+    def build_pages(self, row=None, headers=None, examples=None):
+        """Write a built page per platform. row/headers/examples override the
+        supported-platform defaults: one linked action row and its section."""
         build = self.tmp / "public"
-        headers = "".join(f'<th scope="col">{h}</th>' for h in check.REQUIRED_HEADERS)
+        cols = headers if headers is not None else check.REQUIRED_HEADERS
+        head = "".join(f'<th scope="col">{h}</th>' for h in cols)
         data = json.loads((self.tmp / "data/integrations.json").read_text(encoding="utf-8"))
         for item in data["platforms"]:
-            extra = (
-                '<h2 id="examples">Examples</h2>'
-                if item["status"] == "supported"
-                else '<th scope="row">None yet</th>'
-            )
+            if item["status"] == "supported":
+                body = row if row is not None else (
+                    '<tr><th scope="row"><a href="#action-post">Post</a></th>'
+                    '<td data-label="What it does">Posts.</td>'
+                    '<td data-label="Limits / notes">None</td></tr>'
+                )
+                after = examples if examples is not None else (
+                    '<h2 id="examples">Examples</h2>'
+                    '<section class="action-example" id="action-post"><h3>Post</h3></section>'
+                )
+            else:
+                body = (
+                    '<tr><th scope="row">None yet</th>'
+                    '<td data-label="What it does">Coming soon.</td>'
+                    '<td data-label="Limits / notes">None</td></tr>'
+                )
+                after = ""
             write(
                 check.built_page(build, item["docs"]),
                 "<html><body>"
                 f'<section data-supported-actions="{item["id"]}">'
-                f'<table class="supported-actions"><thead><tr>{headers}</tr></thead>'
-                f"<tbody><tr>{extra}</tr></tbody></table></section>"
+                f'<table class="supported-actions"><thead><tr>{head}</tr></thead>'
+                f"<tbody>{body}</tbody></table></section>{after}"
                 "</body></html>",
             )
+        return build
+
+    def test_built_html_shared_table_passes(self):
+        build = self.build_pages()
         self.assertEqual(check.check_built(build, self.tmp), [])
+
+    def test_built_html_dead_action_anchor_fails(self):
+        build = self.build_pages(
+            examples='<h2 id="examples">Examples</h2>'
+            '<section class="action-example" id="action-comment"></section>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("#action-post but no element has that id" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_example_column_fails(self):
+        build = self.build_pages(headers=(*check.REQUIRED_HEADERS, "Example"))
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Example' column" in p for p in problems), problems)
+
+    def test_built_html_example_cell_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row"><a href="#action-post">Post</a></th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td>'
+            '<td data-label="Example"><a href="#action-post">See example</a></td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(any("'Example' column" in p for p in problems), problems)
+
+    def test_built_html_unlinked_action_name_fails(self):
+        build = self.build_pages(
+            row='<tr><th scope="row">Post</th>'
+            '<td data-label="What it does">Posts.</td>'
+            '<td data-label="Limits / notes">None</td></tr>'
+        )
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("'Post' does not link to its #action-<id>" in p for p in problems),
+            problems,
+        )
+
+    def test_built_html_missing_column_fails(self):
+        build = self.build_pages(headers=("Action", "What it does"))
+        problems = check.check_built(build, self.tmp)
+        self.assertTrue(
+            any("missing the 'Limits / notes' column" in p for p in problems),
+            problems,
+        )
 
 
 if __name__ == "__main__":

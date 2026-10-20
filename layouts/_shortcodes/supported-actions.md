@@ -11,7 +11,7 @@
 {{- if $actions }}
 {{ range $actions }}
 {{- $a := partial "action-resolve.html" . }}
-- **{{ $a.name }}**: {{ $a.description }}{{ with $a.limits }} Limits: {{ . }}{{ end }} ([example]({{ printf "#%s" $a.slug }}))
+- **[{{ $a.name }}]({{ printf "#%s" $a.slug }})**: {{ $a.description }}{{ with $a.limits }} Limits: {{ . }}{{ end }}
 {{- end }}
 {{- else }}
 - **None yet**: Coming soon. This platform isn't available yet.

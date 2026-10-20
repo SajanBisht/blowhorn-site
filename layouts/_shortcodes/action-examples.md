@@ -23,7 +23,7 @@
 {{ with .notes }}{{ . }}{{ end }}
 {{- else }}
 
-{{ .notes | default "No CLI command for this action." }}
+{{ .notes | default "Not in the CLI yet." }}
 {{- end }}
 {{- end }}
 {{ end -}}

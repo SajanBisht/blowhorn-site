@@ -15,10 +15,16 @@ page. Hyphens, never em dashes.
 | [`schemas/actions.schema.json`](../schemas/actions.schema.json) and [`schemas/action_examples.schema.json`](../schemas/action_examples.schema.json) | `make check-schemas` validates both, then [`.github/scripts/check_action_examples.py`](../.github/scripts/check_action_examples.py) fails if coverage dropped. |
 
 Every platform docs page calls `{{< supported-actions "<id>" >}}`. That
-shortcode renders the actions table (Action, What it does, Limits / notes,
-Example) and the example tabs from this data. You do not edit the page to add
-an example or to list the actions. `make check-platform-docs` fails a
-hand-written action list or a page that skips the shortcode.
+shortcode renders the actions table (Action, What it does, Limits / notes)
+and the example tabs from this data. Each action name links to its example
+section on the same page (`#action-<id>`); there is no separate Example
+column. You do not edit the page to add an example or to list the actions.
+`make check-platform-docs` fails a hand-written action list, a page that skips
+the shortcode, a dead `#action-<id>` link, an action name without one, or an
+Example column coming back.
+
+When every surface of an example is `placeholder`, its tabs open on
+`defaultSurface` (`cli`), which reads "Not in the CLI yet" with the CLI notes.
 
 ## Add or fill an example
 

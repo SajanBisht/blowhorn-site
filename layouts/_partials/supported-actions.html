@@ -1,7 +1,9 @@
 {{- /* Supported actions for one platform, from data/platforms/<key>.yaml
   plus data/actions.json. The platform docs page (shortcode supported-actions)
   and the agent pages both render through this partial, so the two can't
-  drift. Table columns: action, what it does, limits/notes, example.
+  drift. Table columns: action, what it does, limits/notes. Each action
+  name links to its usage section (#action-<id>) rendered below the table,
+  so there is no separate Example column.
   Coming-soon platforms with no YAML still get this table, empty of actions.
   Usage: partial "supported-actions.html" (dict "key" "linkedin") */ -}}
 {{- $key := .key -}}
@@ -24,7 +26,6 @@
       <th scope="col">Action</th>
       <th scope="col">What it does</th>
       <th scope="col">Limits / notes</th>
-      <th scope="col">Example</th>
     </tr>
   </thead>
   <tbody>
@@ -35,15 +36,13 @@
         <th scope="row"><a href="#{{ $a.slug }}">{{ $a.name }}</a></th>
         <td data-label="What it does">{{ $a.description }}</td>
         <td data-label="Limits / notes">{{ with $a.limits }}{{ . }}{{ else }}None{{ end }}</td>
-        <td data-label="Example"><a href="#{{ $a.slug }}">See example</a></td>
       </tr>
     {{- end }}
   {{- else }}
     <tr>
-        <th scope="row">None yet</th>
+      <th scope="row">None yet</th>
       <td data-label="What it does">Coming soon. This platform isn't available yet.</td>
       <td data-label="Limits / notes">None</td>
-      <td data-label="Example">None</td>
     </tr>
   {{- end }}
   </tbody>
