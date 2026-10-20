@@ -4,6 +4,7 @@
     {
       "slug": "launch-day",
       "name": "Launch day",
+      "title": "Blowhorn for launch day",
       "weight": 10,
       "headline": "The first hour is the launch.",
       "lead": "Schedule the announcement and its amplifications ahead of time. Every profile you run joins the same sound wave at the moment you pick.",
@@ -82,10 +83,11 @@
     {
       "slug": "open-source-release",
       "name": "Open source release",
+      "title": "Blowhorn for open source releases",
       "weight": 20,
       "headline": "Ship the tag. Tell every channel, as you.",
-      "lead": "Announce a release on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky from one queue, as you.",
-      "description": "Announce a release or project milestone on GitHub, Slack, Hacker News, Reddit, LinkedIn, X and Bluesky from one queue, as yourself.",
+      "lead": "Announce a release on Slack, Hacker News, Reddit, LinkedIn, X and Bluesky, and rally reactions on the GitHub issue, from one queue, as you.",
+      "description": "Announce a release or project milestone on Slack, Hacker News, Reddit, LinkedIn, X and Bluesky, and rally GitHub reactions, from one queue, as yourself.",
       "art": {
         "src": "assets/brand/cast/trench-trooper-base.webp",
         "alt": "Trench Trooper, a muddy pig in a helmet holding a rifle with a teal tab bayonet and a gold periscope"
@@ -114,8 +116,8 @@
           "b": "Queue the release from every profile you run, each posting as itself. Team invites are coming soon."
         },
         {
-          "t": "No votes, no Slack app",
-          "b": "Hacker News submit and comment only, capped per profile per day. Slack posts with your user token as you; a bot token is optional if your workspace prefers it."
+          "t": "Slack as you, no bot to invite",
+          "b": "Sends as you through Slack's API, using your Slack session linked through the Blowhorn extension or a Slack token you add. Either one is kept in your Blowhorn account."
         },
         {
           "t": "Human-paced by design",
@@ -131,7 +133,7 @@
         },
         {
           "q": "Does Blowhorn install a Slack app?",
-          "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you. It posts with your user token as you; a bot token is optional if your workspace prefers it."
+          "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you with your Slack session, linked through the Blowhorn extension, or a Slack token you add. Either one is kept in your Blowhorn account."
         },
         {
           "q": "Does every maintainer need a Mac?",
@@ -160,6 +162,7 @@
     {
       "slug": "conference",
       "name": "Conference",
+      "title": "Blowhorn for conferences",
       "weight": 30,
       "headline": "Queue the week. Walk the floor.",
       "lead": "Queue the pre-event, day-of and follow-up posts once. As long as one of your machines is awake that is set up for that profile, it covers the schedule while you're at the booth.",

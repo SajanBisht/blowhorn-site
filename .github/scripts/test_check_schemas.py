@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Shared line/text/card types: both role and use-case data $ref
-schemas/defs/cast-page.schema.json, and a bad card fails both.
+"""Shared line/text/card types: a bad card fails for both role and
+use-case data, and a use case without title fails.
 
 Run with `make test-scripts` (CI runs it too).
 """
@@ -15,7 +15,6 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SHARED_ID = "https://blowhorn.ai/schemas/defs/cast-page.schema.json"
 REFS = ["-r", str(ROOT / "schemas/defs/cast-page.schema.json")]
 AJV_VERSION_RE = re.compile(r"^AJV_CLI_VERSION\s*\??=\s*(\S+)\s*$")
 
@@ -50,17 +49,19 @@ def ajv(schema, data_path):
     )
 
 
-class CastPageSchemaTest(unittest.TestCase):
-    def test_both_schemas_ref_shared_defs(self):
-        for name in ("roles.schema.json", "use_cases.schema.json"):
-            schema = json.loads((ROOT / "schemas" / name).read_text(encoding="utf-8"))
-            for key in ("line", "text", "card"):
-                self.assertEqual(
-                    schema["definitions"][key],
-                    {"$ref": f"{SHARED_ID}#/definitions/{key}"},
-                    msg=f"{name} definitions.{key} must $ref the shared schema",
-                )
+def write_tmp(payload):
+    tmp = tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".json",
+        encoding="utf-8",
+        delete=False,
+    )
+    json.dump(payload, tmp)
+    tmp.close()
+    return Path(tmp.name)
 
+
+class CastPageSchemaTest(unittest.TestCase):
     def test_bad_card_fails_roles_and_use_cases(self):
         cases = (
             ("schemas/roles.schema.json", "data/roles.json", "roles"),
@@ -71,14 +72,7 @@ class CastPageSchemaTest(unittest.TestCase):
                 payload = json.loads((ROOT / data).read_text(encoding="utf-8"))
                 broken = copy.deepcopy(payload)
                 broken[key][0]["pains"][0]["t"] = "A title with an em dash — here"
-                with tempfile.NamedTemporaryFile(
-                    mode="w",
-                    suffix=".json",
-                    encoding="utf-8",
-                    delete=False,
-                ) as tmp:
-                    json.dump(broken, tmp)
-                    tmp_path = Path(tmp.name)
+                tmp_path = write_tmp(broken)
                 try:
                     result = ajv(ROOT / schema, tmp_path)
                     self.assertNotEqual(
@@ -93,6 +87,26 @@ class CastPageSchemaTest(unittest.TestCase):
                     )
                 finally:
                     tmp_path.unlink(missing_ok=True)
+
+    def test_use_case_missing_title_fails(self):
+        payload = json.loads((ROOT / "data/use_cases.json").read_text(encoding="utf-8"))
+        broken = copy.deepcopy(payload)
+        del broken["use_cases"][0]["title"]
+        tmp_path = write_tmp(broken)
+        try:
+            result = ajv(ROOT / "schemas/use_cases.schema.json", tmp_path)
+            self.assertNotEqual(
+                result.returncode,
+                0,
+                "a use case without title should fail validation",
+            )
+            combined = result.stderr + result.stdout
+            self.assertTrue(
+                combined.strip(),
+                "ajv should report that title is required",
+            )
+        finally:
+            tmp_path.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

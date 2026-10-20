@@ -36,6 +36,7 @@
       "required": [
         "slug",
         "name",
+        "title",
         "weight",
         "headline",
         "lead",
@@ -56,6 +57,10 @@
         "name": {
           "$ref": "#/definitions/line",
           "description": "The job on the page (\"Launch day\", \"Conference\")."
+        },
+        "title": {
+          "$ref": "#/definitions/line",
+          "description": "Document title (\"Blowhorn for launch day\")."
         },
         "weight": {
           "type": "integer",

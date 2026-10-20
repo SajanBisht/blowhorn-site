@@ -2,18 +2,11 @@
   schemas/use_cases.schema.json). The copy lives in the data file;
   layouts/use-case.html renders it through the shared cast-page partial.
   lastmod comes from git (enableGitInfo). */ -}}
-{{- $titles := dict
-  "launch-day" "launch day"
-  "open-source-release" "open source releases"
-  "conference" "conferences"
--}}
 {{- range site.Data.use_cases.use_cases }}
-  {{- $for := index $titles .slug -}}
-  {{- if not $for }}{{ errorf "data/use_cases.json: no page title for %q" .slug }}{{ end -}}
   {{- $.AddPage (dict
       "kind" "page"
       "path" .slug
-      "title" (printf "Blowhorn for %s" $for)
+      "title" .title
       "weight" .weight
       "params" (dict "slug" .slug "description" .description)
     ) }}
