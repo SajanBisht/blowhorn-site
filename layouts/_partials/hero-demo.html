@@ -14,8 +14,11 @@
 {{- /* hero-art-title is in the site contract: the film carries it when it is
   rendered, otherwise the demo does. */ -}}
 {{- $artId := cond (in $rot.medias "video") "hero-demo-title" "hero-art-title" -}}
+{{- /* A lead film renders above the copy in home/signal.html instead. */ -}}
+{{- $film := and (in $rot.medias "video") (ne $rot.video.placement "lead") -}}
+{{- if or $film (in $rot.medias "demo") }}
 <div class="hero-visual wrap">
-{{- if in $rot.medias "video" }}
+{{- if $film }}
   {{ partial "hero-video.html" $rot.video }}
 {{- end }}
 {{- if in $rot.medias "demo" }}
@@ -95,3 +98,4 @@
   </div>
 {{- end }}
     </div>
+{{- end }}

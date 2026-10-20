@@ -84,11 +84,27 @@ The default is the Battalion Thunder film (source:
 leecalcote/blowhorn `marketing/videos/blowhorn-battalion-thunder`), 1080p,
 about 1.9 MB MP4 and 2.1 MB WebM.
 
-`assets/js/hero-video.js` plays it muted and looping once it is on screen
-(browsers only autoplay muted video), with a Sound on/off toggle and a
-Pause/Play toggle, and pauses it off screen. Under
-`prefers-reduced-motion: reduce` it waits on its poster behind a Play
-button. Without JavaScript the native video controls show.
+`media.video.placement` is `lead` (the film comes first in the hero, sized
+to fit the first viewport whole under the sticky header, 16:9 with the
+captions never cropped, and the headline, subhead and calls to action
+follow it below; `?hero=<id>` still swaps that copy) or `visual` (under the
+copy, where the demo sits).
+
+`media.video.playback` drives `assets/js/hero-video.js`:
+
+- `autoplay`: `true` plays it muted once on screen (browsers only autoplay
+  muted video); `false` waits on the poster behind a Play button.
+- `loop`: replay from the start when it ends.
+- `sound`: the Play button starts it with sound (the click is a user
+  gesture, so browsers allow audio).
+- `end`: `poster` or `last-frame` when it ends without looping; a Watch
+  again button shows either way.
+
+Production is `lead` with no autoplay, no loop, sound on and `end: poster`.
+While it plays, Sound and Pause toggles show; it pauses off screen and
+resumes on return unless the visitor paused it. Under
+`prefers-reduced-motion: reduce` it never autoplays. Without JavaScript the
+native video controls show.
 
 To re-encode after a new render:
 

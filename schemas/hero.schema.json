@@ -39,8 +39,21 @@
           "description": "The hero film. Required when any hero uses video (the build fails otherwise). Captions are burned into the picture, so there is no separate track.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["mp4", "webm", "poster", "width", "height", "label", "description"],
+          "required": ["mp4", "webm", "poster", "width", "height", "label", "description", "placement", "playback"],
           "properties": {
+            "placement": { "description": "lead puts the film first in the hero, sized to fit the first viewport whole (16:9, captions never cropped), with the headline, subhead and calls to action below it. visual puts it under the hero copy.", "type": "string", "enum": ["lead", "visual"] },
+            "playback": {
+              "description": "How the film plays. Under prefers-reduced-motion it never autoplays. Without JavaScript the native controls show.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["autoplay", "loop", "sound", "end"],
+              "properties": {
+                "autoplay": { "description": "true plays it (muted, as browsers require) once on screen. false waits on the poster behind a Play button.", "type": "boolean" },
+                "loop": { "description": "Replay from the start when it ends.", "type": "boolean" },
+                "sound": { "description": "Play with sound when the visitor presses Play. Ignored for autoplay, which is always muted until the visitor turns sound on.", "type": "boolean" },
+                "end": { "description": "When it ends without loop: poster returns to the poster, last-frame holds the final frame. Either way a Watch again button shows.", "type": "string", "enum": ["poster", "last-frame"] }
+              }
+            },
             "mp4": { "description": "H.264/AAC MP4 with faststart, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.mp4$" },
             "webm": { "description": "VP9/Opus WebM of the same film, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.webm$" },
             "poster": { "description": "Still shown before the film plays and under reduced motion, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.(jpg|png|webp)$" },
