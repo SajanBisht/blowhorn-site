@@ -7,6 +7,7 @@
   groups are listed open. Off the home page the section links lead back to the
   home page's sections. */ -}}
 {{- $home := cond .IsHome "" ("" | relURL) -}}
+{{- $useCases := site.Data.use_cases.use_cases -}}
 {{- $compare := site.GetPage "/compare" -}}
 {{- $agents := site.GetPage "/agents" -}}
 {{- define "_partials/mm-link.html" -}}
@@ -51,6 +52,14 @@
                   <ul class="mm-links">
                     {{- range sort site.Data.roles.roles "weight" }}
                     {{- partial "mm-link.html" (dict "href" (printf "for/%s/" .slug | relURL) "title" .name) }}
+                    {{- end }}
+                  </ul>
+                </div>
+                <div class="mm-group">
+                  <p class="mm-group-title"><a href="{{ "use-cases/" | relURL }}">By use case</a></p>
+                  <ul class="mm-links">
+                    {{- range sort $useCases "weight" }}
+                    {{- partial "mm-link.html" (dict "href" (printf "use-cases/%s/" .slug | relURL) "title" .name) }}
                     {{- end }}
                   </ul>
                 </div>

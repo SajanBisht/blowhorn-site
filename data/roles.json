@@ -62,6 +62,10 @@
       ],
       "related": [
         {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
+        {
           "label": "Run Blowhorn from your coding agent",
           "page": "/agents"
         },
@@ -140,6 +144,10 @@
       ],
       "related": [
         {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
+        {
           "label": "How amplification works",
           "page": "/docs/how-to/publish/amplify-a-post"
         },
@@ -213,6 +221,10 @@
         }
       ],
       "related": [
+        {
+          "label": "Launch day",
+          "page": "/use-cases/launch-day"
+        },
         {
           "label": "Where your data lives",
           "page": "/docs/explanation/your-data"
@@ -288,6 +300,10 @@
       ],
       "related": [
         {
+          "label": "Open source release",
+          "page": "/use-cases/open-source-release"
+        },
+        {
           "label": "Every platform",
           "page": "/docs/reference/platforms"
         },
@@ -306,8 +322,8 @@
       "name": "Community managers",
       "weight": 50,
       "headline": "Rally the community. Everyone speaks for themselves.",
-      "lead": "Announce to community Slack workspaces as yourself, then have maintainers and supporters amplify milestones from their own profiles in the first hour. No Blowhorn app taking a slot in your workspace.",
-      "description": "Blowhorn for community managers: Slack announcements as yourself with no app to install, and supporters amplifying from their own profiles.",
+      "lead": "Announce to community Slack workspaces as yourself, then have maintainers and supporters amplify milestones from their own profiles in the first hour.",
+      "description": "Blowhorn for community managers: Slack announcements as yourself, and supporters amplifying from their own profiles.",
       "art": {
         "src": "assets/brand/cast/recruit-chick-salute.webp",
         "alt": "Recruit Chick, a yellow chick in a green helmet with a belt of heart, repost and thumbs-up icons, saluting"
@@ -328,8 +344,8 @@
       ],
       "gets": [
         {
-          "t": "Slack as you, nothing installed",
-          "b": "Blowhorn works through your own sign-in. No Blowhorn app to install, no app slot used, no bot user to invite."
+          "t": "Slack as you, no bot to invite",
+          "b": "Sends as you through Slack's API, using your Slack session linked through the Blowhorn extension or a Slack token you add. Either one is kept in your Blowhorn account."
         },
         {
           "t": "Supporters contribute their profile",
@@ -353,7 +369,7 @@
         },
         {
           "q": "Does Blowhorn install a Slack app?",
-          "a": "No. It works through your own Slack session and posts as you, never as a bot."
+          "a": "No. Blowhorn works on Slack through Slack's API, never the browser, and sends as you with your Slack session, linked through the Blowhorn extension, or a Slack token you add. Either one is kept in your Blowhorn account."
         },
         {
           "q": "Discord or Mastodon?",
@@ -361,6 +377,10 @@
         }
       ],
       "related": [
+        {
+          "label": "Conference",
+          "page": "/use-cases/conference"
+        },
         {
           "label": "Slack",
           "page": "/docs/reference/platforms/slack"
