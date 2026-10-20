@@ -32,6 +32,9 @@
                 <li><a href="https://chromewebstore.google.com/detail/fcflpiagmpcfifgknledeknedfopnapf">Chrome extension</a></li>
                 <li><a href="{{ site.Params.github_repo }}/releases">Releases</a></li>
                 <li><a href="{{ $home }}#platforms">Platforms</a></li>
+                {{- with site.Data.integrations.matrix }}
+                <li><a href="{{ (strings.TrimPrefix "/" .path) | relURL }}">{{ .label }}</a></li>
+                {{- end }}
               </ul>
             </div>
             <div class="footer-col">
