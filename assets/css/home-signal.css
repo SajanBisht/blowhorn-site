@@ -576,7 +576,7 @@ button.machines-add:focus-visible, button.machines-pill:focus-visible { outline:
 .machines-panel.is-live .machines-beat.is-final img { animation: stage-bark 0.7s ease-in-out 3.6s 3; transform-origin: 50% 100%; }
 
 .hero-video { margin: 0; position: relative; }
-.hero-video video, .hero-video img { width: 100%; border-radius: var(--radius-lg); }
+.hero-video video { width: 100%; border-radius: var(--radius-lg); }
 /* The hero film (hero-video.html, data/hero.json media.video). Toggles sit
    top-right so they never cover the burned-in captions at the bottom. */
 .hero-film { aspect-ratio: 16 / 9; background: #000; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 0 0 1px rgba(0,211,169,.18), 0 50px 140px -30px rgba(0, 211, 169, 0.35), 0 30px 80px -20px rgba(0,0,0,.8); }
@@ -615,15 +615,6 @@ button.machines-add:focus-visible, button.machines-pill:focus-visible { outline:
   .hero-film-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .hero-film-btn svg { width: 16px; height: 16px; }
   .hero-film-start { font-size: 15px; padding: 11px 18px; }
-}
-.hero-video-slot {
-  min-height: 12rem;
-  display: grid;
-  place-items: center;
-  gap: var(--space-4);
-  border: 1px dashed var(--line-strong);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
 }
 
 /* App mock, after the Signal Figma shell. */

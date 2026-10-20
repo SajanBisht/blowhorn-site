@@ -257,10 +257,12 @@ class HeroDemoSchemaTest(unittest.TestCase):
         self.assertIn("Demo", data["label"])
         self.assertIn("Example", data["exampleLabel"])
 
-    def test_missing_video_slot_fails(self):
+    def test_video_mode_is_gone(self):
+        # The hero film lives in data/hero.json media.video; hero_demo.json
+        # is the interactive demo only.
         payload = json.loads((ROOT / "data/hero_demo.json").read_text(encoding="utf-8"))
         broken = copy.deepcopy(payload)
-        del broken["video"]
+        broken["video"] = {"src": "", "poster": "", "alt": "A video"}
         tmp = write_tmp(broken)
         try:
             result = ajv(ROOT / "schemas/hero_demo.schema.json", tmp)
