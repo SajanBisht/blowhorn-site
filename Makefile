@@ -208,7 +208,11 @@ check-platform-docs: build-production
 	python3 .github/scripts/check_platform_docs.py $(BUILD_DIR)
 
 ## Build for production once, then validate-html, check-links, check-third-party and check-urls, plus check-schemas (what site.yml runs).
-site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme check-platform-docs
+site-check: check-schemas validate-html check-links check-third-party check-urls check-no-internal check-theme check-platform-docs check-naming
+
+## Production build, then fail if a page says Layer5 Cloud or Blowhorn Cloud, or names Layer5 outside the footer and the legal pages (users see Blowhorn).
+check-naming: build-production
+	python3 .github/scripts/check_naming.py $(BUILD_DIR)
 
 ## Build for production, then fail if the /internal/ section leaked into it.
 check-no-internal: build-production
