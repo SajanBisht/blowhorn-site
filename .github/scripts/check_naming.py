@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""Fail if the built site names the service anything but Blowhorn.
+
+Users see one product, Blowhorn: they sign in at cloud.blowhorn.ai and
+there is no "Layer5 Cloud" or "Blowhorn Cloud" (Yi, 2026-10-20). Layer5,
+the company, is named only in the footer and on the legal pages
+(privacy, terms and the legal index).
+
+Read from every built HTML page: text, plus the alt, title, aria-label
+and placeholder attributes and the description and social meta tags.
+Script and style bodies, HTML comments, URLs and ids are not read, so
+layer5io/... repository links and file names pass.
+
+- "Layer5 Cloud" or "Blowhorn Cloud" (any case) fails on every page,
+  footer included.
+- "Layer5" or "Layer 5" (as written, capital L) fails outside a <footer>
+  element and outside the legal pages.
+
+PENDING lists pages whose source is generated elsewhere and is being
+fixed there; their hits are printed as pending, not failures. Remove an
+entry once its fix is synced.
+
+Usage: check_naming.py [BUILD_DIR]
+"""
+
+from __future__ import annotations
+
+import re
+import sys
+from html.parser import HTMLParser
+from pathlib import Path
+
+CLOUD_RE = re.compile(r"\b(?:Layer\s?5|Blowhorn)\s+Cloud\b", re.I)
+COMPANY_RE = re.compile(r"\bLayer\s?5\b")
+# Pages that may name Layer5 (the company). Paths relative to BUILD_DIR.
+COMPANY_ALLOWED = ("legal/index.html", "legal/privacy/index.html", "legal/terms/index.html")
+# Generated CLI reference pages: the CLI strings are being renamed in
+# leecalcote/blowhorn by Blowhorn Bot; the next docs sync clears these.
+PENDING = ("docs/reference/cli/",)
+TEXT_ATTRS = {"alt", "title", "aria-label", "placeholder"}
+META_NAMES = {"description", "og:title", "og:description", "og:site_name",
+              "twitter:title", "twitter:description", "application-name"}
+VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
+        "meta", "source", "track", "wbr"}
+
+
+class Reader(HTMLParser):
+    """Collect (text, in_footer) pairs a reader of the page sees."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[str] = []
+        self.footer = 0
+        self.skip = 0
+        self.out: list[tuple[str, bool]] = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        for name in TEXT_ATTRS:
+            if a.get(name):
+                self.out.append((a[name], self.footer > 0))
+        if tag == "meta":
+            key = (a.get("name") or a.get("property") or "").lower()
+            if key in META_NAMES and a.get("content"):
+                self.out.append((a["content"], False))
+        if tag in VOID:
+            return
+        self.stack.append(tag)
+        if tag == "footer":
+            self.footer += 1
+        if tag in ("script", "style", "template"):
+            self.skip += 1
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID and self.stack and self.stack[-1] == tag:
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):
+        if tag not in self.stack:
+            return
+        while self.stack:
+            t = self.stack.pop()
+            if t == "footer":
+                self.footer -= 1
+            if t in ("script", "style", "template"):
+                self.skip -= 1
+            if t == tag:
+                break
+
+    def handle_data(self, data):
+        if not self.skip and data.strip():
+            self.out.append((data, self.footer > 0))
+
+
+def page_problems(rel: str, html: str) -> list[str]:
+    reader = Reader()
+    reader.feed(html)
+    reader.close()
+    found: list[str] = []
+    company_ok = rel in COMPANY_ALLOWED
+    for text, in_footer in reader.out:
+        text = " ".join(text.split())
+        for m in CLOUD_RE.finditer(text):
+            found.append(f'{rel}: says "{m.group(0)}" (say Blowhorn): ...{snippet(text, m)}...')
+        if company_ok or in_footer:
+            continue
+        for m in COMPANY_RE.finditer(text):
+            if CLOUD_RE.match(text, m.start()):
+                continue
+            found.append(f'{rel}: names "{m.group(0)}" outside the footer and legal pages: ...{snippet(text, m)}...')
+    return found
+
+
+def snippet(text: str, m: re.Match) -> str:
+    return text[max(0, m.start() - 40): m.end() + 40]
+
+
+def check(build: Path) -> tuple[list[str], list[str]]:
+    failures: list[str] = []
+    pending: list[str] = []
+    for path in sorted(build.rglob("*.html")):
+        rel = path.relative_to(build).as_posix()
+        if rel.startswith("internal/"):
+            continue
+        problems = page_problems(rel, path.read_text(encoding="utf-8", errors="replace"))
+        (pending if rel.startswith(PENDING) else failures).extend(problems)
+    return failures, pending
+
+
+def main(argv: list[str]) -> int:
+    build = Path(argv[1] if len(argv) > 1 else "public")
+    if not build.is_dir():
+        print(f"check_naming: no build at {build}; run make build-production first", file=sys.stderr)
+        return 2
+    failures, pending = check(build)
+    for line in pending:
+        print(f"check_naming: pending upstream fix: {line}")
+    for line in failures:
+        print(f"check_naming: {line}", file=sys.stderr)
+    if failures:
+        print(f"check_naming: {len(failures)} naming problem(s). Users see Blowhorn (sign in at cloud.blowhorn.ai); Layer5 only in the footer and legal pages.", file=sys.stderr)
+        return 1
+    print(f"check_naming: ok ({len(pending)} pending in {', '.join(PENDING)})")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
