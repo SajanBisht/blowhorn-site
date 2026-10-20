@@ -1,9 +1,9 @@
 {{- /* The home page hero rotation, from data/hero.json (schema:
   schemas/hero.schema.json). Returns heroes (id, headline, subhead, art, in
   rotation order), arts (each art once), default (the variant no-JS visitors
-  see), mode (utc-day or interval) and intervalSeconds. Fails the build when
-  rotation.ids names an unknown variant, when default is not in the rotation,
-  or when interval mode has no positive intervalSeconds. See docs/hero-variants.md. */ -}}
+  see), mode and intervalSeconds. Fails the build when rotation.ids names an
+  unknown variant or when default is not in the rotation. Mode and interval
+  are schema-checked; this partial only resolves ids. See docs/hero-variants.md. */ -}}
 {{- $data := site.Data.hero -}}
 {{- $cfg := $data.rotation -}}
 {{- $ids := slice -}}
@@ -24,15 +24,6 @@
 {{- if not (in $ids $default.id) -}}
   {{- errorf "data/hero.json: default %q must be one of the rotating ids, or no-JS visitors would get no hero" $default.id -}}
 {{- end -}}
-{{- $mode := $cfg.mode | default "utc-day" -}}
-{{- if and (ne $mode "utc-day") (ne $mode "interval") -}}
-  {{- errorf "data/hero.json: rotation.mode must be utc-day or interval, got %q" $mode -}}
-{{- end -}}
 {{- $seconds := 0 -}}
 {{- with $cfg.intervalSeconds }}{{ $seconds = . }}{{ end -}}
-{{- if eq $mode "interval" -}}
-  {{- if le (float $seconds) 0 -}}
-    {{- errorf "data/hero.json: rotation.intervalSeconds must be above 0 when mode is interval, got %v" $seconds -}}
-  {{- end -}}
-{{- end -}}
-{{- return dict "heroes" $heroes "arts" $arts "default" $default.id "mode" $mode "intervalSeconds" (int $seconds) -}}
+{{- return dict "heroes" $heroes "arts" $arts "default" $default.id "mode" $cfg.mode "intervalSeconds" (int $seconds) -}}

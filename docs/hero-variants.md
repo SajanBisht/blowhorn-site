@@ -40,9 +40,9 @@ never changes while someone is reading the page.
 ## How it renders
 
 - [`layouts/_partials/hero-rotation.html`](../layouts/_partials/hero-rotation.html) reads
-  the data file and fails the build if `rotation.ids` names an unknown variant,
-  if `default` is not in the rotating ids, or if interval mode has no positive
-  `intervalSeconds`.
+  the data file and fails the build if `rotation.ids` names an unknown variant
+  or if `default` is not in the rotating ids. Mode and `intervalSeconds` are
+  schema-checked (`make check-schemas`).
 - [`layouts/home.html`](../layouts/home.html) renders the hero once: one `h1` and one
   subhead holding a `<span data-hero-only="<id>">` per rotating hero, the shared label,
   buttons and social proof, and one figure per art used by the rotation, each from its own
