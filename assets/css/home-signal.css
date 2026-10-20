@@ -396,11 +396,6 @@ html[data-machines="battalion-map"] #how .section-head .body-lg { margin-inline:
 .machines-beat-duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
 .machines-beat-copy { margin-inline: 0; margin-bottom: 0; font-size: 14.5px; }
 .machines-beat.is-final { border-color: color-mix(in srgb, var(--teal) 55%, transparent); }
-@keyframes machines-beat {
-  0%, 22% { border-color: color-mix(in srgb, var(--teal) 65%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--teal) 35%, transparent); }
-  30%, 100% { border-color: var(--app-line, #26302D); box-shadow: none; }
-}
-.machines-beat { animation: machines-beat 4.8s linear infinite; animation-delay: calc(var(--beat) * 1.2s); }
 .machines-beat:nth-child(1) { --beat: 0; }
 .machines-beat:nth-child(2) { --beat: 1; }
 .machines-beat:nth-child(3) { --beat: 2; }
@@ -432,16 +427,153 @@ html[data-machines="battalion-map"] #how .section-head .body-lg { margin-inline:
   background: var(--app-control, #22302C);
   z-index: 1;
 }
-@keyframes machines-tl {
-  0%, 22% { background: var(--teal); box-shadow: 0 0 8px var(--teal); }
-  30%, 100% { background: var(--app-control, #22302C); box-shadow: none; }
-}
-.machines-tl-dot { animation: machines-tl 4.8s linear infinite; animation-delay: calc(var(--beat) * 1.2s); }
 .machines-tl-time { font: 400 10.5px var(--font-mono); color: var(--ink-muted); margin-top: var(--space-2); }
 .machines-panel[data-machines-only="call-to-arms"] .machines-actions { margin-top: var(--space-6); }
-@media (prefers-reduced-motion: reduce) {
-  .machines-beat, .machines-tl-dot { animation: none; }
+
+/* Machines animations, driven by assets/js/machines.js. The panel the
+   rotation shows gets .is-armed (start state) and, in view, .is-live (play);
+   looping motion stops with .is-paused. Reuses the Reveille primitives:
+   army-enlist (the enlist pop), wave-pulse (the rings), stage-bark (the
+   Major) and army-shout (his bubble), all in assets/css/site.css. Without
+   JavaScript or under prefers-reduced-motion nothing is armed, so every
+   design rests fully drawn. Platform logos never move (Bluesky's and X's
+   brand rules): only their tiles' rings do. */
+.machines-panel.is-paused, .machines-panel.is-paused * { animation-play-state: paused !important; }
+@keyframes machines-fall-in {
+  0% { opacity: 0; transform: translateY(-28px) scale(0.7); }
+  70% { opacity: 1; transform: translateY(3px) scale(1.02); }
+  100% { opacity: 1; transform: none; }
 }
+@keyframes machines-row-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+@keyframes machines-ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--teal) 70%, transparent); }
+  100% { box-shadow: 0 0 0 14px transparent; }
+}
+
+/* Muster */
+.machines-panel.is-armed:not(.is-live) .machines-formation-grid img,
+.machines-panel.is-armed:not(.is-live) .machines-roll li { opacity: 0; }
+.machines-panel.is-live .machines-formation-grid img { animation: machines-fall-in 520ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both; }
+.machines-panel.is-live .machines-roll li { animation: machines-row-in 420ms ease-out var(--d, 0ms) both; }
+.machines-panel.is-live .machines-roll .machines-pill { animation: army-enlist 0.45s ease-out calc(var(--d, 0ms) + 260ms) both; }
+.machines-panel.is-live .machines-formation-grid .machines-add { animation: machines-ping 1.6s ease-out 1.2s infinite; }
+.machines-formation-grid img.is-new, .machines-panel.is-armed:not(.is-live) .machines-formation-grid img.is-new { opacity: 1; animation: machines-fall-in 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.machines-roll li.is-new, .machines-panel.is-armed:not(.is-live) .machines-roll li.is-new { opacity: 1; animation: machines-row-in 420ms ease-out both; }
+.machines-add[hidden], .machines-pill[hidden] { display: none; }
+button.machines-add, button.machines-pill { cursor: pointer; font: inherit; }
+button.machines-add { width: 100%; background: transparent; font-size: 22px; color: var(--teal); }
+button.machines-pill { font: 500 10.5px/1 var(--font-mono); }
+button.machines-add:hover, button.machines-pill:hover { background: color-mix(in srgb, var(--teal) 14%, transparent); }
+button.machines-add:focus-visible, button.machines-pill:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.machines-formation-front { position: relative; flex-wrap: wrap; }
+.machines-say { visibility: hidden; opacity: 0; font-size: 14px; flex: 1 1 12rem; max-width: 18rem; margin: 0 0 var(--space-2) auto; align-self: center; }
+.machines-say.is-on { visibility: visible; opacity: 1; }
+.machines-say.is-shout { animation: army-shout 0.35s ease-out; }
+.machines-major.is-bark { animation: stage-bark 0.7s ease-in-out 2; transform-origin: 50% 100%; }
+@media (max-width: 640px) { .machines-say { flex-basis: 100%; max-width: none; font-size: 13px; order: 3; margin: var(--space-2) 0 0; } .machines-say:not(.is-on) { display: none; } }
+
+/* Battalion Map */
+@keyframes machines-march { to { stroke-dashoffset: -3.6; } }
+@keyframes machines-run {
+  0% { left: var(--x); top: var(--y); opacity: 0; }
+  10% { opacity: 1; }
+  45% { left: 50%; top: 50%; opacity: 1; }
+  50%, 100% { left: 50%; top: 50%; opacity: 0; }
+}
+.machines-panel.is-live .machines-map-wires line { animation: machines-march 1.2s linear infinite reverse; }
+.machines-panel.is-armed:not(.is-live) .machines-node { opacity: 0; }
+.machines-panel.is-live .machines-node { animation: army-enlist 0.45s ease-out var(--d, 0ms) both; }
+.machines-panel.is-live .machines-node .machines-dot { animation: machines-ping 1.8s ease-out calc(var(--d, 0ms) + 450ms) infinite; }
+.machines-packets { position: absolute; inset: 0; pointer-events: none; }
+.machines-packets i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--teal-bright, #00D3A9);
+  box-shadow: 0 0 8px var(--teal-bright, #00D3A9);
+  opacity: 0;
+}
+.machines-packets i.is-mate { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.machines-packets i:nth-child(1) { --x: 18%; --y: 24%; }
+.machines-packets i:nth-child(2) { --x: 82%; --y: 24%; }
+.machines-packets i:nth-child(3) { --x: 14%; --y: 76%; }
+.machines-packets i:nth-child(4) { --x: 86%; --y: 76%; }
+.machines-packets i:nth-child(5) { --x: 50%; --y: 13%; }
+.machines-panel.is-live .machines-packets i { animation: machines-run 3.25s ease-in var(--d, 0ms) infinite; }
+.machines-hq { z-index: 1; }
+.machines-hq::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 74px;
+  width: 148px;
+  height: 148px;
+  margin: -74px 0 0 -74px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  opacity: 0;
+  pointer-events: none;
+}
+.machines-panel.is-live .machines-hq::before { animation: wave-pulse 1.6s ease-out 1.5s infinite; }
+.machines-panel.is-armed:not(.is-live) .machines-report-list li { opacity: 0; }
+.machines-panel.is-live .machines-report-list li { animation: machines-row-in 420ms ease-out var(--d, 0ms) both; }
+.machines-report-list li.is-new { opacity: 1; animation: machines-row-in 420ms ease-out both; }
+
+/* One Thunder */
+@keyframes machines-flow { to { stroke-dashoffset: -20; } }
+@keyframes machines-voice-run { 0% { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@keyframes machines-arc-out {
+  0% { opacity: 0; transform: translateY(-50%) translateX(-14px) scale(0.85); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-50%) translateX(18px) scale(1.08); }
+}
+@keyframes machines-land {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  12% { box-shadow: 0 0 0 4px var(--teal-bright, #00D3A9); }
+  40% { box-shadow: 0 0 0 10px transparent; }
+}
+.machines-thunder { position: relative; overflow-x: clip; }
+.machines-voice-wires { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.machines-voice-wire { fill: none; stroke: color-mix(in srgb, var(--teal) 70%, transparent); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 4 6; }
+.machines-voice-wire.is-mate { stroke: color-mix(in srgb, var(--yellow) 70%, transparent); }
+.machines-voice-packet.is-mate { fill: var(--yellow); }
+.machines-voice-packet { fill: var(--teal-bright, #00D3A9); offset-rotate: 0deg; opacity: 0; }
+.machines-panel.is-armed:not(.is-live) .machines-voice-wire { stroke-dashoffset: 0; opacity: 0; }
+.machines-panel.is-live .machines-voice-wire { opacity: 1; transition: opacity 0.5s ease-out var(--d, 0ms); animation: machines-flow 1s linear infinite; }
+.machines-panel.is-live .machines-voice-packet { animation: machines-voice-run 2s ease-in var(--d, 0ms) infinite; }
+.machines-thunder-people, .machines-thunder-major, .machines-thunder-plats { position: relative; z-index: 1; }
+.machines-panel.is-live .machines-arcs { animation: machines-arc-out 1.6s ease-out infinite; }
+.machines-panel.is-live .machines-thunder-major > img { animation: stage-bark 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.machines-panel.is-live .machines-thunder-plats li { animation: machines-land 2.4s ease-out calc(var(--d, 0ms) + 600ms) infinite; }
+
+/* Call to Arms */
+@keyframes machines-beat-on {
+  0% { opacity: 0.25; transform: translateY(10px); border-color: var(--app-line, #26302D); }
+  30% { opacity: 1; transform: none; border-color: color-mix(in srgb, var(--teal) 70%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--teal) 40%, transparent); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes machines-tl-on { from { background: var(--app-control, #22302C); box-shadow: none; } to { background: var(--teal); box-shadow: 0 0 8px var(--teal); } }
+@keyframes machines-tl-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.machines-tl-fill {
+  position: absolute;
+  top: 4px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: var(--teal);
+  transform-origin: left center;
+  z-index: 0;
+}
+.machines-panel:not(.is-armed) .machines-tl-dot { background: var(--teal); }
+.machines-panel.is-armed:not(.is-live) .machines-tl-fill { transform: scaleX(0); }
+.machines-panel.is-armed:not(.is-live) .machines-beat { opacity: 0.25; }
+.machines-panel.is-live .machines-beat { animation: machines-beat-on 1.2s ease-out calc(var(--beat) * 1.2s) both; }
+.machines-panel.is-live .machines-beat.is-final { animation-name: machines-beat-on; }
+.machines-panel.is-live .machines-tl-dot { animation: machines-tl-on 0.3s ease-out calc(var(--beat) * 1.2s) both; }
+.machines-panel.is-live .machines-tl-fill { animation: machines-tl-grow 3.6s linear both; }
+.machines-panel.is-live .machines-beat.is-final img { animation: stage-bark 0.7s ease-in-out 3.6s 3; transform-origin: 50% 100%; }
 
 .hero-video { margin: 0; position: relative; }
 .hero-video video, .hero-video img { width: 100%; border-radius: var(--radius-lg); }

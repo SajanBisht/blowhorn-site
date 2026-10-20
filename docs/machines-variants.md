@@ -23,8 +23,8 @@ Production rotates these four, one per hour:
 3. `one-thunder`: "Many voices. One thunder." Teammates and machines wired
    into the Major's single call out to every platform.
 4. `call-to-arms`: "From one recruit to a battalion." The four-beat
-   storyboard (Enlist, Muster, Rally, Thunder); the beats light up in
-   sequence, resting under `prefers-reduced-motion`.
+   storyboard (Enlist, Muster, Rally, Thunder); the beats play in
+   sequence, with a Replay button.
 
 At page load each visitor gets one of
 
@@ -57,6 +57,36 @@ while someone is reading the page.
 - Hidden copy and panels are `display: none`, so screen readers get only the
   visible design and the page keeps one `#how` heading.
 - Without JavaScript the attribute is never set and the CSS shows `default`.
+
+## Animations
+
+[`assets/js/machines.js`](../assets/js/machines.js) (bundled into the home
+page's `home-signal.js`) animates only the design the rotation picked, in the
+spirit of the Reveille army board ([`assets/js/army.js`](../assets/js/army.js)).
+Styles are under "Machines animations" in `assets/css/home-signal.css` and
+reuse the Reveille keyframes in `assets/css/site.css`: `army-enlist` (the
+enlist pop), `wave-pulse` (rings), `stage-bark` (the Major) and `army-shout`
+(his bubble).
+
+- **Muster:** recruits fall into the formation, the roll call fills, and the
+  strength counts up. The two Enlist buttons (the `+` tile and the roll call's
+  `+ Enlist`) add a recruit on the page, up to 23, and the Major answers in
+  his bubble. The "Enlist a machine" button still goes to the download page.
+- **Battalion Map:** units ping in, reports run the dashed lines to HQ, HQ
+  rings, and the reports feed ticks a new report every 2.6 s.
+- **One Thunder:** dotted voice lines flow from every teammate and machine
+  into the Major, rings leave the bullhorn, and each platform tile lights as
+  the call lands. The logos themselves never move (Bluesky's and X's brand
+  rules).
+- **Call to Arms:** the four beats play once along the timeline when the
+  section comes into view; Replay plays them again.
+
+The panel gets `is-armed` (start state) when the script runs and `is-live`
+once a quarter of it (or 40% of the screen) is in view. Looping motion
+pauses (`is-paused`) when the panel leaves the screen. Under
+`prefers-reduced-motion` nothing is armed: every design rests fully drawn,
+and Muster's Enlist buttons still work, without motion. Without JavaScript
+the static designs show, with no buttons that do nothing.
 
 ## Adding a design
 

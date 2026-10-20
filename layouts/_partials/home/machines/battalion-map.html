@@ -1,6 +1,8 @@
 {{- /* Machines design 2, Battalion Map: the fleet as units around HQ.
   Copy and layout from the Figma concept in data/machines.json
-  (id "battalion-map"). */ -}}
+  (id "battalion-map"). Animation in assets/js/machines.js and under
+  "Machines animations" in assets/css/home-signal.css: units ping in,
+  reports travel the dashed lines to HQ and the feed ticks. */ -}}
 <div class="machines-panel" data-machines-only="battalion-map">
   <div class="machines-map-wrap">
     <div class="machines-card machines-map">
@@ -14,6 +16,7 @@
           <line x1="50" y1="50" x2="50" y2="13" />
           <line x1="50" y1="50" x2="66" y2="90" />
         </svg>
+        <div class="machines-packets" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="is-mate"></i></div>
         <span class="machines-node"><img src="{{ "assets/brand/cast/recruit-chick-base.webp" | relURL }}" alt="" width="480" height="270" loading="lazy"><span class="machines-unit-label"><span class="machines-dot" aria-hidden="true"></span>01 Desk rig</span></span>
         <span class="machines-node"><img src="{{ "assets/brand/cast/recruit-chick-base.webp" | relURL }}" alt="" width="480" height="270" loading="lazy"><span class="machines-unit-label"><span class="machines-dot" aria-hidden="true"></span>03 Studio box</span></span>
         <span class="machines-node"><img src="{{ "assets/brand/cast/recruit-chick-base.webp" | relURL }}" alt="" width="480" height="270" loading="lazy"><span class="machines-unit-label"><span class="machines-dot" aria-hidden="true"></span>02 Laptop</span></span>
@@ -25,7 +28,7 @@
     </div>
     <div class="machines-card machines-reports">
       <div class="machines-card-head"><span>Reports</span></div>
-      <ul class="machines-report-list">
+      <ul class="machines-report-list" data-battalion="feed">
         <li><time datetime="09:00">09:00</time><span><b>Desk rig</b>Reporting for duty</span></li>
         <li><time datetime="09:00">09:00</time><span><b>Laptop</b>Posted to LinkedIn</span></li>
         <li class="is-mate"><time datetime="09:01">09:01</time><span><b>Ana's laptop</b>Reposted on X</span></li>
