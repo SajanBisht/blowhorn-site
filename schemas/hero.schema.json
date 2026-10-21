@@ -24,7 +24,7 @@
   },
   "definitions": {
     "mediaKind": {
-      "description": "What fills the Signal home page's hero visual: video is the hero film from media.video (autoplays muted and looping, with sound and pause toggles; under prefers-reduced-motion it waits on its poster for a play click), demo is the interactive pseudo-app from data/hero_demo.json.",
+      "description": "What fills the Signal home page's hero visual: video is the hero film from media.video (beside the hero copy, small, on its poster with a Play button that expands it into a dialog), demo is the interactive pseudo-app from data/hero_demo.json under the copy.",
       "type": "string",
       "enum": ["video", "demo"]
     },
@@ -41,17 +41,17 @@
           "additionalProperties": false,
           "required": ["mp4", "webm", "poster", "width", "height", "label", "description", "placement", "playback"],
           "properties": {
-            "placement": { "description": "lead puts the film first in the hero, sized to fit the first viewport whole (16:9, captions never cropped), with the headline, subhead and calls to action below it. visual puts it under the hero copy.", "type": "string", "enum": ["lead", "visual"] },
+            "placement": { "description": "inline-expand: the film sits small in the hero beside the copy (below it on phones) on its poster with a Play the film button; a click grows it in one motion to 90% of the window width (full width on small screens), centered and fitted to the window height, as a modal dialog over a dimmed backdrop, then plays. Escape, the backdrop or the close button shrinks it back to its spot and pauses it.", "type": "string", "enum": ["inline-expand"] },
             "playback": {
-              "description": "How the film plays. Under prefers-reduced-motion it never autoplays. Without JavaScript the native controls show.",
+              "description": "How the film plays once expanded. Under prefers-reduced-motion it opens and closes without the grow motion. Without JavaScript the native controls show inline.",
               "type": "object",
               "additionalProperties": false,
               "required": ["autoplay", "loop", "sound", "end"],
               "properties": {
-                "autoplay": { "description": "true plays it (muted, as browsers require) once on screen. false waits on the poster behind a Play button.", "type": "boolean" },
+                "autoplay": { "description": "Always false: the film waits on its poster until the visitor presses Play.", "type": "boolean", "const": false },
                 "loop": { "description": "Replay from the start when it ends.", "type": "boolean" },
-                "sound": { "description": "Play with sound when the visitor presses Play. Ignored for autoplay, which is always muted until the visitor turns sound on.", "type": "boolean" },
-                "end": { "description": "When it ends without loop: poster returns to the poster, last-frame holds the final frame. Either way a Watch again button shows.", "type": "string", "enum": ["poster", "last-frame"] }
+                "sound": { "description": "Play with sound when the visitor presses Play (the click is the user gesture browsers need for audio). false starts it muted; the Sound toggle turns it on.", "type": "boolean" },
+                "end": { "description": "When it ends without loop: poster returns to the poster, last-frame holds the final frame. Either way a Watch again button shows in the open dialog.", "type": "string", "enum": ["poster", "last-frame"] }
               }
             },
             "mp4": { "description": "H.264/AAC MP4 with faststart, a path under static/.", "type": "string", "pattern": "^assets/video/[a-z0-9-]+\\.mp4$" },
