@@ -80,8 +80,8 @@ and checked against it, so a page says what `--help` says.
 | --- | --- |
 | [`blowhorn accept`](/docs/reference/cli/accept/) | Accept pending LinkedIn connection invitations other people have sent you, one at a time with a randomized pause between each. |
 | [`blowhorn analytics`](/docs/reference/cli/analytics/) | blowhorn analytics: activity, history, import-exports, operations. |
-| [`blowhorn auth`](/docs/reference/cli/auth/) | blowhorn auth: login, logout, status. |
-| [`blowhorn chrome`](/docs/reference/cli/chrome/) | blowhorn chrome: attach-chrome, extension-enable, extension-install, extension-mode, extension-status, map, profiles, status, suggest, unmap. |
+| [`blowhorn auth`](/docs/reference/cli/auth/) | blowhorn auth: login, logout, status, switch-organization. |
+| [`blowhorn chrome`](/docs/reference/cli/chrome/) | blowhorn chrome: attach-chrome, confirm, discover, extension-enable, extension-install, extension-mode, extension-status, map, profiles, status, suggest, unmap. |
 | [`blowhorn comment`](/docs/reference/cli/comment/) | Post LinkedIn, Reddit, or Bluesky comments from scheduled rows or ad-hoc target/message flags. |
 | [`blowhorn config`](/docs/reference/cli/config/) | blowhorn config: get, path, set, show. |
 | [`blowhorn content`](/docs/reference/cli/content/) | blowhorn content: delete, get, list, upsert. |
@@ -106,7 +106,7 @@ and checked against it, so a page says what `--help` says.
 
 <!-- END generated command table -->
 
-`blowhorn auth` is a group of three: `auth status` reports whether an account token and organization id are configured (never the token value), the api base,
+`blowhorn auth` is a group of four: `auth status` reports whether an account token and organization id are configured (never the token value), the api base,
 enforcement mode, a summary of the last entitlement attestation, and why the
 last read of the plan failed when it did;
 `auth login` signs you in to [Blowhorn](https://cloud.blowhorn.ai) in your browser (Blowhorn's
@@ -117,10 +117,12 @@ an account without Blowhorn straight to Blowhorn to start the beta (`--no-browse
 address instead of opening it, and `--json` opens nothing either, its first line naming the address,
 which is how the desktop app runs it; `BLOWHORN_CLOUD_TOKEN` still wins when set);
 `auth logout` revokes the saved API token on Blowhorn, then forgets it,
-the account in `cloud.yaml` and the local attestation cache.
+the account in `cloud.yaml` and the local attestation cache;
+`auth switch-organization` switches the signed-in account to another of its organizations in place
+([auth switch-organization](/docs/reference/cli/auth/#blowhorn-auth-switch-organization)).
 
 `blowhorn store` is a single command, not a group: it reports whether this
-machine can reach your account and why not, opens the bastion tunnel
+computer can reach your account and why not, opens the bastion tunnel
 when nothing is listening, and with `--import` fills the connection once from your account configuration. It exits 3, a code nothing else uses, when your account is unreachable. During early access the connection is set up by your Blowhorn
 administrator. `blowhorn config get
 <key>` reads one option and says which document holds it.
@@ -137,7 +139,7 @@ It exits 1 when a step failed. See
 [Finish setup on this computer](/docs/how-to/set-up/finish-setup/).
 
 `blowhorn uninstall` is a single command: it removes Blowhorn from this
-machine, in order - the background service (`ai.blowhorn.service`, booted out
+computer, in order - the background service (`ai.blowhorn.service`, booted out
 and its LaunchAgent file removed), the Chrome native host (the
 `com.blowhorn.chrome_extension` manifest, its launcher under
 `~/Library/Application Support/Blowhorn`, and the every-profile install entries
@@ -185,7 +187,7 @@ itself. macOS only; Linux and any other platform are refused by name.
 `blowhorn chrome` is a group of eight: `chrome profiles` lists the profiles the
 installed Google Chrome knows (directory, display name, signed-in account, the
 last-used one marked, and the Blowhorn profile each is mapped to on this
-machine), `chrome status` reports whether Chrome is installed, running and open
+computer), `chrome status` reports whether Chrome is installed, running and open
 to remote debugging with one next-step line when something is off, `chrome
 suggest` prints a name-matched mapping proposal and applies nothing,
 `chrome map <profile> <directory>` / `chrome unmap <profile>` are the mapping's
@@ -193,14 +195,14 @@ only writers, `chrome attach-chrome [status|start|signin|stop|install-agent|unin
 signs in, stops or keeps up at login a
 dedicated second Chrome that is open to remote debugging with no Allow dialog
 (`~/.blowhorn/attach-chrome`, on a port Chrome picks, bound to 127.0.0.1; any program running as you on
-this Mac can drive it), writing no configuration of its own,
+this computer can drive it), writing no configuration of its own,
 and `chrome extension-install` writes the native-messaging host manifest Chrome
 launches (`com.blowhorn.chrome_extension.json`) and the executable launcher it names, and prints
 the unpacked `extension/` directory to load. If you already installed the host, run the
-command again and reload the extension once. `--profile <name>` (through this machine's
+command again and reload the extension once. `--profile <name>` (through this computer's
 mapping) or `--chrome-profile '<directory>'` names one Chrome profile and prints the steps to
 load the extension in that profile alone. `--all-profiles` also asks Chrome to
-install the extension in every Chrome profile on this machine (the policy by default,
+install the extension in every Chrome profile on this computer (the policy by default,
 or `--external` for the offer in each profile). `--dry-run` prints the paths,
 the host manifest, and the policy: on macOS only the `ExtensionInstallForcelist`
 fragment of the shared plist (other keys in that file are preserved and not
@@ -223,7 +225,7 @@ reads only your account, so a mapping can be removed when those files are gone;
 `chrome extension-install --all-profiles` also reads `Local State` in the
 configured Chrome data directory, only to name each Chrome profile there, and
 does not list profiles outside that directory. The policy route applies the
-extension to every Chrome profile on this machine. It does not read `DevToolsActivePort`;
+extension to every Chrome profile on this computer. It does not read `DevToolsActivePort`;
 `chrome extension-status` reads the manifest, the launcher, the unpacked
 extension, the policy file, each Chrome profile's `Secure Preferences` and
 `Preferences`, and the Chrome extension socket it says hello to, stats the external-extensions file and does not read it, and writes nothing but the
