@@ -27,8 +27,8 @@ scripts from third parties other than the ones it discloses: Google Analytics
   path, not a subresource load; every other refresh host fails.
   A third: Google's gtag.js may come from a host in ANALYTICS_SCRIPT_HOSTS,
   either as a <script src> or named in a script a page loads. Today
-  assets/js/consent.js adds it only after the reader accepts the cookie
-  notice (layouts/_partials/consent.html). The privacy page discloses Google
+  layouts/_partials/analytics.html loads it directly on every production
+  page. The privacy page discloses Google
   Analytics 4. Every other attribute naming that host still fails.
 - CSS: every url(...) and @import in each stylesheet a page loads.
 - JavaScript: every absolute URL in each script a page loads. The Download section's script
