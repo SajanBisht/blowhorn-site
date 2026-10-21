@@ -24,8 +24,7 @@ ways:
     b: A command your agent runs to see your profiles and act on your behalf, with answers written for agents to read.
   - path: /ai/mcp
     t: The Blowhorn MCP server
-    status: Coming soon
-    soon: true
+    status: Available now
     b: A standard plug that lets AI assistants find every Blowhorn action and use it, with your approval rules built in.
 major: Robo-Recruit drives. The human holds the switch. Salute the human.
 ---
