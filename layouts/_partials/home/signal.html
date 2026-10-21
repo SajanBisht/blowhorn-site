@@ -7,14 +7,8 @@
     <main id="main" class="home-signal">
       <section class="hero hero-signal" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true"></div>
-        {{- /* data/hero.json media.video.placement lead: the film comes first and
-          fills the first viewport; the copy follows it. */ -}}
-        {{- if and (in $rot.medias "video") (eq $rot.video.placement "lead") }}
-        <div class="hero-lead wrap" data-hero-media-only="video">
-          {{ partial "hero-video.html" $rot.video }}
-        </div>
-        {{- end }}
-        <div class="wrap hero-grid">
+        {{- $film := in $rot.medias "video" }}
+        <div class="wrap hero-grid{{ if $film }} has-film{{ end }}">
           <div class="hero-copy">
             <h1 id="hero-title" class="display-xl">
               {{- range $rot.heroes }}<span data-hero-only="{{ .id }}">{{ partial "hero-headline.html" .headline }}</span>{{ end -}}
@@ -33,6 +27,14 @@
               <span>As many social profiles as you want. About a minute to set up.</span>
             </p>
           </div>
+          {{- /* data/hero.json media.video (placement inline-expand): the film
+            sits small beside the copy (below it on phones) and expands into
+            a dialog on Play. */ -}}
+          {{- if $film }}
+          <div class="hero-film-cell" data-hero-media-only="video">
+            {{ partial "hero-video.html" $rot.video }}
+          </div>
+          {{- end }}
         </div>
         {{- partial "hero-demo.html" . }}
       </section>

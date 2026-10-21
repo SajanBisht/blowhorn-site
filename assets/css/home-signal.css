@@ -575,29 +575,45 @@ button.machines-add:focus-visible, button.machines-pill:focus-visible { outline:
 .machines-panel.is-live .machines-tl-fill { animation: machines-tl-grow 3.6s linear both; }
 .machines-panel.is-live .machines-beat.is-final img { animation: stage-bark 0.7s ease-in-out 3.6s 3; transform-origin: 50% 100%; }
 
-.hero-video { margin: 0; position: relative; }
-.hero-video video { width: 100%; border-radius: var(--radius-lg); }
-/* The hero film (hero-video.html, data/hero.json media.video). Toggles sit
-   top-right so they never cover the burned-in captions at the bottom. */
-.hero-film { aspect-ratio: 16 / 9; background: #000; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 0 0 1px rgba(0,211,169,.18), 0 50px 140px -30px rgba(0, 211, 169, 0.35), 0 30px 80px -20px rgba(0,0,0,.8); }
-.hero-film video { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
-/* placement lead: the film comes first and fits the first viewport whole,
-   16:9 with nothing cropped, under the sticky header; the copy follows. */
-.hero-lead {
-  --lead-gap: clamp(12px, 2.5svh, 28px);
-  margin-top: calc(var(--lead-gap) - var(--space-16));
-  margin-bottom: var(--space-12);
-  max-width: none;
-  padding-inline: clamp(12px, 2vw, 32px);
+/* The hero film (hero-video.html, data/hero.json media.video, placement
+   inline-expand): small beside the copy (below it on phones) on its poster,
+   growing into a modal dialog on Play (hero-video.js), above the cookie
+   banner (1040). Toggles sit at the
+   top so they never cover the burned-in captions at the bottom. */
+@media (min-width: 900px) {
+  .home-signal .hero-grid.has-film {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 6fr);
+    justify-items: stretch;
+    text-align: left;
+  }
+  .home-signal .hero-grid.has-film .hero-copy { align-items: flex-start; }
+  .home-signal .hero-grid.has-film .hero-actions { justify-content: flex-start; }
+  .home-signal .hero-grid.has-film .hero-sub { margin-inline: 0; }
 }
-.hero-lead .hero-film {
-  width: min(100%, 1920px, calc((100svh - var(--header-h) - 2 * var(--lead-gap)) * 16 / 9));
-  margin-inline: auto;
+.hero-film-cell { width: 100%; }
+.hero-film { margin: 0; position: relative; width: 100%; aspect-ratio: 16 / 9; }
+.hero-film-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0,211,169,.18), 0 40px 110px -30px rgba(0, 211, 169, 0.35), 0 24px 60px -20px rgba(0,0,0,.8);
 }
-.hero-film.is-waiting::after { content: ""; position: absolute; inset: 0; background: radial-gradient(closest-side, rgba(0,0,0,.35), transparent); pointer-events: none; }
+.hero-film-frame video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.hero-film-frame.is-priming { background: #000 var(--hero-film-poster) center / contain no-repeat; }
+.hero-film-frame.is-priming video { opacity: 0; }
+.hero-film-frame.is-open { position: fixed; z-index: 1101; transform-origin: 0 0; border-radius: 12px; }
+.hero-film-frame.is-moving { transition: transform var(--hero-film-grow, 480ms) cubic-bezier(.2, .8, .2, 1); }
+.hero-film-backdrop { position: fixed; inset: 0; z-index: 1100; background: rgba(2, 6, 5, 0.82); opacity: 0; transition: opacity var(--hero-film-grow, 480ms) ease; }
+.hero-film-backdrop.is-on { opacity: 1; }
+html.hero-film-locked, html.hero-film-locked body { overflow: hidden; }
+.hero-film-frame.is-waiting::after { content: ""; position: absolute; inset: 0; background: radial-gradient(closest-side, rgba(0,0,0,.35), transparent); pointer-events: none; }
 .hero-film-start { z-index: 1; }
-.hero-film-bar { position: absolute; top: var(--space-3); right: var(--space-3); display: flex; gap: var(--space-2); }
-.hero-film-bar[hidden], .hero-film-start[hidden] { display: none; }
+.hero-film-bar { position: absolute; top: var(--space-3); left: var(--space-3); display: flex; gap: var(--space-2); z-index: 1; }
+.hero-film-close { position: absolute; top: var(--space-3); right: var(--space-3); z-index: 1; }
+.hero-film-bar[hidden], .hero-film-start[hidden], .hero-film-close[hidden] { display: none; }
 .hero-film-btn, .hero-film-start {
   display: inline-flex;
   align-items: center;
@@ -614,18 +630,19 @@ button.machines-add:focus-visible, button.machines-pill:focus-visible { outline:
 .hero-film-btn svg { width: 18px; height: 18px; }
 .hero-film-btn:hover, .hero-film-start:hover { background: rgba(0, 179, 159, 0.28); }
 .hero-film-btn:focus-visible, .hero-film-start:focus-visible { outline: 2px solid var(--teal-bright, #00D3A9); outline-offset: 2px; }
-.hero-film .hero-film-on, .hero-film.is-sound .hero-film-off { display: none; }
-.hero-film.is-sound .hero-film-on { display: inline; }
-.hero-film .hero-film-play, .hero-film.is-paused .hero-film-pause { display: none; }
-.hero-film.is-paused .hero-film-play { display: inline; }
-.hero-film-start { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 18px; padding: 16px 26px; background: var(--teal, #00B39F); color: #00110e; border-color: transparent; }
+.hero-film-frame .hero-film-on, .hero-film-frame.is-sound .hero-film-off { display: none; }
+.hero-film-frame.is-sound .hero-film-on { display: inline; }
+.hero-film-frame .hero-film-play, .hero-film-frame.is-paused .hero-film-pause { display: none; }
+.hero-film-frame.is-paused .hero-film-play { display: inline; }
+.hero-film-start { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 17px; padding: 14px 24px; background: var(--teal, #00B39F); color: #00110e; border-color: transparent; box-shadow: 0 10px 30px -10px rgba(0,0,0,.7); }
 .hero-film-start:hover { background: var(--teal-bright, #00D3A9); }
 .hero-film-start svg { width: 22px; height: 22px; }
 @media (max-width: 640px) {
-  .hero-film-bar { top: var(--space-2); right: var(--space-2); }
+  .hero-film-frame.is-open { border-radius: 0; }
   /* Icon-only on phones so the toggles stay clear of the film's titles;
      the labels stay for screen readers. */
-  .hero-film-bar { gap: 6px; }
+  .hero-film-bar { top: var(--space-2); left: var(--space-2); gap: 6px; }
+  .hero-film-close { top: var(--space-2); right: var(--space-2); }
   .hero-film-btn { padding: 0; width: 32px; height: 32px; justify-content: center; }
   .hero-film-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .hero-film-btn svg { width: 16px; height: 16px; }

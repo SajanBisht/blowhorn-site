@@ -68,7 +68,7 @@ never changes while someone is reading the page.
 
 ## Hero media
 
-The visual under the hero copy comes from `media` in `data/hero.json`
+The hero visual comes from `media` in `data/hero.json`
 (schema: `schemas/hero.schema.json`). `media.default` names it for every
 hero: `video` (the hero film) or `demo` (the interactive pseudo-app demo
 from `data/hero_demo.json`). A hero can set its own `"media": "demo"` or
@@ -84,27 +84,28 @@ The default is the Battalion Thunder film (source:
 leecalcote/blowhorn `marketing/videos/blowhorn-battalion-thunder`), 1080p,
 about 1.9 MB MP4 and 2.1 MB WebM.
 
-`media.video.placement` is `lead` (the film comes first in the hero, sized
-to fit the first viewport whole under the sticky header, 16:9 with the
-captions never cropped, and the headline, subhead and calls to action
-follow it below; `?hero=<id>` still swaps that copy) or `visual` (under the
-copy, where the demo sits).
+`media.video.placement` is `inline-expand` (the only placement): the film
+sits small in the hero beside the headline, subhead and calls to action
+(below them on phones), on its poster with a Play the film button.
+`?hero=<id>` still swaps the copy. `assets/js/hero-video.js` then:
 
-`media.video.playback` drives `assets/js/hero-video.js`:
+- grows the frame in one FLIP motion from its spot to 90% of the window
+  width (all of it at 640 px and under), centered and fitted to the window
+  height, as a modal dialog (`role="dialog"`, `aria-modal`) over a dimmed
+  backdrop, and plays it once it has grown;
+- traps focus in the dialog (Sound, Pause, Close) and locks page scroll;
+- closes on Escape, a backdrop click or Close: it pauses the film, shrinks
+  it back to exactly its spot and returns focus to the Play button (now
+  Resume the film).
 
-- `autoplay`: `true` plays it muted once on screen (browsers only autoplay
-  muted video); `false` waits on the poster behind a Play button.
-- `loop`: replay from the start when it ends.
-- `sound`: the Play button starts it with sound (the click is a user
-  gesture, so browsers allow audio).
-- `end`: `poster` or `last-frame` when it ends without looping; a Watch
-  again button shows either way.
+Under `prefers-reduced-motion: reduce` it opens and closes without the
+motion. Without JavaScript the native video controls show inline.
 
-Production is `lead` with no autoplay, no loop, sound on and `end: poster`.
-While it plays, Sound and Pause toggles show; it pauses off screen and
-resumes on return unless the visitor paused it. Under
-`prefers-reduced-motion: reduce` it never autoplays. Without JavaScript the
-native video controls show.
+`media.video.playback` (schema-checked): `autoplay` is always `false`;
+`loop` replays it from the start; `sound` starts it with sound on Play (the
+click is the user gesture browsers need for audio); `end` is `poster` or
+`last-frame` when it ends without looping, with a Watch again button in
+the dialog. Production is no loop, sound on, `end: poster`.
 
 To re-encode after a new render:
 

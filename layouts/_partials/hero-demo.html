@@ -1,7 +1,7 @@
-{{- /* Signal hero visual. data/hero.json "media" picks it per hero: the hero
-  film (hero-video.html, from media.video) or the interactive pseudo-app
-  demo (data/hero_demo.json). Only the visuals the rotation uses are
-  rendered; hero-rotation-head.html shows the picked hero's one
+{{- /* Signal hero demo: the interactive pseudo-app (data/hero_demo.json),
+  rendered under the copy when a hero's data/hero.json media is demo. The
+  film (media video) sits beside the copy instead, in home/signal.html.
+  hero-rotation-head.html shows the picked hero's visual
   ([data-hero-media-only]). Destinations with posts:true come from
   data/integrations.json; name and logo come from hugo.Data.platforms.
   Always labelled as a demo with example data. */ -}}
@@ -14,14 +14,8 @@
 {{- /* hero-art-title is in the site contract: the film carries it when it is
   rendered, otherwise the demo does. */ -}}
 {{- $artId := cond (in $rot.medias "video") "hero-demo-title" "hero-art-title" -}}
-{{- /* A lead film renders above the copy in home/signal.html instead. */ -}}
-{{- $film := and (in $rot.medias "video") (ne $rot.video.placement "lead") -}}
-{{- if or $film (in $rot.medias "demo") }}
-<div class="hero-visual wrap">
-{{- if $film }}
-  {{ partial "hero-video.html" $rot.video }}
-{{- end }}
 {{- if in $rot.medias "demo" }}
+<div class="hero-visual wrap">
   <div data-hero-media-only="demo">
       <div class="hero-demo" data-hero-demo>
         <div class="hero-compose">
@@ -96,6 +90,5 @@
         <script type="application/json" id="hero-demo-data">{{ dict "steps" $demo.statusSteps "title" $demo.title | jsonify | safeJS }}</script>
       </div>
   </div>
-{{- end }}
-    </div>
+</div>
 {{- end }}
