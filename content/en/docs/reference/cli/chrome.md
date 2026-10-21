@@ -273,7 +273,7 @@ Examples:
 ```bash
 blowhorn chrome map kate 'Profile 12'
 blowhorn chrome map kate 'Profile 12' --dry-run
-blowhorn chrome map lee Default --json
+blowhorn chrome map alex Default --json
 ```
 
 Output: json with `--json`, text otherwise.

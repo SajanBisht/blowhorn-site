@@ -28,20 +28,20 @@ Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `-
 Examples:
 
 ```bash
-blowhorn follow --profile lee --target mesheryio --dry-run -v
+blowhorn follow --profile alex --target mesheryio --dry-run -v
 blowhorn follow --profile all --target jijillery --limit 0
 blowhorn follow --profile all --target jijillery,mia --limit 0
-blowhorn follow --profile lee --target mesheryio --limit 25
+blowhorn follow --profile alex --target mesheryio --limit 25
 blowhorn follow --profile kate,rian --target mia --limit 0
-blowhorn follow --platform github --profile lee --target meshery --limit 5 --dry-run -v
-blowhorn follow --platform github --profile lee --target meshery --limit 25
-blowhorn follow --platform github --profile lee --target meshery --limit 25 --dry-run
-blowhorn follow --platform github --profile lee --target acme --limit 0
-blowhorn follow --platform github --profile lee --target acme,meshery,kanvas --limit 0
-blowhorn follow --platform github --profile lee --target acme,meshery --limit 0 --dry-run
+blowhorn follow --platform github --profile alex --target meshery --limit 5 --dry-run -v
+blowhorn follow --platform github --profile alex --target meshery --limit 25
+blowhorn follow --platform github --profile alex --target meshery --limit 25 --dry-run
+blowhorn follow --platform github --profile alex --target acme --limit 0
+blowhorn follow --platform github --profile alex --target acme,meshery,kanvas --limit 0
+blowhorn follow --platform github --profile alex --target acme,meshery --limit 0 --dry-run
 blowhorn follow --platform github --profile all --target meshery --limit 10
 blowhorn follow --platform github --profile kate,rian --target meshery --limit 10
-blowhorn follow --platform github --profile all --target meshery --limit 10 --exclude lee
+blowhorn follow --platform github --profile all --target meshery --limit 10 --exclude alex
 ```
 
 Output: text.

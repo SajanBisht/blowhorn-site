@@ -40,7 +40,7 @@ Examples:
 
 ```bash
 blowhorn analytics activity 164 --json
-blowhorn analytics activity 164 --profile lee
+blowhorn analytics activity 164 --profile alex
 ```
 
 Output: json with `--json`, text otherwise.
@@ -68,7 +68,7 @@ Examples:
 ```bash
 blowhorn analytics history --json --since 12m
 blowhorn analytics history --json --subject Acme --since all
-blowhorn analytics history --subject lee --since 90d
+blowhorn analytics history --subject alex --since 90d
 ```
 
 Output: json with `--json`, text otherwise.

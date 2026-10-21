@@ -110,7 +110,7 @@ Examples:
 
 ```bash
 blowhorn-axi slack send --profile rian --to https://acme.slack.com/archives/C0123/p1776000000000100 --text-file reply.md
-blowhorn-axi slack send --profile rian,lee --to https://acme.slack.com/archives/C0123/p1776000000000100 --text-file reply.md --confirm
+blowhorn-axi slack send --profile rian,alex --to https://acme.slack.com/archives/C0123/p1776000000000100 --text-file reply.md --confirm
 blowhorn-axi slack send --profile rian --to '#general' --workspace acme.slack.com --text - --confirm
 ```
 
@@ -182,7 +182,7 @@ blowhorn-axi slack react [-h] [--profile PROFILE] [--confirm] [--dry-run] [--per
 Examples:
 
 ```bash
-blowhorn-axi slack react --profile rian,lee --permalink https://acme.slack.com/archives/C0123/p1776000000000100 --emoji white_check_mark --confirm
+blowhorn-axi slack react --profile rian,alex --permalink https://acme.slack.com/archives/C0123/p1776000000000100 --emoji white_check_mark --confirm
 blowhorn-axi slack react --profile rian --permalink https://acme.slack.com/archives/C0123/p1776000000000100 --emoji eyes --remove --confirm
 ```
 

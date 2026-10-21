@@ -30,7 +30,7 @@ Examples:
 blowhorn report --dry-run
 blowhorn report
 blowhorn report --no-open --json
-blowhorn analytics --profile lee && blowhorn report -v
+blowhorn analytics --profile alex && blowhorn report -v
 ```
 
 Output: json with `--json`, text otherwise.

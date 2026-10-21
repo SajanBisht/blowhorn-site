@@ -60,12 +60,12 @@ Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `-
 Examples:
 
 ```bash
-blowhorn profile auth --platform x --profile lee
-blowhorn profile auth --all --profile lee
-blowhorn profile auth --platform slack --profile lee --workspace mesheryio.slack.com
-blowhorn profile auth --platform slack --profile lee --mode paste
+blowhorn profile auth --platform x --profile alex
+blowhorn profile auth --all --profile alex
+blowhorn profile auth --platform slack --profile alex --workspace mesheryio.slack.com
+blowhorn profile auth --platform slack --profile alex --mode paste
 blowhorn profile auth --platform linkedin --profile all --headless
-blowhorn profile auth --platform bluesky --profile lee
+blowhorn profile auth --platform bluesky --profile alex
 blowhorn profile auth --platform linkedin --profile kate --headed --json
 ```
 
@@ -214,7 +214,7 @@ blowhorn profile set sam --create PROFILE=sam EMAIL=sam@example.com
 blowhorn profile set sam --create EMAIL=sam@example.com --subject 3f2b1c4d-8a9e-4c6b-9d1e-2a3b4c5d6e7f
 blowhorn profile set sam --register
 blowhorn profile set kate GH_TOKEN=ghp_yourtoken --json
-blowhorn profile set lee slack_workspaces=mesheryio.slack.com,acme.slack.com
+blowhorn profile set alex slack_workspaces=mesheryio.slack.com,acme.slack.com
 blowhorn profile set kate CUSTOM_NOTE=migrated --allow-unknown
 ```
 
