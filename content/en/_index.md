@@ -1,6 +1,6 @@
 ---
 title: "Blowhorn: one message, many ears"
-description: Automate your social voice. Plug in AI anytime. Blowhorn posts exactly what you approve to LinkedIn, X, Reddit, Hacker News and more, from your own Chrome. Bring any AI agent, model or assistant.
+description: Scripted where it counts. AI where it helps. Every post, reply and amplify runs exactly as written. Drafts, agents and assistants plug in through MCP, a REST API and a scriptable CLI.
 theme: signal
 sitemap:
   changefreq: weekly

@@ -16,7 +16,8 @@
               {{- with .tag }}
               <p class="label">{{ . }}</p>
               {{- end }}
-              <p>{{ .body }}</p>
+              {{- /* CLI flags (--json, --dry-run) render as code that never breaks at its hyphens. */}}
+              <p>{{ .body | htmlEscape | replaceRE `(--[a-z][a-z-]*)` `<code class="cli-flag">$1</code>` | safeHTML }}</p>
               {{- with .href }}
               {{- $page := site.GetPage . }}
               {{- if not $page }}{{ errorf "data/home_ai.json: agents card href %q is not a page" . }}{{ end }}

@@ -16,8 +16,8 @@ rotating ones, so `?hero=<id>` reaches them for review (`?hero=<n>` counts rotat
 
 Production rotates these five, one per UTC day (the AI hybrid messaging, Yi, 2026-10-20):
 
-1. `plug-in-ai`: "Automate your social voice. Plug in AI anytime." Default and fallback.
-2. `scripted-ai-ready`: "Scripted where it counts. AI where it helps."
+1. `plug-in-ai`: "Automate your social voice. Plug in AI anytime."
+2. `scripted-ai-ready`: "Scripted where it counts. AI where it helps." Default and fallback (Yi, 2026-10-20).
 3. `same-rules`: "You post. Your agent posts. Same rules."
 4. `ai-optional`: "Your voice, automated. AI optional, never in charge."
 5. `human-or-ai`: "One queue. Every profile. Human or AI."

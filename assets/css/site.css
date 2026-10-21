@@ -3143,3 +3143,4 @@ a.docs-card.platform-card[href$="/facebook/"]::before { background-image: url("/
 .ai-agents-major > * + * { margin-top: var(--space-3); }
 .ai-agents-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .ai-content-price { color: var(--ink); }
+.ai-agent-cards .cli-flag { white-space: nowrap; }
