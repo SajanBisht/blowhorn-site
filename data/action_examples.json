@@ -23,17 +23,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Publish this announcement to my LinkedIn feed as me.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -51,17 +51,17 @@
           "cliRef": "/docs/reference/cli/comment/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Comment on this LinkedIn post as me: https://www.linkedin.com/feed/update/urn:li:activity:123/ with the message Great post!",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -79,17 +79,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Repost this LinkedIn post from each of my profiles: https://www.linkedin.com/feed/update/urn:li:activity:123/",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -107,17 +107,17 @@
           "cliRef": "/docs/reference/cli/accept/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Accept pending LinkedIn invitations for my Marcus profile, at most five.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -135,17 +135,17 @@
           "cliRef": "/docs/reference/cli/withdraw/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Withdraw LinkedIn invitations I sent that have waited long enough, for my Lee profile.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -163,17 +163,17 @@
           "cliRef": "/docs/reference/cli/analytics/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Show my LinkedIn follower history for the last 12 months.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -191,17 +191,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Publish this announcement on X as me.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -218,17 +218,17 @@
           "notes": "X replies are not a distinct blowhorn command yet. Queue the tweet URL in Comment on."
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Reply on X to https://x.com/user/status/123 as me with this message.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -246,17 +246,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Retweet or quote https://x.com/user/status/123 from each of my X profiles.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -274,17 +274,17 @@
           "cliRef": "/docs/reference/cli/follow/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Follow mesheryio on X from my Lee profile, target only.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -302,17 +302,17 @@
           "cliRef": "/docs/reference/cli/analytics/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Show my X follower history for the last 12 months.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -330,17 +330,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Publish this post to the subreddit in the queue row as me.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -358,17 +358,17 @@
           "cliRef": "/docs/reference/cli/comment/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Comment on this Reddit post as me: https://www.reddit.com/r/k8s/comments/abc/post/ with Thanks for sharing.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -386,17 +386,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Upvote this Reddit post from each of my profiles: https://www.reddit.com/r/k8s/comments/abc/post/",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -414,17 +414,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Preview a Hacker News submission for my Lee profile, then publish it.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -441,17 +441,17 @@
           "notes": "Hacker News comments are not a distinct blowhorn command yet. Queue the item URL in Comment on."
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Comment on this Hacker News item as me, from the queue row.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -469,17 +469,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Send Maintenance is complete to #announcements on Slack as me.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -497,17 +497,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Reply in this Slack thread as me: https://acme.slack.com/archives/C0123/p1776000000000100",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -525,17 +525,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Publish this announcement on Bluesky as me.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -553,17 +553,17 @@
           "cliRef": "/docs/reference/cli/comment/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Reply on Bluesky to https://bsky.app/profile/alice.bsky.social/post/3kx... as me with Nice thread.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -581,17 +581,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Repost this Bluesky post from each of my profiles: https://bsky.app/profile/you/post/3kx...",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -609,17 +609,17 @@
           "cliRef": "/docs/reference/cli/follow/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Follow alice.bsky.social on Bluesky from my Lee profile, target only.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -637,17 +637,17 @@
           "cliRef": "/docs/reference/cli/unfollow/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Unfollow alice.bsky.social on Bluesky from my Lee profile.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -665,17 +665,17 @@
           "cliRef": "/docs/reference/cli/find/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Search Bluesky for recent posts about service mesh.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -693,17 +693,17 @@
           "cliRef": "/docs/reference/cli/analytics/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Show my Bluesky follower history for the last 12 months.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -721,17 +721,17 @@
           "cliRef": "/docs/reference/cli/post/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Add the five upbeat reactions to https://github.com/layer5io/meshery/issues/1234 from my Lee profile.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -749,17 +749,17 @@
           "cliRef": "/docs/reference/cli/follow/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "Follow layer5io on GitHub from my Lee profile, target only.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     },
@@ -777,17 +777,17 @@
           "cliRef": "/docs/reference/cli/source/"
         },
         "rest": {
-          "status": "placeholder",
-          "notes": "The Blowhorn REST API for this action is not published yet."
+          "status": "available",
+          "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
         },
         "mcp": {
-          "status": "placeholder",
+          "status": "available",
           "prompt": "List stargazers of layer5io/meshery so I can choose whom to reach. Do not follow anyone.",
-          "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+          "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
         },
         "skill": {
-          "status": "placeholder",
-          "notes": "A Blowhorn skill for this action is not available yet."
+          "status": "available",
+          "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
         }
       }
     }

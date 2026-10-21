@@ -14,7 +14,7 @@
   "them": [
     "Writing is the hard part, and you want a beautiful, distraction-free editor",
     "You mostly post as yourself on X and LinkedIn",
-    "You want a hosted MCP and API in a polished cloud app"
+    "You want a polished cloud app for writing threads"
   ],
   "us": [
     "The post is written; now your team and supporters should amplify it",
@@ -47,7 +47,7 @@
     {
       "f": "AI agents",
       "t": "AI writing, hosted MCP and API",
-      "b": "Full CLI: --help with examples, --json, --dry-run on writes. Your agent drives, you hold pause"
+      "b": "MCP server, REST API, AI skills and a full CLI with --json and --dry-run on writes. Your agent drives, you hold pause"
     },
     {
       "f": "Bought engagement",

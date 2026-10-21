@@ -53,13 +53,19 @@ When every surface of an example is `placeholder`, its tabs open on
          "command": "blowhorn comment --platform linkedin --target \"https://www.linkedin.com/feed/update/urn:li:activity:123/\" --message \"Great post!\"",
          "cliRef": "/docs/reference/cli/comment/"
        },
-       "rest": { "status": "placeholder", "notes": "The Blowhorn REST API for this action is not published yet." },
-       "mcp": {
-         "status": "placeholder",
-         "prompt": "Comment on this LinkedIn post as me: https://www.linkedin.com/feed/update/urn:li:activity:123/ with the message Great post!",
-         "notes": "Coming soon. This is the shape of the prompt to give an AI agent connected to the Blowhorn MCP server."
+       "rest": {
+         "status": "available",
+         "notes": "Every Blowhorn action is on the REST API, from the same schema as the CLI. Parameters match the CLI reference."
        },
-       "skill": { "status": "placeholder", "notes": "A Blowhorn skill for this action is not available yet." }
+       "mcp": {
+         "status": "available",
+         "prompt": "Comment on this LinkedIn post as me: https://www.linkedin.com/feed/update/urn:li:activity:123/ with the message Great post!",
+         "notes": "The prompt to give an AI assistant connected to the Blowhorn MCP server."
+       },
+       "skill": {
+         "status": "available",
+         "notes": "The Blowhorn skill teaches your agent this action: read first, rehearse, then ask before it fires."
+       }
      }
    }
    ```

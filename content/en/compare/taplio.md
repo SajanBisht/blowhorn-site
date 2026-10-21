@@ -37,7 +37,7 @@
     {
       "f": "AI writing and inspiration",
       "t": "Yes, deep",
-      "b": "No. Bring your own words, or your own agent"
+      "b": "Yes. Bring your own model, or let Blowhorn draft in your voice. Nothing posts until you approve it"
     },
     {
       "f": "Amplify one post",
@@ -47,7 +47,7 @@
     {
       "f": "AI agents",
       "t": "AI inside the product",
-      "b": "Full CLI: --help with examples, --json, --dry-run on writes. Your agent drives, you hold pause"
+      "b": "MCP server, REST API, AI skills and a full CLI with --json and --dry-run on writes. Your agent drives, you hold pause"
     },
     {
       "f": "Bought engagement",
