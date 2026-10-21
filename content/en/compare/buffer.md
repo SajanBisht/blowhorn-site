@@ -14,7 +14,7 @@
   "them": [
     "You want a calm, cheap calendar across Instagram, TikTok, Threads, Pinterest and the rest",
     "Posts must go out with every laptop closed",
-    "You want an MCP server on the free plan and approvals for a small team"
+    "You want approvals for a small team on a free plan"
   ],
   "us": [
     "Your audience lives on Hacker News, Reddit, GitHub, Slack, LinkedIn and X",
@@ -52,7 +52,7 @@
     {
       "f": "AI agents",
       "t": "Hosted MCP server on every plan, public API",
-      "b": "Full CLI: --help with examples, --json, --dry-run on writes. Your agent drives, you hold pause"
+      "b": "MCP server, REST API, AI skills and a full CLI with --json and --dry-run on writes. Your agent drives, you hold pause"
     },
     {
       "f": "Bought engagement",

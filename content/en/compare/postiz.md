@@ -13,7 +13,7 @@
   "verdict": "Postiz is the strongest agent-ready scheduler out there, with 30+ networks, a hosted MCP and a self-host option. Blowhorn's difference is who presses Post: your own Chrome, on your own machines, plus Hacker News, GitHub and LinkedIn outreach.",
   "them": [
     "You want 30+ networks, including Discord, Instagram and TikTok",
-    "You want to self-host open source software or use a hosted MCP from Claude, ChatGPT or Cursor",
+    "You want to self-host open source software",
     "Posts must go out with every laptop closed"
   ],
   "us": [
@@ -52,7 +52,7 @@
     {
       "f": "AI agents",
       "t": "Hosted MCP, CLI, skill, marketplace connectors",
-      "b": "Full CLI: --help with examples, --json, --dry-run on writes. Your agent drives, you hold pause"
+      "b": "MCP server, REST API, AI skills and a full CLI with --json and --dry-run on writes. Your agent drives, you hold pause"
     },
     {
       "f": "Bought engagement",
