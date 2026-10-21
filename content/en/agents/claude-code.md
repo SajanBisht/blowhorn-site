@@ -38,7 +38,7 @@
   "faq": [
     {
       "q": "Does Blowhorn ship an MCP server for Claude Code?",
-      "a": "Not today. Claude Code drives the CLI through its Bash tool and every command speaks --json, so a skill and an allowlist are the whole setup."
+      "a": "Yes. Add the Blowhorn MCP server to Claude Code and it can find and use every Blowhorn action, with your limits and approval rules attached. Prefer the shell? The CLI speaks --json, so a skill and an allowlist work too."
     },
     {
       "q": "Can it publish without asking me?",
