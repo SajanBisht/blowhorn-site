@@ -1,9 +1,9 @@
 {
   "$schema": "../schemas/hero.schema.json",
-  "default": "not-a-bot",
+  "default": "plug-in-ai",
   "rotation": {
     "mode": "utc-day",
-    "ids": ["not-a-bot", "real-you", "your-fleet", "sound-wave", "own-your-voice"]
+    "ids": ["plug-in-ai", "scripted-ai-ready", "same-rules", "ai-optional", "human-or-ai"]
   },
   "media": {
     "default": "video",
@@ -21,6 +21,46 @@
     }
   },
   "variants": [
+    {
+      "id": "plug-in-ai",
+      "headline": "Automate your social voice. Plug in AI anytime.",
+      "subhead": "Blowhorn posts exactly what you approve to LinkedIn, X, Reddit, Hacker News and more, from your own Chrome. Bring any AI agent, model or assistant.",
+      "cta": { "label": "See how AI fits in", "href": "/ai" },
+      "differentiators": [8, 10, 12],
+      "note": "AI hybrid messaging (Yi, 2026-10-20), default. What Blowhorn is in four words, then the hybrid: scripted posting, AI whenever you want it."
+    },
+    {
+      "id": "scripted-ai-ready",
+      "headline": "Scripted where it counts. AI where it helps.",
+      "subhead": "Every post, reply and amplify runs exactly as written. Drafts, agents and assistants plug in through MCP, a REST API and a scriptable CLI.",
+      "cta": { "label": "Meet the AI side", "href": "/ai" },
+      "differentiators": [8, 10],
+      "note": "AI hybrid messaging. The hybrid as a rule: deterministic actions, AI by choice, and the agent surfaces named."
+    },
+    {
+      "id": "same-rules",
+      "headline": "You post. Your agent posts. Same rules.",
+      "subhead": "Drive LinkedIn, X, Reddit, Hacker News and more from the app, the CLI, MCP or your AI assistant. One queue, one set of limits.",
+      "cta": { "label": "Wire up your agent", "href": "/agents" },
+      "differentiators": [3, 10, 12],
+      "note": "AI hybrid messaging. For the agent-heavy Alex persona: one queue and one set of limits, person or agent."
+    },
+    {
+      "id": "ai-optional",
+      "headline": "Your voice, automated. AI optional, never in charge.",
+      "subhead": "Blowhorn runs your schedule like clockwork, signed in as you. Write every word yourself, bring your own model, or let Blowhorn draft it.",
+      "cta": { "label": "Your model or ours", "href": "#ai-content" },
+      "differentiators": [8, 10],
+      "note": "AI hybrid messaging. AI assists, the person decides; points at the content generation teaser."
+    },
+    {
+      "id": "human-or-ai",
+      "headline": "One queue. Every profile. Human or AI.",
+      "subhead": "Publish and amplify from every profile you run, on every machine you own. Drive it by hand, by script or by AI agent.",
+      "cta": { "label": "See how it works", "href": "#how" },
+      "differentiators": [1, 10, 13],
+      "note": "AI hybrid messaging. The fleet plus agents: any number of machines and profiles, three ways to drive."
+    },
     {
       "id": "not-a-bot",
       "headline": "Not a bot. You, at full volume.",

@@ -19,11 +19,16 @@
             <div class="hero-actions">
               <a class="button button-primary button-pop" href="{{ "download/" | relURL }}">
                 <svg aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><use href="#glyph-download"></use></svg>
-                Download for Mac
+                Download free
               </a>
-              <a class="button button-secondary" href="#how">See how it works</a>
+              {{- /* data/hero.json variants[].cta: one secondary button per hero, shown with its copy. The span wrapper takes the rotation's display: revert, so the link keeps its button styles. */}}
+              {{- range $rot.heroes }}
+              {{- $href := .cta.href }}{{ if not (hasPrefix $href "#") }}{{ $href = (site.GetPage $href).RelPermalink }}{{ if not $href }}{{ errorf "data/hero.json: %s cta.href %q is not a page" .id .cta.href }}{{ end }}{{ end }}
+              <span data-hero-only="{{ .id }}"><a class="button button-secondary" href="{{ $href }}">{{ .cta.label }}</a></span>
+              {{- end }}
             </div>
             <p class="hero-note caption muted">
+              <span>For macOS 13 or later.</span>
               <span>As many social profiles as you want. About a minute to set up.</span>
             </p>
           </div>
@@ -61,12 +66,14 @@
         </div>
       </section>
 
+      {{ partial "home/ai-agents.html" . }}
+
       <section id="sound-wave" class="section" aria-labelledby="sound-wave-title">
         <div class="wrap wave-grid">
           <div class="section-head">
             <p class="label">Coordinated amplification</p>
             <h2 id="sound-wave-title" class="display">Real voices make a sound wave.</h2>
-            <p class="body-lg muted">Schedule one message and have every profile you add amplify it at the moment you pick, each profile posting as itself. Coordinated so the same post isn't sent twice. Pause the whole wave with one command.</p>
+            <p class="body-lg muted">Schedule one message and have every profile you add amplify it at the moment you pick, each profile posting as itself. Queue it yourself, or have your AI agent queue it for your approval. Coordinated so the same post isn't sent twice. Pause the whole wave with one command.</p>
             <p><a href="{{ (site.GetPage "/docs/how-to/publish/amplify-a-post").RelPermalink }}">How amplification works</a>. Team invites are coming soon.</p>
           </div>
           <figure class="wave-example">
@@ -87,7 +94,7 @@
         <div class="wrap">
           <div class="section-head">
             <p class="label">Who it's for</p>
-            <h2 id="roles-title" class="display">Built for the people who carry the message.</h2>
+            <h2 id="roles-title" class="display">Built for the people, and the agents, who carry the message.</h2>
           </div>
           <ul class="grid grid-4 section-body signal-roles">
             {{- range $int.roles }}
@@ -162,14 +169,15 @@
               <p>Submit and comment only. It never votes, and caps each profile at 2 link submissions a day. <a href="{{ (site.GetPage "/docs/how-to/publish/post-to-hacker-news").RelPermalink }}">Post to Hacker News</a></p>
             </li>
             <li class="card">
-              <h3 class="h3">Agents on a leash</h3>
-              <p>AI agents get the same queue and limits you do. Only approved posts go out. <a href="{{ (site.GetPage "/docs/how-to/schedule/pause").RelPermalink }}">You're in control</a></p>
+              <h3 class="h3">AI on a short leash</h3>
+              <p>AI agents get the same queue, limits and dry run you do. Only approved posts go out. <a href="{{ (site.GetPage "/docs/how-to/schedule/pause").RelPermalink }}">You're in control</a></p>
             </li>
           </ul>
           <p class="section-body"><a class="button button-secondary" href="{{ (site.GetPage "/legal").RelPermalink }}">Visit the Trust Center</a></p>
         </div>
       </section>
 
+      {{ partial "home/ai-content.html" . }}
       <section id="pricing" class="section" aria-labelledby="pricing-title">
         <div class="wrap">
           <div class="pricing-signal card">
@@ -181,6 +189,7 @@
             <ul class="pricing-signal-list">
               <li><b>Free is a taste</b><span>LinkedIn and X only. On every paid plan the rest of the map opens. Team is per seat.</span></li>
               <li><b>Safety limits stay</b><span>Hacker News stays capped at 2 link submissions a day. Solo includes basic LinkedIn invite tidy-up.</span></li>
+              <li><b>No AI tax</b><span>Actions are scripted, so no model bill hides in your plan. Bring your own model at no extra charge.</span></li>
               <li><b>You say when</b><span>Like a server grating cheese onto your plate until you tap the table. You are in control.</span></li>
             </ul>
             <p><a class="button button-secondary" href="{{ "pricing/" | relURL }}">See plans and prices</a></p>
@@ -193,7 +202,7 @@
           <img class="download-cta-icon" src="{{ "assets/brand/logo/blowhorn-app-icon.svg" | relURL }}" alt="" width="64" height="64" loading="lazy">
           <div class="section-head section-head-center">
             <p class="label">Download</p>
-            <h2 id="download-title" class="display">Own your voice. Keep your accounts.</h2>
+            <h2 id="download-title" class="display">Own your voice. Command your agents.</h2>
             <p class="body-lg muted">One disk image for Apple silicon and Intel, plus a Chrome extension. About a minute to set up.</p>
           </div>
           <p class="hero-actions hero-actions-center">
