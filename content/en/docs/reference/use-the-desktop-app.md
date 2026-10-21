@@ -111,7 +111,7 @@ The this computer screen is the visible face of `blowhorn service`: it reports t
 service the app registered and never installs, updates or uninstalls one.
 
 Profiles made before profile names were lowercase keep their capitalised
-folder (`data/profiles/Lee`). The app lists them as they are spelled and
+folder (`data/profiles/Alex`). The app lists them as they are spelled and
 reads and saves them as the lowercase name every command resolves them to.
 
 ## Setup
@@ -119,7 +119,7 @@ reads and saves them as the lowercase name every command resolves them to.
 Setup is the engine checklist the app opens on while its engine is not
 ready (otherwise the first run is the guided setup; see
 [Set up Blowhorn the first time](/docs/how-to/set-up/first-run-setup/)),
-five rows read from this computer:
+five rows read from this machine:
 "Blowhorn folder", "helper tools", "organization connection", "chrome profiles",
 and "this computer on watch". The first two check the engine bundled in the
 app, the only engine the installed app runs

@@ -31,34 +31,34 @@ Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `-
 Examples:
 
 ```bash
-blowhorn post --profile lee
+blowhorn post --profile alex
 blowhorn post --check-queue --profile all
-blowhorn post --profile lee --dry-run
-blowhorn post --profile all --exclude lee
-blowhorn post --platform linkedin --profile lee --headless
-blowhorn post --profile lee -v
-blowhorn post --profile lee --pace slow
-blowhorn post --platform linkedin --profile lee
-blowhorn post --platform x --profile lee
+blowhorn post --profile alex --dry-run
+blowhorn post --profile all --exclude alex
+blowhorn post --platform linkedin --profile alex --headless
+blowhorn post --profile alex -v
+blowhorn post --profile alex --pace slow
+blowhorn post --platform linkedin --profile alex
+blowhorn post --platform x --profile alex
 blowhorn post --platform x --amplify "https://x.com/user/status/123"
-blowhorn post --platform reddit --profile lee
+blowhorn post --platform reddit --profile alex
 blowhorn post --platform reddit --amplify "https://www.reddit.com/r/k8s/comments/abc/post/"
-blowhorn post --platform hn --profile lee
-blowhorn post --platform hn --profile lee --dry-run
+blowhorn post --platform hn --profile alex
+blowhorn post --platform hn --profile alex --dry-run
 blowhorn post --platform slack --target "#announcements"
-blowhorn post --platform slack --profile lee --target "#announcements" --message "Maintenance is complete"
+blowhorn post --platform slack --profile alex --target "#announcements" --message "Maintenance is complete"
 blowhorn post --platform slack --target "@alice"
 blowhorn post --platform slack --target "https://acme.slack.com/archives/C0123/p1776000000000100"
-blowhorn post --platform slack --profile lee
-blowhorn post --platform bluesky --profile lee
+blowhorn post --platform slack --profile alex
+blowhorn post --platform bluesky --profile alex
 blowhorn post --platform github --profile all --amplify "https://github.com/acme/widgets/issues/1234"
 blowhorn post --platform github --profile all --amplify "https://github.com/meshery/meshery/pull/21625"
-blowhorn post --platform github --profile lee --amplify "https://github.com/acme/widgets/issues/42"
-blowhorn post --platform github --profile lee,kate,rian --amplify "https://github.com/acme/widgets/issues/42"
-blowhorn post --platform github --profile all --exclude lee --amplify "https://github.com/acme/widgets/issues/42"
+blowhorn post --platform github --profile alex --amplify "https://github.com/acme/widgets/issues/42"
+blowhorn post --platform github --profile alex,kate,rian --amplify "https://github.com/acme/widgets/issues/42"
+blowhorn post --platform github --profile all --exclude alex --amplify "https://github.com/acme/widgets/issues/42"
 blowhorn post --platform github --profile all --amplify "https://github.com/acme/widgets/issues/42" --dry-run
-blowhorn post --platform github --profile lee --amplify "https://github.com/acme/widgets/issues/42" --dry-run -v
-blowhorn post --platform github --profile lee
+blowhorn post --platform github --profile alex --amplify "https://github.com/acme/widgets/issues/42" --dry-run -v
+blowhorn post --platform github --profile alex
 ```
 
 Output: text.

@@ -28,7 +28,7 @@ Also takes the [shared flags](/docs/reference/cli/shared-flags/): `--config`, `-
 Examples:
 
 ```bash
-blowhorn comment --profile all --exclude lee
+blowhorn comment --profile all --exclude alex
 blowhorn comment --platform linkedin --target "https://www.linkedin.com/feed/update/urn:li:activity:123/" --message "Great post!"
 blowhorn comment --platform reddit --target "https://www.reddit.com/r/k8s/comments/abc/post/" --message "Thanks for sharing."
 blowhorn comment --platform bluesky --target "https://bsky.app/profile/alice.bsky.social/post/3kx..." --message "Nice thread."

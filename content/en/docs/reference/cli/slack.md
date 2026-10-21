@@ -132,7 +132,7 @@ Examples:
 
 ```bash
 blowhorn slack react --profile rian --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --emoji white_check_mark
-blowhorn slack react --profile rian,lee --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --emoji +1 --slack-auth session --confirm --json
+blowhorn slack react --profile rian,alex --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --emoji +1 --slack-auth session --confirm --json
 ```
 
 Output: json with `--json`, text otherwise.
@@ -166,7 +166,7 @@ Examples:
 blowhorn slack send --profile rian --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --message 'Thanks, merged'
 blowhorn slack send --profile rian --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --message 'Thanks, merged' --slack-auth session --confirm --json
 blowhorn slack send --profile rian --target 'https://mesheryio.slack.com/archives/C0123' --file reply.md --idempotency-key release-notes-1 --confirm
-blowhorn slack send --profile rian,lee --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --file reply.md --slack-auth session --json
+blowhorn slack send --profile rian,alex --target 'https://mesheryio.slack.com/archives/C0123/p1776000000000100' --file reply.md --slack-auth session --json
 blowhorn slack send --profile rian --workspace mesheryio.slack.com --target '#general' --message - --confirm
 ```
 
