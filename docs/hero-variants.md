@@ -11,16 +11,24 @@ Copy may only state what those differentiators allow, in their wording rules.
 
 `rotation` is the config object. `rotation.mode` is `utc-day` (production) or
 `interval`. `rotation.ids` lists the heroes that take turns, in order. Omit `ids`
-to rotate every variant. Variants not listed stay in the file for later.
+to rotate every variant. Variants not listed never rotate, but still render after the
+rotating ones, so `?hero=<id>` reaches them for review (`?hero=<n>` counts rotating heroes only).
 
-Production rotates these five, one per UTC day:
+Production rotates these five, one per UTC day (the AI hybrid messaging, Yi, 2026-10-20):
 
-1. `not-a-bot`: "Not a bot. You, at full volume." over the hero stage, Major Blowhorn
-   barking into your own Chrome while the post types itself. Default and fallback.
-2. `real-you`: "The real you, everywhere at once."
-3. `your-fleet`: "Your fleet. Your Chrome. Your voice."
-4. `sound-wave`: "Real voices make a sound wave."
-5. `own-your-voice`: "Own your voice. Keep your accounts."
+1. `plug-in-ai`: "Automate your social voice. Plug in AI anytime." Default and fallback.
+2. `scripted-ai-ready`: "Scripted where it counts. AI where it helps."
+3. `same-rules`: "You post. Your agent posts. Same rules."
+4. `ai-optional`: "Your voice, automated. AI optional, never in charge."
+5. `human-or-ai`: "One queue. Every profile. Human or AI."
+
+The earlier five (`not-a-bot`, `real-you`, `your-fleet`, `sound-wave`,
+`own-your-voice`) stay in the file outside the rotation, so their `?hero=` links
+still work.
+
+Each variant may set `cta` (`label` and `href`, a site path or an on-page
+anchor): its secondary button beside Download. Without it the button reads
+"See how it works" and goes to `#how`. A path that is not a page fails the build.
 
 The platforms section headline lives in `data/integrations.json` (`headline`).
 It is not a hero. The old line "Say it once. Say it everywhere." stays on the

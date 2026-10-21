@@ -3136,3 +3136,10 @@ a.docs-card.platform-card[href$="/facebook/"]::before { background-image: url("/
   .consent { inset-inline: var(--space-6) auto; bottom: var(--space-6); }
 }
 
+
+/* Signal home: AI sections (layouts/_partials/home/ai-agents.html, ai-content.html). */
+.ai-agent-cards, .ai-content-offers { list-style: none; padding: 0; }
+.ai-agents-major { max-width: 40rem; }
+.ai-agents-major > * + * { margin-top: var(--space-3); }
+.ai-agents-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.ai-content-price { color: var(--ink); }

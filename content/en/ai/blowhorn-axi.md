@@ -5,7 +5,7 @@ description: blowhorn-axi lets AI agents use Blowhorn. Compact answers built for
 label: AI native
 lead: The agent interface to Blowhorn
 intro: blowhorn-axi is a small command your AI agent runs to use Blowhorn for you. It speaks the agent's language, rehearses before it acts and always says what to do next.
-status: Version 0.1.0
+status: Version 0.2.0
 layout: ai
 weight: 10
 lastmod: 2026-10-13

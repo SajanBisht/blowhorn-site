@@ -1,6 +1,6 @@
 ---
 title: "Blowhorn: one message, many ears"
-description: Not a bot. You, at full volume. Blowhorn does the typing and clicking in your own Chrome, signed in as you, on machines you own. No Blowhorn server ever logs in as you.
+description: Automate your social voice. Plug in AI anytime. Blowhorn posts exactly what you approve to LinkedIn, X, Reddit, Hacker News and more, from your own Chrome. Bring any AI agent, model or assistant.
 theme: signal
 sitemap:
   changefreq: weekly

@@ -126,6 +126,16 @@
           "maxLength": 220,
           "not": { "pattern": "\u2014" }
         },
+        "cta": {
+          "description": "This hero's secondary button, beside Download. Without it the button reads See how it works and goes to #how. href is a site path (resolved with relURL) or an on-page anchor.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "href"],
+          "properties": {
+            "label": { "type": "string", "minLength": 1, "maxLength": 32, "not": { "pattern": "\u2014" } },
+            "href": { "type": "string", "pattern": "^(/[a-z0-9/_-]*|#[a-z0-9-]+)$" }
+          }
+        },
         "art": {
           "description": "The illustration beside the copy, a partial in layouts/_partials/hero-art/: stage is Major Blowhorn barking into your own Chrome, fan is one message fanning out to every platform. Defaults to stage.",
           "type": "string",
