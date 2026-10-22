@@ -39,15 +39,24 @@ profile at once.
 The first-run setup's **Confirm troops** step does the whole job from what
 Chrome already knows. For each Chrome profile it shows the Google account
 and the platform accounts discovery found there, proposes the Blowhorn
-profile each one becomes, and lets you check which Chrome profiles to set
-up and which accounts to attach. Confirming creates the profiles that
-don't exist yet (a Google email must resolve to exactly one person in your
-account, the same rule as adding a profile by hand; an email that
-names several asks you to pick, and one that names none asks for the right
-email rather than inventing a person), saves the non-secret handles,
-records a confirmed Chrome session for LinkedIn and Hacker News when
-you're signed in there, and writes the mapping with the same checks as
-`blowhorn chrome map`.
+profile each one becomes, and lets you mark each Chrome profile and each
+account in use or not in use. Confirming the ones in use creates the
+profiles that don't exist yet (a Google email must resolve to exactly one
+person in your account, the same rule as adding a profile by hand; an email
+that names several asks you to pick, and one that names none asks for the
+right email rather than inventing a person), saves the non-secret handles,
+records a confirmed Chrome session for LinkedIn and Hacker News when you're
+signed in there, and writes the mapping with the same checks as
+`blowhorn chrome map`. A Chrome profile you mark not in use is recorded
+that way and unmapped on this computer; the Blowhorn profile and its
+credentials stay, and a run of every profile skips it. A profile you had
+already excluded stays excluded. Marking it in use again removes that skip
+only when this screen added it. An account you mark not in use is recorded
+in `.blowhorn.chrome-not-in-use.json` beside your config, and a run on this
+computer skips that account. Marking that account in use later clears the
+skip for the Blowhorn profile, including a refusal recorded on another
+Chrome profile. The credential stays.
+The next time you open Confirm troops, those rows start unchecked.
 
 The survey behind the step is `blowhorn chrome discover`, and the apply is
 `blowhorn chrome confirm`, which reads the confirmed assignments as JSON
