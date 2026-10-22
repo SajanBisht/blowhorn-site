@@ -99,6 +99,7 @@ blowhorn profile auth --platform slack --profile alex --workspace mesheryio.slac
 blowhorn profile auth --platform slack --profile alex --mode paste
 blowhorn profile auth --platform linkedin --profile all --headless
 blowhorn profile auth --platform bluesky --profile alex
+printf '%s\n' "$APP_PASSWORD" | blowhorn profile auth --platform bluesky --profile alex --handle alex.bsky.social --app-password-stdin --json
 blowhorn profile auth --platform linkedin --profile kate --headed --json
 ```
 

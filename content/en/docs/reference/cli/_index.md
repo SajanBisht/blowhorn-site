@@ -157,12 +157,17 @@ either are refused), `node_modules/`, `desktop/node_modules/` and `data/logs/` -
 reporting each item as `removed`, `not present`, `not checked`, `kept`,
 `not unregistered` or `failed`. A failed item does not stop the run; the
 command exits 1 at the end, as it does when a real run leaves a login item
-not unregistered. Local data is kept and named (your account connection file, the
+not unregistered, and when a real run cannot read an account Keychain item.
+The sign-in on this machine (the Keychain item `ai.blowhorn.cloud-token`, the
+entitlement cache `ai.blowhorn.entitlement.v2`, `cloud.yaml` and the `cloud-token`
+file) is removed on every uninstall. Local data is kept and named (the store
+connection file, the
 desktop app's state, Blowhorn's own Chrome trees under `~/.blowhorn`, the app's
 per-user Library state, the checkout's `data/cache/` and each profile's `browser/`
 sessions); `--purge` removes it after you type `purge` at the prompt, or with
 `--yes` when there is no terminal (`--json --purge` needs `--yes` outside a dry
-run, and `--yes` without `--purge` or `--discard-unsynced-runs` is refused), and your account is never touched.
+run, and `--yes` without `--purge` or `--discard-unsynced-runs` is refused). The shared store is never touched.
+Dragging the app to the Trash does not run this command. After this version has recorded the bundle once, the next launch of a different copy signs out. An in-app update keeps the sign-in. The first launch of this version keeps it.
 Nothing under a Chrome profile is read or written. It is refused by name, in a
 dry run too, while a scheduler tick, a service pass, an extension run,
 `Blowhorn.app`, a desktop app started from this checkout or, with `--purge`,

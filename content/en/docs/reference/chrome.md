@@ -33,6 +33,24 @@ extension's Chrome Web Store page in each Chrome profile you name (see
 running, either one starts Chrome to open that window and leaves it
 running; neither drives anything in it.
 
+## What it never opens, and when it never starts Chrome
+
+Blowhorn never opens a real Chrome profile folder directly. The Chrome
+it launches itself runs on Blowhorn's own folders (its automation
+folder, or the dedicated attach Chrome's folder); your profiles are
+reached through the Blowhorn extension in your own Chrome, or by asking
+your running Chrome to open a tab. A launch aimed at a real profile
+folder is refused by name, with no fallback.
+
+And Blowhorn never starts Chrome from a session that cannot reach your
+login keychain -- an SSH session, a CI runner, or a shell with no
+desktop session behind it. Chrome keeps its sign-in keys in the
+keychain; started without it, Chrome cannot read them and signs the
+profile out. A command that would have to start Chrome from such a
+session refuses and says why; run it from a terminal on this computer
+instead. Asking a Chrome that is already running to open a tab starts
+nothing and is not refused.
+
 The extension's native host reads one more thing, only to answer the
 toolbar popup: it looks for the extension's own random identifier in
 the extension's own IndexedDB files,
@@ -371,7 +389,7 @@ as permission to post.
 ## `blowhorn chrome confirm`
 
 ```bash
-blowhorn chrome confirm --payload-stdin [--dry-run] --json < assignments.json
+cat assignments.json | blowhorn chrome confirm --payload-stdin [--dry-run] --json
 ```
 
 Applies a confirmed assignments document - what setup's Confirm troops
@@ -397,12 +415,24 @@ checks. Slack writes no key - its note says to capture the session with
 `blowhorn profile auth --platform slack <profile>`. A username omitted
 from the document is re-read from discovery.
 
+`in_use: false` on an assignment records that Chrome profile as not in
+use: this computer's mapping for the directory is removed, the Blowhorn
+profile is added to `defaults.exclude`, and the profile and its
+credentials are kept. `attach: false` on a platform records that account
+not in use in `.blowhorn.chrome-not-in-use.json` beside the config file.
+The credential is kept, and a later run on this computer skips that
+account. Marking the profile in use again removes the name from
+`defaults.exclude`. Omitting `in_use` applies only the attached rows, as
+an older document does. `chrome discover` reports `in_use` on the profile
+and on each platform, so the next confirm screen can start a recorded
+choice unchecked.
+
 Each assignment answers for itself in `results` (`written` names keys,
 never values), so a partial confirm is a successful confirm: the exit
 code is 0 when at least one assignment landed, 1 when none did, and 3
-on a store outage. `--dry-run` runs every check and writes nothing. No
-pairing page is opened; pairing happens on the first run or through
-`blowhorn chrome map`.
+on a store outage. A profile recorded not in use has `mapped` null.
+`--dry-run` runs every check and writes nothing. No pairing page is
+opened; pairing happens on the first run or through `blowhorn chrome map`.
 
 ## One run per profile and platform
 

@@ -22,14 +22,20 @@ Blowhorn needs something your earlier setup did not do.
   one. See [Create a Blowhorn account](/docs/how-to/set-up/create-an-account/).
 - **Confirm troops:** Blowhorn shows what it found in each Chrome
   profile: the Google account, and the platform accounts signed in or
-  saved there. Check the Chrome profiles to set up and the accounts to
-  attach to each; for a profile that isn't in Blowhorn yet, confirm the
-  name it will be created under. The profiles you check are the ones in
-  use: the next step installs only into those, and a profile you leave
-  unchecked is left alone. On **Confirm**, Blowhorn creates the
-  profiles, saves the handles (and a GitHub token or Bluesky app password
-  you type on the row), and maps each Chrome profile. Nothing is created
-  until you confirm, and a row you leave unchecked is skipped. See
+  saved there. Mark each Chrome profile and each account **in use** or
+  **not in use**. For a profile that isn't in Blowhorn yet, confirm the
+  name it will be created under. The profiles you mark in use are the ones
+  the next step installs into, and a profile you mark not in use is left
+  alone. On **Confirm**, Blowhorn creates the profiles you marked in use,
+  saves the handles (and a GitHub token or Bluesky app password you type
+  on the row), and maps each of those Chrome profiles. A profile you mark
+  not in use is recorded that way: its mapping on this computer is
+  removed, and a run of every profile skips it. A profile you had already
+  excluded stays excluded. Marking it in use again removes that skip only
+  when this screen added it. The Blowhorn profile and its saved sign-in
+  stay. An account you mark not in use is skipped on this computer, and
+  its saved sign-in stays too. Nothing is created or
+  installed until you confirm. See
   [Map Chrome profiles](/docs/how-to/set-up/map-chrome-profiles/).
 - **Getting ready:** Blowhorn finds your Chrome profiles and adds its
   extension only to the ones you marked in use on Confirm troops. If that

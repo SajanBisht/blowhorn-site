@@ -7,8 +7,9 @@ aliases: [/docs/how-to/uninstall/]
 
 
 Remove Blowhorn from your computer: the background service, the Chrome native host,
-the launchers, the desktop app and the checkout's build products. Your data
-stays unless you ask for it to go, and your account is never touched.
+the launchers, the desktop app and the checkout's build products. The sign-in
+on this computer goes with the app. Your other data stays unless you ask for it
+to go. The account on the shared store is never touched.
 
 macOS only. On Linux the command is refused by name and nothing is read or
 removed.
@@ -24,7 +25,7 @@ blowhorn uninstall --dry-run
 ```
 
 Each line carries one result, `would remove`, `not present`, `not checked`,
-`kept`, `not unregistered`, or `never touched` for your account, with the
+`kept`, `not unregistered`, or `never touched` for the shared store, with the
 path. `not checked` means the item's state could not be read, with the reason;
 nothing is done to it, and it is never reported as absent.
 
@@ -73,9 +74,14 @@ present`, `not unregistered` or `failed`:
    only the app's interpreter link.
 
 A failed item does not stop the run: everything else is still removed, and
-the command exits 1.
+the command exits 1. A real run that cannot read the sign-in in the Keychain
+exits 1 as well, and leaves that item in place.
 
-Kept at the end, and named: your account connection file, the app's state
+The sign-in on this machine is removed on every run, with or without `--purge`:
+the Keychain item, `cloud.yaml`, and the `cloud-token` file beside it.
+
+Kept at the end, and named: the store connection file
+(`~/.config/blowhorn/store.yaml`), the app's state
 under `~/Library/Application Support/Blowhorn` (its preferences, its engine
 record and, for the engine the app carries, that engine's folder `home/` with
 your profiles' settings), Blowhorn's own Chrome trees, the per-user
@@ -102,9 +108,10 @@ remove and asks you to type `purge`; anything else cancels and removes
 nothing. From a script with no terminal, pass `--yes`. `--json` needs `--yes`
 too, because the prompt would otherwise land in the JSON output.
 
-Your account, the content queue, the schedule, the profiles and the
-ledgers on it, is not local data and is never touched, under any flag. Other
-computers keep using it.
+The account on the shared store, the content queue, the schedule, the profiles
+and the ledgers, is not local data and is never touched, under any flag. Other
+computers keep using it. Revoking the sign-in token removes that token from
+the account's token list. It does not delete the account.
 
 ## Dragging the app to the Trash
 
@@ -195,8 +202,25 @@ rm -rf ~/code/blowhorn
 ## Reinstalling afterwards
 
 Installing the app again from its DMG, or a fresh `./tools/install.sh` from the
-same checkout, produces a working install. Your kept account connection file is
-picked up as it was.
+same checkout, produces a working install. The store connection file is picked
+up as it was. The sign-in is not.
+
+## Replacing the app by hand
+
+Dragging a different copy of `Blowhorn.app` into place does not remove the
+sign-in, and neither does emptying the Trash without running the removal
+above. The sign-in stays in the Keychain until a copy of the app starts.
+
+After this version has launched once, it remembers that bundle. Opening a
+different copy then signs you out and asks you to sign in again. An update you
+install from inside the app keeps the sign-in. The first launch of this version
+keeps the sign-in you already have.
+
+To sign out of the copy that is open now, run:
+
+```bash
+blowhorn auth logout
+```
 
 ## Related
 
