@@ -1014,13 +1014,33 @@ html[data-hero-art="fan"] .platforms-fan { display: none; }
 .download-card .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 .download-card .meta { color: var(--ink-muted); }
 .download-card .meta span + span::before { content: "\00b7"; margin-inline: var(--space-2); }
-.download-aside { display: grid; gap: var(--space-4); align-content: start; }
-.download-aside .card > * + * { margin-top: var(--space-2); }
-.checklist li + li { margin-top: var(--space-1); }
+.download-requirements {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding-block: var(--space-5);
+  border-block: var(--stroke-hairline) solid var(--line);
+}
+.download-requirements .label { margin-bottom: var(--space-2); }
+.download-requirements .h3 { margin: 0; }
+.download-requirements-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.download-requirements-list li {
+  display: grid;
+  gap: var(--space-1);
+}
+.download-requirements-list span { color: var(--ink-muted); }
 .download-verify a { color: var(--ink-muted); }
 .download-verify a:hover { color: var(--link); }
 @media (min-width: 900px) {
-  .download-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-6); }
+  .download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+  .download-requirements { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 2fr); align-items: center; }
+  .download-requirements-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* ---------- Footer ----------

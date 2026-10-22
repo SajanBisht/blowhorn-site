@@ -62,8 +62,9 @@ carry the trademark line below.
 | `instagram-simple-icons.svg` | Meta Platforms, Inc. | `icons/instagram.svg` from Simple Icons (https://simpleicons.org, CC0 1.0), downloaded on 13 October 2026, unmodified. A monochrome rendering of the owner's mark, used until the owner's own file replaces it |
 | `tiktok-simple-icons.svg` | ByteDance Ltd. | `icons/tiktok.svg` from Simple Icons (https://simpleicons.org, CC0 1.0), downloaded on 13 October 2026, unmodified. A monochrome rendering of the owner's mark, used until the owner's own file replaces it |
 | `facebook-simple-icons.svg` | Meta Platforms, Inc. | `icons/facebook.svg` from Simple Icons (https://simpleicons.org, CC0 1.0), downloaded on 13 October 2026, unmodified. A monochrome rendering of the owner's mark, used until the owner's own file replaces it |
+| `google-chrome-logo.svg` | Google LLC | `chrome-logo.svg` from https://www.google.com/chrome/static/images/chrome-logo.svg, downloaded on 21 October 2026, unmodified |
 
-LinkedIn, X, Reddit, Hacker News, Slack, Bluesky, GitHub, YouTube, Instagram, TikTok and Facebook are trademarks of
+LinkedIn, X, Reddit, Hacker News, Slack, Bluesky, GitHub, YouTube, Instagram, TikTok, Facebook and Google Chrome are trademarks of
 their respective owners. Blowhorn is not affiliated with or endorsed by any of
 them. The logos are used only to name the platforms Blowhorn works with, under
 each owner's brand guidelines, and are not licensed for any other use.
