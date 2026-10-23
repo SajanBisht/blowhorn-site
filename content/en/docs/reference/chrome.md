@@ -92,7 +92,18 @@ connects.
 Before any action, a run checks the token. It refuses with one sentence when
 the Chrome profile is not paired, is paired to another Blowhorn profile (the
 sentence names both and the Chrome directory to switch to), or is paired to a
-mapping this computer no longer has. To pair, or to pair again after the
+mapping this computer no longer has.
+
+The same key also guards the bridge between a run and the extension. The
+socket the run connects to (`chrome_extension.sock`, beside the key) is
+readable and writable only by you, and the native host forwards nothing a
+run sends until that run's first message proves it knows a secret made
+from the key. The secret is per install, not per profile, and the host
+keeps it to itself: it is checked and removed before anything reaches the
+extension, so a program on this computer that cannot read the key cannot
+drive your Chrome through the bridge, however its messages are shaped.
+
+To pair, or to pair again after the
 extension was reinstalled, map the profile to the directory it already has:
 
 ```bash
@@ -126,7 +137,13 @@ Chromium: a headless run would announce itself to every site.
 The extension driver starts no Chrome and launches no Playwright. One
 mapped profile holds the bridge per run; a second run that wants it
 while it is held stops with `another blowhorn run holds the Chrome
-extension bridge` and does nothing. A hello that omits the run's
+extension bridge (pid <pid>)`, naming the run that holds it, and does
+nothing. The holding run sends a heartbeat every 5 seconds, and a
+holder that sends nothing -- no request, no heartbeat -- for
+30 seconds is stale: the native host closes its bridge socket, a
+waiting run may take the bridge, and any request the stale run left
+unanswered is failed rather than handed to the next run, so a hung
+run cannot wedge the runs behind it. A hello that omits the run's
 version, or an installed extension older than the run needs, stops as
 `extension_outdated` naming both versions. Anything the extension
 cannot do is refused by name.
@@ -422,7 +439,12 @@ credentials are kept. `attach: false` on a platform records that account
 not in use in `.blowhorn.chrome-not-in-use.json` beside the config file.
 The credential is kept, and a later run on this computer skips that
 account. Marking the profile in use again removes the name from
-`defaults.exclude`. Omitting `in_use` applies only the attached activities, as
+`defaults.exclude`. Deleting the Blowhorn profile removes its recorded
+per-platform choices with it, so an account it had marked not in use is
+not skipped for a different profile later mapped to the same Chrome
+profile; a Chrome profile recorded not in use as a whole stays recorded
+that way, because that mark is about the Chrome profile itself.
+Omitting `in_use` applies only the attached activities, as
 an older document does. `chrome discover` reports `in_use` on the profile
 and on each platform, so the next confirm screen can start a recorded
 choice unchecked.
