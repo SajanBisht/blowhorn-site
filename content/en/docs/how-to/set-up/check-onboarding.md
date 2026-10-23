@@ -26,14 +26,17 @@ make onboarding-e2e
 ```
 
 The check needs Node.js 22, Google Chrome, and a display. On Linux with no
-display it starts Xvfb itself. A packaged Mac app is the same walk:
+display it starts Xvfb itself. It finds the Electron binary the way the
+`electron` package does, so the Linux binary and the macOS app inside
+`Electron.app` both start. A packaged Mac app is the same walk:
 
 ```bash
 node desktop/scripts/onboarding-e2e.mjs --app /path/to/Blowhorn.app
 ```
 
 Each step prints its name. A failure names the step and leaves a screenshot
-of that screen in the temp directory the script prints at the start. Pass
+of that screen in the temp directory the script prints at the start. If the
+local Cloud stand-in raises, the check stops and prints that error. Pass
 `ONBOARDING_E2E_ARTIFACTS` when you want those screenshots in a directory you
 choose.
 
@@ -42,8 +45,13 @@ packages the DMG. The verify phase runs it again with `--app` pointed at
 the app inside the mounted DMG. A broken onboarding stops the release there.
 The same script is what `make onboarding-e2e` runs.
 
+A program the check starts opens the sign-in URL. Your default browser
+stays closed, including on macOS.
+
 On macOS the Chrome for this check is launched with a throwaway
 `--user-data-dir` under the system temp directory, `--use-mock-keychain`,
 and `--password-store=basic`. A user-data directory outside that temp
 directory is refused. If branded Chrome cannot load the unpacked extension,
-the check uses a cached Chrome for Testing build.
+the check uses a cached Chrome for Testing build. The check also sets
+`BLOWHORN_KEYCHAIN=0`, so the engine keeps the fixture token in the
+throwaway home and does not write the login keychain.
