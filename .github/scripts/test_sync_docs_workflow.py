@@ -89,10 +89,12 @@ class SyncDocsWorkflowTest(unittest.TestCase):
         mode = os.stat(MERGE_SCRIPT).st_mode
         self.assertTrue(mode & stat.S_IXUSR, "script must be executable")
         text = MERGE_SCRIPT.read_text(encoding="utf-8")
-        # The dispatched site run is the only gate: it must be watched to
-        # completion before the merge, and the master deploy run must be
-        # dispatched after it, because the token's merge starts no push
-        # workflows.
+        # The dispatched site run is the only gate: the script must wait
+        # for that check by name (an instant check like DCO registering
+        # first must not satisfy the wait), watch it to completion before
+        # the merge, and dispatch the master deploy run after it, because
+        # the token's merge starts no push workflows.
+        self.assertIn("Lint, build and check", text)
         self.assertLess(
             text.index('gh pr checks "$pr" --watch'),
             text.index('gh pr merge "$pr" --squash'),

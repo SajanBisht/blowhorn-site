@@ -33,13 +33,26 @@ if [ "$state" != "OPEN" ]; then
   exit 0
 fi
 
-# The dispatched site run needs a moment to show up as a check on the
-# pull request; wait for it rather than merging past an empty check list.
-for _ in $(seq 1 18); do
-  count="$(gh pr checks "$pr" --json name --jq 'length' 2>/dev/null || echo 0)"
-  [ "$count" -gt 0 ] && break
+# Wait for the dispatched site run to show up as a check on the pull
+# request before watching anything. Waiting for just any check is not
+# enough: the DCO check registers the instant the pull request opens and
+# passes in about a second, and a check watch started then sees a
+# complete, green list — the site check not yet on it — and merges past
+# the very gate this script exists to enforce (seen live, 2026-10-23).
+# The site check is site.yml's check job, named in that workflow.
+site_check="Lint, build and check"
+found=""
+for _ in $(seq 1 30); do
+  if gh pr checks "$pr" --json name --jq '.[].name' 2>/dev/null | grep -qx "$site_check"; then
+    found=1
+    break
+  fi
   sleep 10
 done
+if [ -z "$found" ]; then
+  echo "The site check '$site_check' never appeared on pull request #$pr; not merging."
+  exit 1
+fi
 
 # Exits non-zero unless every check on the pull request passes.
 gh pr checks "$pr" --watch --interval 10
