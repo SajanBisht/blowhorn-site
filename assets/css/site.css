@@ -513,6 +513,102 @@ pre code { background: none; padding: 0; }
 .mm-link:hover .mm-link-title { color: var(--link); }
 .mm-link-desc { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
 .mm-compact .mm-link { padding-block: 6px; }
+.mm-intro-sub { margin: var(--space-3) 0 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); max-width: 22rem; }
+
+/* Product panel as a card grid: the ways in to one product, each with its
+   own small animated illustration (interface-art.html). The sixth card is
+   the point of the whole panel: one subscription, not six products. */
+.mm-panel-cards { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); }
+.mm-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.mm-card {
+  position: relative; display: grid; gap: var(--space-2); align-content: start;
+  padding: var(--space-4); border-radius: var(--radius-lg); color: var(--ink);
+  background: var(--glass-sheen); box-shadow: inset 0 0 0 1px var(--glass-rim), 0 0 0 1px var(--glass-edge);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.mm-card:hover, .mm-card:focus-visible { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--glass-rim), 0 0 0 1px var(--glass-edge), var(--glass-shadow); }
+.mm-card-title { font-size: 15px; line-height: 21px; font-weight: 700; padding-right: var(--space-6); }
+.mm-card:hover .mm-card-title { color: var(--link); }
+.mm-card-desc { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.mm-card-arrow {
+  position: absolute; top: var(--space-4); right: var(--space-4); width: 22px; height: 22px; border-radius: var(--radius-pill);
+  background-color: var(--surface-tint); background-repeat: no-repeat; background-position: center; background-size: 12px 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7h8.5M7.5 3.5L11 7l-3.5 3.5' fill='none' stroke='%2300756A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+.mm-card:hover .mm-card-arrow { background-color: var(--teal); transform: translateX(2px); }
+.mm-card-plan { background: var(--surface-tint); }
+.mm-card-plan-mark, .ways-card-plan .mm-card-plan-mark {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--yellow); color: var(--on-yellow); border: 2px solid var(--near-black);
+  font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1;
+}
+@media (prefers-color-scheme: dark) {
+  .mm-card-plan-mark, .ways-card-plan .mm-card-plan-mark { border-color: var(--cream); }
+  .mm-card-arrow { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7h8.5M7.5 3.5L11 7l-3.5 3.5' fill='none' stroke='%2300D3A9' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+}
+.mm-cards-foot { margin: var(--space-4) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); font-size: 13px; font-weight: 600; }
+.mm-cards-foot a { color: var(--ink-muted); }
+.mm-cards-foot a:hover { color: var(--link); }
+@media (max-width: 1079px) {
+  .mm-cards { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .mm-card { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-3); align-items: center; padding: var(--space-3); }
+  .mm-card .iface-art { grid-row: span 2; width: 56px; }
+  .mm-card-desc { grid-column: 2; }
+  .mm-card-arrow { display: none; }
+  .mm-intro-sub { display: none; }
+  .mm-cards-foot { gap: var(--space-3) var(--space-4); }
+}
+@media (min-width: 600px) and (max-width: 1079px) {
+  .mm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Interface art (layouts/_partials/interface-art.html). Stroke-drawn scenes
+   in brand tokens; motion runs only for readers who allow it. */
+.iface-art { display: block; width: 96px; max-width: 100%; color: var(--teal-deep); }
+.iface-art svg { display: block; width: 100%; height: auto; }
+.iface-art .ia-frame { stroke: var(--charcoal); }
+.iface-art .ia-dot { fill: var(--ink-muted); stroke: none; }
+.iface-art .ia-row, .iface-art .ia-type, .iface-art .ia-wire { stroke: var(--teal-deep); }
+.iface-art .ia-check { stroke: var(--teal-deep); }
+.iface-art .ia-badge circle { fill: var(--yellow); stroke: var(--near-black); }
+.iface-art .ia-horn { fill: var(--near-black); stroke: none; }
+.iface-art .ia-cloud { stroke: var(--charcoal); }
+.iface-art .ia-prompt { stroke: var(--charcoal); }
+.iface-art .ia-cursor { fill: var(--teal-deep); stroke: none; }
+.iface-art .ia-node { fill: var(--surface); stroke: var(--charcoal); }
+.iface-art .ia-node-hub { fill: var(--surface-tint); }
+.iface-art .ia-pulse { fill: var(--teal); stroke: none; opacity: 0; }
+@media (prefers-color-scheme: dark) {
+  .iface-art { color: var(--teal-bright); }
+  .iface-art .ia-frame, .iface-art .ia-cloud, .iface-art .ia-prompt, .iface-art .ia-node { stroke: var(--cream); }
+  .iface-art .ia-row, .iface-art .ia-type, .iface-art .ia-wire, .iface-art .ia-check { stroke: var(--teal-bright); }
+  .iface-art .ia-badge circle { stroke: var(--cream); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ia-row-1, .ia-type-1 { animation: ia-slide 3.2s ease-in-out infinite; }
+  .ia-row-2, .ia-type-2 { animation: ia-slide 3.2s ease-in-out 0.5s infinite; }
+  .ia-row-3 { animation: ia-slide 3.2s ease-in-out 1s infinite; }
+  .ia-check { stroke-dasharray: 22; stroke-dashoffset: 22; animation: ia-draw 3.2s ease-in-out infinite; }
+  .ia-badge { transform-box: fill-box; transform-origin: center; animation: ia-pop 2.8s ease-in-out infinite; }
+  .ia-sync { transform-box: fill-box; transform-origin: center; animation: ia-spin 7s linear infinite; }
+  .ia-cursor { animation: ia-blink 1.1s steps(1) infinite; }
+  .ia-pulse-1 { animation: ia-travel-x 2.6s linear infinite; }
+  .ia-pulse-2 { animation: ia-travel-diag 2.6s linear 1.3s infinite; }
+  @keyframes ia-slide { 0%, 100% { transform: translateX(0); opacity: 1; } 50% { transform: translateX(3px); opacity: 0.55; } }
+  @keyframes ia-draw { 0% { stroke-dashoffset: 22; } 45%, 100% { stroke-dashoffset: 0; } }
+  @keyframes ia-pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+  @keyframes ia-spin { to { transform: rotate(360deg); } }
+  @keyframes ia-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+  @keyframes ia-travel-x { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 42% { transform: translateX(22px); opacity: 1; } 54%, 100% { transform: translateX(22px); opacity: 0; } }
+  @keyframes ia-travel-diag { 0% { transform: translate(0, 0); opacity: 0; } 12% { opacity: 1; } 42% { transform: translate(22px, -14px); opacity: 1; } 54%, 100% { transform: translate(22px, -14px); opacity: 0; } }
+}
+
+/* Homepage ways-in cards reuse the menu art at a quieter size. */
+.ways-card .iface-art { width: 80px; margin-bottom: var(--space-4); }
+.ways-card > * + * { margin-top: var(--space-2); }
+.ways-card p { color: var(--ink-muted); }
+.ways-card p:last-child { color: var(--ink); }
 
 /* Menu button (small screens) */
 .mm-toggle {
