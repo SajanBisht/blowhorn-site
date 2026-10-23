@@ -26,7 +26,8 @@
             <p class="hero-note caption muted">
               <span>As many social profiles as you want</span>
             </p>
-            {{- partial "social-proof.html" (dict "slot" "hero") }}
+            {{- /* One proof spot per hero banner, each paired with a different user (placements "hero-<id>" in data/testimonials.json). */}}
+            {{- range $rot.heroes }}<div data-hero-only="{{ .id }}">{{ partial "social-proof.html" (dict "slot" "hero" "heroId" .id) }}</div>{{ end -}}
           </div>
           {{- range $rot.arts }}
           {{ partial (printf "hero-art/%s.html" .) $ }}

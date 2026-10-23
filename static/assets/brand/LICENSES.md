@@ -69,6 +69,36 @@ their respective owners. Blowhorn is not affiliated with or endorsed by any of
 them. The logos are used only to name the platforms Blowhorn works with, under
 each owner's brand guidelines, and are not licensed for any other use.
 
+## Organisation logos (`../orgs/`)
+
+The logo ticker under the home page hero shows the horizontal logo of each
+organisation a quoted Blowhorn user works at, so readers can see where the
+users on the page come from. The files in `static/assets/orgs/` are each
+owner's own published logo, downloaded on 23 October 2026 and used
+unmodified (the two PNGs noted below were trimmed of empty margin only).
+Each sits on a plain plate in the ticker, white, or near-black for the two
+white lockups (Apptega, Rive). They are never recoloured, redrawn, outlined
+or animated.
+
+| File | Owner | Source |
+| --- | --- | --- |
+| `suburban-propane.svg` | Suburban Propane Partners, L.P. | The site logo suburbanpropane.com serves, https://www.suburbanpropane.com/wp-content/uploads/2023/04/SPH-logo.svg |
+| `wawa.png` | Wawa, Inc. | Wawa logo via Seeklogo (https://seeklogo.com/vector-logo/489010/wawa); wawa.com does not serve its logo to scripts. Empty margin trimmed |
+| `quiktrip.svg` | QuikTrip Corporation | `QuikTrip new logo.svg`, Wikimedia Commons |
+| `apptega.webp` | Apptega, Inc. | The logo apptega.com serves (Webflow CDN file `6574cff330d4d1e4715d3d81_Logo.webp`). White lockup: shown on the dark plate |
+| `vaynermedia.png` | VaynerMedia, LLC | The logo vaynermedia.com serves, https://vaynermedia.com/wp-content/themes/vaynermedia/assets/images/vm-logo.png |
+| `roblox.svg` | Roblox Corporation | `Roblox Logo 2022.svg`, Wikimedia Commons |
+| `meta.svg` | Meta Platforms, Inc. | `Meta Platforms Inc. logo.svg`, Wikimedia Commons |
+| `rive.svg` | Rive, Inc. | The logo rive.app serves, https://rive.app/static/rive_logo_white.svg. White lockup: shown on the dark plate |
+| `google.svg` | Google LLC | `Google 2015 logo.svg`, Wikimedia Commons |
+| `c4-energy.png` | Nutrabolt (C4 Energy) | C4 Energy logo via Seeklogo (https://seeklogo.com/vector-logo/179006/c4). Empty margin trimmed |
+
+Suburban Propane, Wawa, QuikTrip, Apptega, VaynerMedia, Roblox, Meta, Rive,
+Google and C4 Energy are trademarks of their respective owners. Blowhorn is
+not affiliated with or endorsed by any of them. The logos name the
+organisations of the users quoted on the page and are not licensed for any
+other use.
+
 ## Alternate storybook style (/home-alt/)
 
 - Fraunces (`static/assets/alt-style/Fraunces-Variable.woff2`): Copyright 2018 The Fraunces Project Authors, SIL Open Font License 1.1 (`static/assets/alt-style/OFL-Fraunces.txt`).

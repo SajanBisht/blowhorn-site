@@ -7,11 +7,12 @@
     "quote": "Blowhorn gave us one place to run every brand voice we manage. The queue keeps our regional teams aligned without bottlenecking everything through corporate.",
     "placeholder": false,
     "picture": "/assets/testimonials/nandini-sankara.jpeg",
+    "logo": "/assets/orgs/suburban-propane.svg",
     "placements": [
       "ticker",
       "interlude",
       "grid",
-      "hero"
+      "hero-human-or-ai"
     ],
     "initials": "NS"
   },
@@ -22,6 +23,7 @@
     "quote": "We publish across a dozen profiles, and Blowhorn is the first tool that treats that as the normal case instead of the edge case. Write once, review once, ship everywhere.",
     "placeholder": false,
     "picture": "/assets/testimonials/doug-martin.jpeg",
+    "logo": "/assets/orgs/wawa.png",
     "placements": [
       "ticker",
       "interlude",
@@ -37,6 +39,7 @@
     "quote": "Speed matters in our world. I can draft a post in the morning and have it live across every store-region profile before lunch, with a dry run first, so nothing goes out half-baked.",
     "placeholder": false,
     "picture": "/assets/testimonials/jason-fish.jpeg",
+    "logo": "/assets/orgs/quiktrip.svg",
     "placements": [
       "ticker",
       "interlude",
@@ -51,6 +54,8 @@
     "quote": "Field marketing lives and dies on getting event content out fast. Blowhorn lets me queue a week's worth of regional posts in one sitting.",
     "placeholder": false,
     "picture": "/assets/testimonials/elisa-ng.jpeg",
+    "logo": "/assets/orgs/apptega.webp",
+    "logoDark": true,
     "placements": [
       "ticker",
       "interlude",
@@ -65,11 +70,12 @@
     "quote": "My old outreach tool wanted my LinkedIn password. With Blowhorn my logins stay in my own Chrome on my own computer.",
     "placeholder": false,
     "picture": "/assets/testimonials/lovely-villamor.jpeg",
+    "logo": "/assets/orgs/vaynermedia.png",
     "placements": [
       "ticker",
       "interlude",
       "grid",
-      "hero"
+      "hero-same-rules"
     ],
     "initials": "LV"
   },
@@ -80,7 +86,9 @@
     "quote": "DevRel is half announcements. I write the update once and Blowhorn puts it everywhere our developers actually are: same message, every channel, no copy-paste drift.",
     "placeholder": false,
     "picture": "/assets/testimonials/dylan-wiley.jpeg",
+    "logo": "/assets/orgs/roblox.svg",
     "placements": [
+      "hero-ai-optional",
       "ticker",
       "interlude",
       "grid",
@@ -95,11 +103,12 @@
     "quote": "The --dry-run flag sold me. I can rehearse an entire multi-profile announcement, see exactly what goes where, and only then hit publish.",
     "placeholder": false,
     "picture": "/assets/testimonials/andy-modrovich.jpeg",
+    "logo": "/assets/orgs/meta.svg",
     "placements": [
       "ticker",
       "interlude",
       "grid",
-      "hero"
+      "hero-plug-in-ai"
     ],
     "initials": "AM"
   },
@@ -110,7 +119,10 @@
     "quote": "Small team, big surface area. Blowhorn lets one DevRel engineer run a publishing operation that used to take a whole comms team.",
     "placeholder": false,
     "picture": "/assets/testimonials/david-skuza.jpeg",
+    "logo": "/assets/orgs/rive.svg",
+    "logoDark": true,
     "placements": [
+      "hero-scripted-ai-ready",
       "ticker",
       "interlude",
       "grid"
@@ -124,6 +136,7 @@
     "quote": "Our community lives on five different platforms. Blowhorn means patch notes and event announcements go out everywhere simultaneously, in one motion.",
     "placeholder": false,
     "picture": "/assets/testimonials/sangmin-lee.jpeg",
+    "logo": "/assets/orgs/google.svg",
     "placements": [
       "ticker",
       "interlude",
@@ -138,6 +151,7 @@
     "quote": "I run our whole social calendar from Blowhorn's queue and honestly forget the individual platforms exist. It just publishes.",
     "placeholder": false,
     "picture": "/assets/testimonials/violett-cruz.jpeg",
+    "logo": "/assets/orgs/c4-energy.png",
     "placements": [
       "ticker",
       "interlude",
