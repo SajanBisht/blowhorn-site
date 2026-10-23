@@ -84,6 +84,8 @@ include .github/build/Makefile.show-help.mk
 #   docs-sync-start-checks
 #                      Start the site checks on the docs-sync branch after a
 #                      sync: gh workflow run site.yml (see docs/deploy.md).
+#   docs-sync-merge    Merge the sync pull request once its site checks
+#                      pass, then start the master site run that deploys.
 #   help               List every target with its description.
 #   clean              Empty the build cache, reinstall dependencies, run 'site'.
 #-----------------------------------------------------------------------------
@@ -383,6 +385,10 @@ docs-sync-base:
 docs-sync-start-checks:
 	.github/scripts/sync-docs-start-checks.sh "$(SYNC_BRANCH)"
 
+## Merge the sync pull request once its site checks pass, then start the master site run that deploys (what sync-docs.yml runs last).
+docs-sync-merge:
+	.github/scripts/sync-docs-merge.sh "$(SYNC_BRANCH)"
+
 # publish-dmg.yml steps. Each reads its inputs from the environment, as the
 # workflow sets them; see the script headers in .github/scripts/publish-dmg/.
 
@@ -472,4 +478,5 @@ clean:
 	docs-sync \
 	docs-sync-base \
 	docs-sync-start-checks \
+	docs-sync-merge \
 	clean

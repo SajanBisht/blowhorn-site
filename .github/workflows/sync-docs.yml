@@ -6,8 +6,10 @@ name: Sync product docs
 # site.yml on that branch itself: pushes and pull requests made with
 # github.token never start pull_request or push workflows, so site.yml would
 # otherwise stay silent on the sync PR, while a workflow_dispatch run started
-# with that same token is allowed and attaches to the branch head. Merging the
-# PR once those checks pass deploys. See docs/deploy.md.
+# with that same token is allowed and attaches to the branch head. Once those
+# checks pass the workflow merges the PR itself and starts site.yml on master
+# the same way — a merge made with that token starts no push workflows — and
+# that master run deploys. See docs/deploy.md.
 #
 # Triggers:
 #   - Manual: Actions > Sync product docs > Run workflow (input: ref).
@@ -24,9 +26,10 @@ name: Sync product docs
 #   - The product checkout is read-only (persist-credentials: false) and
 #     DMG_SOURCE_TOKEN authenticates only to GitHub, as in publish-dmg.yml.
 #   - docs/internal/, docs/gtm/ and internal-paths.txt entries never sync.
-#   - The workflow only ever pushes the docs-sync branch and opens or
-#     updates one pull request; it never pushes to master. Commits are
-#     signed off (DCO).
+#   - The workflow only ever pushes the docs-sync branch, opens or
+#     updates one pull request, and merges that pull request once the
+#     checks it started on it pass; it never pushes to master directly.
+#     Commits are signed off (DCO).
 
 on:
   workflow_dispatch:
@@ -55,7 +58,8 @@ jobs:
       contents: write
       pull-requests: write
       # Lets this job start site.yml on the docs-sync branch with
-      # workflow_dispatch after opening the sync PR (see the last step).
+      # workflow_dispatch after opening the sync PR, and on master after
+      # merging it (see the last steps).
       actions: write
     env:
       SYNC_REF: ${{ github.event.inputs.ref || github.event.client_payload.ref || 'master' }}
@@ -135,7 +139,7 @@ jobs:
             echo "- The product's reference/cli.md becomes the reference/cli/ section index, and the per-command"
             echo "  pages in reference/cli/, regenerated from the product's CLI schema at that ref, land beside it."
             echo "- Gated pages (draft: true) stay unpublished until the product ungates them."
-            echo "- Merging this PR deploys; the sync starts the normal site checks on it itself, which must pass first."
+            echo "- The sync merges this PR itself once the site checks it started on it pass, and the merge deploys."
             echo
             echo "Converter warnings (fix the converter, not the product docs):"
             echo
@@ -164,3 +168,16 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: make docs-sync-start-checks SYNC_BRANCH="$SYNC_BRANCH"
+
+      # Merge the sync PR once the checks above pass, then start the
+      # master site run that deploys: master has no branch protection, so
+      # GitHub's own auto-merge would merge at once with nothing to wait
+      # for, and a merge made with github.token starts no push workflows
+      # for the deploy. The make target waits for the checks, merges only
+      # if they all pass, and dispatches the deploy. Skipped when the
+      # sync found nothing to commit.
+      - name: Merge the sync pull request and start the deploy
+        if: steps.pr.outputs.changed != 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: make docs-sync-merge SYNC_BRANCH="$SYNC_BRANCH"

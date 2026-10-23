@@ -248,8 +248,14 @@ here, on the public site repository.
    `pull_request` or `push` workflows, so `site.yml` would otherwise stay
    silent on the sync PR, while a `workflow_dispatch` run started with that
    same token is allowed and attaches to the branch head, showing as the
-   PR's check. Merging the PR once those checks pass deploys. The workflow
-   never pushes to `master`.
+   PR's check. Once those checks pass the workflow merges the PR itself
+   (`make docs-sync-merge`, squash): `master` has no branch protection,
+   so GitHub's own auto-merge would have no required checks to wait for
+   and would merge before the dispatched run finished. The merge is made
+   with `github.token`, whose pushes start no workflows, so the workflow
+   then starts `site.yml` on `master` by the same dispatch, and that run
+   deploys. If a check fails, nothing merges and the PR stays open for a
+   human. The workflow never pushes to `master` directly.
 
 A public release starts the sync by itself: `publish-dmg.yml`'s last job
 runs `make dmg-sync-docs`, which starts `sync-docs.yml` at the product tag
