@@ -338,6 +338,9 @@ adds a module import, `github.com/leecalcote/blowhorn`, with its own mounts:
     target = "assets/internal/compare-assistants.csv"
     source = "marketing/capability-comparison/compare-personas.csv"
     target = "assets/internal/compare-personas.csv"
+  [[module.imports.mounts]]
+    source = "internal/engineering/hugo/engineering"
+    target = "content/internal/engineering"
 ```
 
 `make site-internal-build` points the import at the clone with
