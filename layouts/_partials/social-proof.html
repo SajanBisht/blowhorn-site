@@ -1,8 +1,10 @@
-{{- /* Social proof. Call with (dict "slot" "hero|interlude|grid|logos|closing").
+{{- /* Social proof. Call with (dict "slot" "ticker|hero|interlude|grid|closing").
    Entries live in data/testimonials.json. An entry with placeholder: true is a
    made-up draft: it renders only in non-production builds (hugo server, deploy
    previews) and wears a visible PLACEHOLDER badge. Production builds drop it,
-   and a slot with no remaining entries renders nothing at all. */ -}}
+   and a slot with no remaining entries renders nothing at all.
+   An entry may carry a "logo" (path to the organisation's own logo file);
+   the ticker renders it when present and the company wordmark otherwise. */ -}}
 {{- $slot := .slot -}}
 {{- $items := slice -}}
 {{- range (index site.Data "testimonials").items -}}
@@ -11,8 +13,28 @@
   {{- end -}}
 {{- end -}}
 {{- with $items -}}
-{{- if eq $slot "hero" -}}
-<ul class="proof-strip" aria-label="What beta testers say">
+{{- if eq $slot "ticker" -}}
+<div class="proof-ticker" role="group" aria-label="Organisations Blowhorn users work at">
+  <p class="proof-ticker-label caption">Blowhorn users work at</p>
+  <div class="proof-ticker-viewport">
+    <ul class="proof-ticker-track">
+      {{- range $pass := slice 1 2 }}
+      {{- range $i, $t := $items }}
+      <li class="proof-ticker-item"{{ if eq $pass 2 }} aria-hidden="true"{{ end }}>
+        {{- with $t.logo }}
+        <img class="proof-ticker-logo" src="{{ . | relURL }}" alt="{{ if eq $pass 1 }}{{ $t.company }}{{ end }}" loading="lazy">
+        {{- else }}
+        <span class="proof-wordmark proof-wordmark-{{ add 1 (mod $i 4) }}">{{ $t.company }}</span>
+        {{- end }}
+        <span class="proof-ticker-dot" aria-hidden="true"></span>
+      </li>
+      {{- end }}
+      {{- end }}
+    </ul>
+  </div>
+</div>
+{{- else if eq $slot "hero" -}}
+<ul class="proof-strip">
   {{- range first 3 . }}
   <li class="proof-chip">
     <span class="proof-avatar" aria-hidden="true">
@@ -26,7 +48,7 @@
 </ul>
 {{- else if eq $slot "interlude" -}}
 {{- $t := index . 0 -}}
-<section class="section proof-interlude" aria-label="Beta tester quote">
+<section class="section proof-interlude" aria-label="A Blowhorn user, in their own words">
   <div class="wrap">
     <figure class="proof-big">
       <blockquote class="display">{{ $t.quote }}</blockquote>
@@ -35,50 +57,33 @@
   </div>
 </section>
 {{- else if eq $slot "grid" -}}
-<section id="beta" class="section" aria-labelledby="beta-title">
+<section id="users" class="section proof-section" aria-labelledby="users-title">
   <div class="wrap">
     <div class="section-head">
-      <p class="label">Beta testers</p>
-      <h2 id="beta-title" class="display">Fewer tabs. More reach.</h2>
-      <p class="body-lg muted">What early testers say after a launch or two.</p>
+      <p class="label">Blowhorn users</p>
+      <h2 id="users-title" class="display">Fewer tabs. More reach.</h2>
+      <p class="body-lg muted">What users say after a launch or two.</p>
     </div>
     <ul class="proof-grid section-body">
-      {{- range . }}
-      <li class="proof-card">
-        {{- if .placeholder }}
+      {{- range $i, $t := . }}
+      <li class="proof-card{{ if eq $i 0 }} proof-card-feature{{ end }}">
+        {{- if $t.placeholder }}
         <span class="proof-flag">Placeholder</span>
         {{- end }}
-        <blockquote class="body-lg">{{ .quote }}</blockquote>
+        <span class="proof-mark" aria-hidden="true">&ldquo;</span>
+        <blockquote class="body-lg">{{ $t.quote }}</blockquote>
         <p class="proof-who"><span class="proof-avatar" aria-hidden="true">
-          {{- with .picture }}
+          {{- with $t.picture }}
           <img src="{{ . | relURL }}" alt="">
           {{- end }}
-        </span><span><strong>{{ .name }}</strong><br><span class="caption muted">{{ .role }}, {{ .company }}</span></span></p>
-      </li>
-      {{- end }}
-    </ul>
-  </div>
-</section>
-{{- else if eq $slot "logos" -}}
-<section class="section" aria-label="Teams in the beta">
-  <div class="wrap">
-    <ul class="proof-logos">
-      {{- range . }}
-      <li class="proof-logo-card">
-        <span class="proof-logo" aria-hidden="true">
-          {{- with .picture }}
-          <img src="{{ . | relURL }}" alt="">
-          {{- end }}
-        </span>
-        <p class="caption"><strong>{{ .company }}</strong>{{ if .placeholder }} <span class="proof-flag">Placeholder logo</span>{{ end }}</p>
-        <p class="caption muted"><q>{{ .quote | truncate 90 }}</q></p>
+        </span><span><strong>{{ $t.name }}</strong><br><span class="caption muted">{{ $t.role }}, {{ $t.company }}</span></span></p>
       </li>
       {{- end }}
     </ul>
   </div>
 </section>
 {{- else if eq $slot "closing" -}}
-<div class="proof-band" aria-label="Beta testers">
+<div class="proof-band" role="group" aria-label="Blowhorn users">
   {{- range first 3 . }}
   <figure>
     <blockquote class="h3">{{ .quote | truncate 80 }}</blockquote>

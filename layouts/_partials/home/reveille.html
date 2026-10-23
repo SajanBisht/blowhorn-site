@@ -34,6 +34,8 @@
         </div>
       </section>
 
+      {{- partial "social-proof.html" (dict "slot" "ticker") }}
+
       <section id="platforms" class="section" aria-labelledby="platforms-title">
         <div class="wrap">
           <div class="hero-grid">
@@ -209,8 +211,6 @@
           <p class="section-body"><a class="button button-secondary" href="{{ (site.GetPage "/legal").RelPermalink }}">Visit the Trust Center</a></p>
         </div>
       </section>
-
-      {{- partial "social-proof.html" (dict "slot" "logos") }}
 
       <section id="control" class="section" aria-labelledby="control-title">
         <div class="wrap">

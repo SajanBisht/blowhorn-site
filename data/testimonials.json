@@ -8,8 +8,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/nandini-sankara.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "hero"
     ],
     "initials": "NS"
   },
@@ -21,8 +23,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/doug-martin.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "closing"
     ],
     "initials": "DM"
   },
@@ -34,6 +38,7 @@
     "placeholder": false,
     "picture": "/assets/testimonials/jason-fish.jpeg",
     "placements": [
+      "ticker",
       "interlude",
       "grid"
     ],
@@ -47,6 +52,7 @@
     "placeholder": false,
     "picture": "/assets/testimonials/elisa-ng.jpeg",
     "placements": [
+      "ticker",
       "interlude",
       "grid"
     ],
@@ -60,8 +66,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/lovely-villamor.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "hero"
     ],
     "initials": "LV"
   },
@@ -73,8 +81,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/dylan-wiley.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "closing"
     ],
     "initials": "DW"
   },
@@ -86,8 +96,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/andy-modrovich.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "hero"
     ],
     "initials": "AM"
   },
@@ -99,6 +111,7 @@
     "placeholder": false,
     "picture": "/assets/testimonials/david-skuza.jpeg",
     "placements": [
+      "ticker",
       "interlude",
       "grid"
     ],
@@ -112,6 +125,7 @@
     "placeholder": false,
     "picture": "/assets/testimonials/sangmin-lee.jpeg",
     "placements": [
+      "ticker",
       "interlude",
       "grid"
     ],
@@ -125,8 +139,10 @@
     "placeholder": false,
     "picture": "/assets/testimonials/violett-cruz.jpeg",
     "placements": [
+      "ticker",
       "interlude",
-      "grid"
+      "grid",
+      "closing"
     ],
     "initials": "VC"
   }

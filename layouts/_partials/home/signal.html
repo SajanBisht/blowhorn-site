@@ -30,6 +30,7 @@
               <span>For macOS 13 or later.</span>
               <span>As many social profiles as you want. About a minute to set up.</span>
             </p>
+            {{- partial "social-proof.html" (dict "slot" "hero") }}
           </div>
           {{- /* data/hero.json media.video (placement inline-expand): the film
             sits small beside the copy (below it on phones) and expands into
@@ -43,7 +44,11 @@
         {{- partial "hero-demo.html" . }}
       </section>
 
+      {{- partial "social-proof.html" (dict "slot" "ticker") }}
+
       {{ partial "home/signal-platforms.html" . }}
+
+      {{- partial "social-proof.html" (dict "slot" "interlude") }}
 
       <section id="how" class="section" aria-labelledby="how-title">
         <div class="wrap">
@@ -203,6 +208,7 @@
 
       <section id="download" class="section cta-signal" aria-labelledby="download-title">
         <div class="wrap cta-inner">
+          {{- partial "social-proof.html" (dict "slot" "closing") }}
           <img class="download-cta-icon" src="{{ "assets/brand/logo/blowhorn-app-icon.svg" | relURL }}" alt="" width="64" height="64" loading="lazy">
           <div class="section-head section-head-center">
             <p class="label">Download</p>
