@@ -2849,15 +2849,16 @@ a.card.docs-card > * { margin-top: 0; }
 .proof-ticker-viewport { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .proof-ticker-track { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; width: max-content; animation: proof-ticker-slide 90s linear infinite; }
 .proof-ticker:hover .proof-ticker-track { animation-play-state: paused; }
-.proof-ticker-item { display: flex; align-items: center; padding-right: var(--space-4); white-space: nowrap; }
-/* Each organisation's own horizontal logo (data/user_logos.json), on a
-   plate that stays the same in both colour schemes. The files are one
-   treated set — grayscale, canvas trimmed to the art, white lockups
-   inverted — so every logo sits dark on the plate at the same height
-   and the strip reads as one set instead of a hodgepodge. The CSS
-   grayscale filter stays as a backstop for a file that lands untreated. */
-.proof-logo-plate { display: inline-flex; align-items: center; justify-content: center; height: 3rem; padding: 0 var(--space-4); border-radius: var(--radius-md); background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgba(30, 33, 23, 0.08); }
+.proof-ticker-item { display: flex; align-items: center; padding-right: var(--space-8); white-space: nowrap; }
+/* Each organisation's own horizontal logo (data/user_logos.json), bare:
+   no plate, no box. The files are one treated set — grayscale, canvas
+   trimmed to the art, white lockups stored inverted — at one height.
+   Dark mode inverts the strip, so the dark-based set reads light on
+   the dark ground and the stored-white lockups come back as their
+   original white; contrast stays soft in both schemes. The grayscale
+   filter is a backstop for a file that lands untreated. */
 .proof-ticker-logo { display: block; height: 1.65rem; width: auto; max-width: 11rem; object-fit: contain; filter: grayscale(1); }
+@media (prefers-color-scheme: dark) { .proof-ticker-logo { filter: grayscale(1) invert(1); } }
 @keyframes proof-ticker-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* Quote grid. A giant quotation mark sits behind the cards, and the cards

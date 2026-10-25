@@ -7,10 +7,11 @@
    visible PLACEHOLDER badge. Production builds drop it, and a slot with
    no remaining entries renders nothing at all.
    The "ticker" slot is the logo strip: it renders data/user_logos.json,
-   not the testimonials. Each file (static/assets/orgs/) is treated as
-   one set before it lands: grayscale, canvas trimmed to the art, white
-   lockups inverted, so every logo sits dark on the same plate at the
-   same height. Sources and treatment: static/assets/brand/LICENSES.md. */ -}}
+   not the testimonials. The logos sit bare, no plates: each file
+   (static/assets/orgs/) is grayscale with its canvas trimmed to the
+   art, at one height; white lockups are stored inverted, and dark
+   mode inverts the whole strip, so both schemes get their contrast.
+   Sources and treatment: static/assets/brand/LICENSES.md. */ -}}
 {{- $slot := .slot -}}
 {{- $want := $slot -}}
 {{- if eq $slot "hero" }}{{ $want = printf "hero-%s" .heroId }}{{ end -}}
@@ -30,7 +31,7 @@
       {{- range $pass := slice 1 2 }}
       {{- range $logos }}
       <li class="proof-ticker-item"{{ if eq $pass 2 }} aria-hidden="true"{{ end }}>
-        <span class="proof-logo-plate"><img class="proof-ticker-logo" src="{{ .logo | relURL }}" alt="{{ if eq $pass 1 }}{{ .name }}{{ end }}" loading="lazy"></span>
+        <img class="proof-ticker-logo" src="{{ .logo | relURL }}" alt="{{ if eq $pass 1 }}{{ .name }}{{ end }}" loading="lazy">
       </li>
       {{- end }}
       {{- end }}

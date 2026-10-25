@@ -79,9 +79,11 @@ files are the owners' logos with one uniform treatment applied before
 publishing, so the strip reads as one set: converted to grayscale, each
 canvas or viewBox trimmed to the drawn art (full-canvas background shapes
 removed), and the five white lockups (Apptega, Aqueduct, Clutch, Innovacare,
-Northwinds) inverted so every logo sits dark on the ticker's white plate at
-one height. No logo is redrawn, outlined or re-proportioned; aspect ratios
-are the owners' own.
+Northwinds) stored inverted, so the set reads dark on the light ground at
+one height. The logos render bare, with no plate or tile behind them; in
+dark mode the strip is inverted by CSS, which returns the five stored
+inversions to their original white. No logo is redrawn, outlined or
+re-proportioned; aspect ratios are the owners' own.
 
 | File | Owner |
 | --- | --- |
