@@ -1,16 +1,16 @@
 {{- /* Social proof. Call with (dict "slot" "ticker|hero|interlude|grid|closing").
    For "hero", also pass "heroId": the entry whose placements name
    "hero-<heroId>" is the one quote paired with that hero banner, and only
-   that one renders. Entries live in data/testimonials.json. An entry with
-   placeholder: true is a made-up draft: it renders only in non-production
-   builds (hugo server, deploy previews) and wears a visible PLACEHOLDER
-   badge. Production builds drop it, and a slot with no remaining entries
-   renders nothing at all.
-   Every entry carries "logo": the organisation's own horizontal logo file
-   (static/assets/orgs/, sources in static/assets/brand/LICENSES.md). The
-   ticker renders it on a plate; "logoDark": true marks a white logo that
-   needs the dark plate. A missing logo falls back to the company name in
-   type, so a new entry never breaks the ticker. */ -}}
+   that one renders. Quote entries live in data/testimonials.json. An entry
+   with placeholder: true is a made-up draft: it renders only in
+   non-production builds (hugo server, deploy previews) and wears a
+   visible PLACEHOLDER badge. Production builds drop it, and a slot with
+   no remaining entries renders nothing at all.
+   The "ticker" slot is the logo strip: it renders data/user_logos.json,
+   not the testimonials. Each file (static/assets/orgs/) is treated as
+   one set before it lands: grayscale, canvas trimmed to the art, white
+   lockups inverted, so every logo sits dark on the same plate at the
+   same height. Sources and treatment: static/assets/brand/LICENSES.md. */ -}}
 {{- $slot := .slot -}}
 {{- $want := $slot -}}
 {{- if eq $slot "hero" }}{{ $want = printf "hero-%s" .heroId }}{{ end -}}
@@ -20,27 +20,27 @@
     {{- $items = $items | append . -}}
   {{- end -}}
 {{- end -}}
-{{- with $items -}}
 {{- if eq $slot "ticker" -}}
+{{- with (index site.Data "user_logos").items }}
+{{- $logos := . }}
 <div class="proof-ticker" role="group" aria-label="Organisations Blowhorn users work at">
   <p class="proof-ticker-label caption">Blowhorn users work at</p>
   <div class="proof-ticker-viewport">
     <ul class="proof-ticker-track">
       {{- range $pass := slice 1 2 }}
-      {{- range $i, $t := $items }}
+      {{- range $logos }}
       <li class="proof-ticker-item"{{ if eq $pass 2 }} aria-hidden="true"{{ end }}>
-        {{- with $t.logo }}
-        <span class="proof-logo-plate{{ if $t.logoDark }} is-dark{{ end }}"><img class="proof-ticker-logo" src="{{ . | relURL }}" alt="{{ if eq $pass 1 }}{{ $t.company }}{{ end }}" loading="lazy"></span>
-        {{- else }}
-        <span class="proof-wordmark">{{ $t.company }}</span>
-        {{- end }}
+        <span class="proof-logo-plate"><img class="proof-ticker-logo" src="{{ .logo | relURL }}" alt="{{ if eq $pass 1 }}{{ .name }}{{ end }}" loading="lazy"></span>
       </li>
       {{- end }}
       {{- end }}
     </ul>
   </div>
 </div>
-{{- else if eq $slot "hero" -}}
+{{- end }}
+{{- else -}}
+{{- with $items -}}
+{{- if eq $slot "hero" -}}
 {{- $t := index . 0 -}}
 <details class="proof-spot">
   <summary class="proof-spot-summary">
@@ -103,5 +103,6 @@
   </figure>
   {{- end }}
 </div>
+{{- end -}}
 {{- end -}}
 {{- end -}}

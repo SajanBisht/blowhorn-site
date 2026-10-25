@@ -2840,26 +2840,24 @@ a.card.docs-card > * { margin-top: 0; }
 .proof-big blockquote { margin: 0 0 var(--space-4); }
 .proof-big blockquote::before { content: "\201C"; display: block; font-family: var(--font-display); font-size: 4rem; line-height: 0.6; color: var(--teal-deep); }
 
-/* Ticker: the organisations of the quoted users, directly under the hero,
-   as their own horizontal logos (static/assets/orgs/). The track is the
-   list twice and slides by half; hovering pauses it, reduced motion
+/* Ticker: the user organisations' horizontal logos (data/user_logos.json,
+   files in static/assets/orgs/), directly under the hero. The track is
+   the list twice and slides by half; hovering pauses it, reduced motion
    stops it and lets it wrap. */
 .proof-ticker { border-block: 1px solid var(--line); padding: var(--space-4) 0 var(--space-6); overflow: hidden; }
 .proof-ticker-label { margin: 0 0 var(--space-3); text-align: center; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
 .proof-ticker-viewport { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.proof-ticker-track { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; width: max-content; animation: proof-ticker-slide 42s linear infinite; }
+.proof-ticker-track { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; width: max-content; animation: proof-ticker-slide 90s linear infinite; }
 .proof-ticker:hover .proof-ticker-track { animation-play-state: paused; }
 .proof-ticker-item { display: flex; align-items: center; padding-right: var(--space-4); white-space: nowrap; }
-/* Each organisation's own horizontal logo, on a plate that stays the
-   same in both colour schemes (the logos are the owners' files,
-   unmodified; two are white lockups and ride the dark plate instead).
-   The files stay in full colour; the ticker renders them all in one
-   treatment — same height, greyscale — so the strip reads as one set
-   instead of a hodgepodge of brand colours. */
+/* Each organisation's own horizontal logo (data/user_logos.json), on a
+   plate that stays the same in both colour schemes. The files are one
+   treated set — grayscale, canvas trimmed to the art, white lockups
+   inverted — so every logo sits dark on the plate at the same height
+   and the strip reads as one set instead of a hodgepodge. The CSS
+   grayscale filter stays as a backstop for a file that lands untreated. */
 .proof-logo-plate { display: inline-flex; align-items: center; justify-content: center; height: 3rem; padding: 0 var(--space-4); border-radius: var(--radius-md); background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgba(30, 33, 23, 0.08); }
-.proof-logo-plate.is-dark { background: var(--near-black); box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgba(30, 33, 23, 0.08); }
 .proof-ticker-logo { display: block; height: 1.65rem; width: auto; max-width: 11rem; object-fit: contain; filter: grayscale(1); }
-.proof-wordmark { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; line-height: 1; color: var(--ink-muted); }
 @keyframes proof-ticker-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* Quote grid. A giant quotation mark sits behind the cards, and the cards
