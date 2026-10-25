@@ -24,6 +24,7 @@
 .bin/
 node_modules/
 __pycache__/
+_site/
 
 # Never commit disk images; publish them as GitHub Release assets
 *.dmg
