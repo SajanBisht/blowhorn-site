@@ -88,10 +88,11 @@ and checked against it, so a page says what `--help` says.
 | [`blowhorn desktop`](/docs/reference/cli/desktop/) | blowhorn desktop: build, install, start, status. |
 | [`blowhorn find`](/docs/reference/cli/find/) | Search Bluesky for posts matching a query with optional date, author, and relevancy filters. |
 | [`blowhorn follow`](/docs/reference/cli/follow/) | Follow accounts on X, Bluesky, or GitHub. |
+| [`blowhorn org`](/docs/reference/cli/org/) | blowhorn org: members. |
 | [`blowhorn post`](/docs/reference/cli/post/) | Publish pending posts or amplify existing content across supported platforms. |
-| [`blowhorn profile`](/docs/reference/cli/profile/) | blowhorn profile: accounts, auth, current, delete, get, list, set, status, switch. |
+| [`blowhorn profile`](/docs/reference/cli/profile/) | blowhorn profile: accounts, auth, create, current, delete, get, list, set, status, switch, update. |
 | [`blowhorn report`](/docs/reference/cli/report/) | Generate a consolidated report summary from the exports already sitting in the repository-root data/analytics/ directory. |
-| [`blowhorn risk`](/docs/reference/cli/risk/) | blowhorn risk: set, show. |
+| [`blowhorn risk`](/docs/reference/cli/risk/) | blowhorn risk: grid, set, show. |
 | [`blowhorn schedule`](/docs/reference/cli/schedule/) | blowhorn schedule: bootstrap, delete, destinations, get, list, pause, resume, status, tick, trigger-now, upsert, validate, why. |
 | [`blowhorn service`](/docs/reference/cli/service/) | blowhorn service: adopt, cancel, install, restart, run, start, status, stop, test, tick-now, uninstall, update. |
 | [`blowhorn setup`](/docs/reference/cli/setup/) | Set up Blowhorn on this computer, safely and repeatably. |
@@ -119,7 +120,8 @@ an account without Blowhorn straight to Blowhorn to start the beta (`--no-browse
 address instead of opening it, and `--json` opens nothing either, its first line naming the address,
 which is how the desktop app runs it; `BLOWHORN_CLOUD_TOKEN` still wins when set);
 `auth logout` revokes the saved API token on Blowhorn, then forgets it,
-the account in `cloud.yaml` and the local attestation cache;
+the account in `cloud.yaml` and the local attestation cache
+(a `cloud.yaml` written for another macOS user on this Mac is ignored, so you read as signed out until you sign in);
 `auth switch-organization` switches the signed-in account to another of its organizations in place
 ([auth switch-organization](/docs/reference/cli/auth/#blowhorn-auth-switch-organization)).
 
@@ -169,7 +171,7 @@ per-user Library state, the checkout's `data/cache/` and each profile's `browser
 sessions); `--purge` removes it after you type `purge` at the prompt, or with
 `--yes` when there is no terminal (`--json --purge` needs `--yes` outside a dry
 run, and `--yes` without `--purge` or `--discard-unsynced-runs` is refused). The shared store is never touched.
-Dragging the app to the Trash does not run this command. After this version has recorded the bundle once, the next launch of a different copy signs out. An in-app update keeps the sign-in. The first launch of this version keeps it.
+Dragging the app to the Trash does not run this command. After this version has recorded the bundle once, the next launch of a different copy signs out, unless that copy is a genuine Blowhorn signed by Blowhorn's own developer team (another macOS user on this Mac reinstalling Blowhorn does not sign you out). An in-app update keeps the sign-in. The first launch of this version keeps it.
 Nothing under a Chrome profile is read or written. It is refused by name, in a
 dry run too, while a scheduler tick, a service pass, an extension run,
 `Blowhorn.app`, a desktop app started from this checkout or, with `--purge`,
@@ -481,12 +483,11 @@ blowhorn profile status --check-sessions      # read-only session probes, record
 blowhorn profile status --profile your-profile --check-platform github  # one platform only: your-profile's GH_TOKEN in the store against GitHub, no browser
 blowhorn profile status --chrome              # adds the chrome profile each one is mapped to here
 blowhorn profile get your-profile                     # settings with secrets masked (GH_* from the store)
-blowhorn profile set your-profile EMAIL=you@example.com
+blowhorn org members                          # the people a profile can represent
+echo '{"name": "new-profile", "userId": "<member id>"}' | blowhorn profile create --payload-stdin  # leave userId out for a brand
+echo '{"name": "new-profile", "description": "what it posts"}' | blowhorn profile update new-profile --payload-stdin
 blowhorn profile set your-profile GH_TOKEN=ghp_yourtoken  # stored in the store, never in config.yaml
-blowhorn profile set new-profile --create EMAIL=new@example.com   # its activity in your account's profiles (bound to the account holding the email), then the directory from the template
-blowhorn profile set new-profile --create EMAIL=new@example.com --subject <uuid>  # name the account when the email alone cannot
-blowhorn profile set new-profile --register           # add a profile that exists only under data/profiles/ to the store's profiles
-blowhorn profile delete new-profile --yes      # retires the store row, then moves data/profiles/new-profile to data/profiles/.trash/
+blowhorn profile delete new-profile --yes      # deletes it in your organization; a local directory, if it has one, moves to data/profiles/.trash/
 blowhorn profile switch your-profile
 blowhorn profile auth --platform x            # a sign-in records the session as valid, checked now
 blowhorn profile auth --platform bluesky --profile your-profile  # prompts for handle + app password; saved only if Bluesky accepts the login

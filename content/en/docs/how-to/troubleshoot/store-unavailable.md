@@ -28,6 +28,23 @@ it up, then run `blowhorn store` again until it answers. Ticks resume claiming
 on their next pass; due times carried forward while your account was gone, so a
 recurring activity runs once, not once per missed interval.
 
+## When Blowhorn asks you to slow down
+
+Blowhorn limits how many requests each account makes per minute. Over
+that rate it asks for a pause instead of answering. Your account is not down.
+Blowhorn waits the time it is asked to, up to a minute, and tries again on its
+own. A command that is still refused after that prints
+
+```text
+Blowhorn is rate limiting this account (schedules); retrying in 5s.
+```
+
+and exits 3. The app says "Blowhorn asked this computer to slow down for
+a moment. It will retry on its own." There is nothing to fix: the next tick
+tries again. Run records waiting in the spool go back a few at a time, in the
+order they were written, and stop at the first refusal, so the records behind
+it wait their turn rather than being lost or reordered.
+
 ## What the run did while your account was gone
 
 Run records waited in the local spool and replay on the next tick or run that

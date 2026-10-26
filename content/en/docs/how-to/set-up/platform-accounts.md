@@ -26,11 +26,10 @@ Chrome profile on LinkedIn's sign-in page, sign in there, then choose
 **Check again**. Once Blowhorn sees the sign-in, it records it as the
 profile's account in your Blowhorn account, and the card says
 **Connected**. Home's **Connect an account** button opens the same steps
-for your own profile. The card's **advanced** fields, collapsed by
-default, hold the rarely needed details such as the profile URL and the
-username. They never ask for a password. An account Blowhorn should sign in
-to for you with a stored username and password is set up from Terminal
-(below), and saving the card leaves a stored password as it is.
+for your own profile. The card holds only that guidance, **Open LinkedIn
+sign-in** and **Check again**: it has no fields to fill in and never asks
+for a password. An account Blowhorn should sign in to for you with a stored
+username and password is set up from Terminal only (below).
 
 From Terminal, the same two steps:
 
@@ -64,6 +63,21 @@ LinkedIn in a Chrome profile and you confirmed it, the profile holds
 in the mapped Chrome profile. If that session signs out, sign in again in
 Chrome; there is no password for Blowhorn to fall back to unless you store
 one too.
+
+### Record your LinkedIn page
+
+Blowhorn finds your LinkedIn sign-in, which is an email, never your
+`/in/` name. Without that name it cannot tell your own posts from anyone
+else's, so it skips any `Amplify` row on LinkedIn for the profile and says
+why. Record the page once, on the LinkedIn account already mapped to the
+profile:
+
+```bash
+blowhorn profile accounts ada --page https://www.linkedin.com/in/ada-example
+```
+
+Do the same with your `https://x.com/<handle>` page when your saved X
+login is an email.
 
 ## Bluesky
 
