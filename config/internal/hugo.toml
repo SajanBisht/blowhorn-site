@@ -20,7 +20,7 @@ renderSegments = ["internal"]
 # regex keeps from the repository-relative source folder (the hugo/ folders
 # in the mount table below) onward, wherever the clone sits.
 [params]
-  internal_edit_repo = "https://github.com/leecalcote/blowhorn"
+  internal_edit_repo = "https://github.com/blowhorn-ai/blowhorn"
   internal_edit_branch = "master"
   [params.internal_edit_path_base]
     from = '^.*?/((?:marketing/strategy|internal/[a-z-]+)/hugo/.*)$'
@@ -59,7 +59,7 @@ renderSegments = ["internal"]
     path = "github.com/google/docsy/dependencies"
     disable = false
   [[module.imports]]
-    path = "github.com/leecalcote/blowhorn"
+    path = "github.com/blowhorn-ai/blowhorn"
     ignoreConfig = true
     # GTM strategy pages (Hugo markdown and page bundles).
     [[module.imports.mounts]]

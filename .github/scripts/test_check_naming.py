@@ -68,7 +68,7 @@ class TheServiceIsBlowhorn(unittest.TestCase):
     def test_repository_urls_ids_scripts_and_comments_pass(self):
         failures = self.build({"index.html": page(
             '<!-- Layer5 green --><p id="on-layer5-cloud">'
-            '<a href="https://github.com/layer5io/blowhorn-site">layer5io/blowhorn-site</a></p>'
+            '<a href="https://github.com/blowhorn-ai/blowhorn-site">blowhorn-ai/blowhorn-site</a></p>'
             '<script>var x = "Layer5 Cloud";</script>')})
         self.assertEqual(failures, [])
 

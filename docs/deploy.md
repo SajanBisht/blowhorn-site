@@ -45,7 +45,7 @@ A pull request never deploys. Its run still uploads the built site as the
 ### Verify a deployment
 
 ```bash
-gh-axi run list -R layer5io/blowhorn-site --workflow site.yml
+gh-axi run list -R blowhorn-ai/blowhorn-site --workflow site.yml
 ```
 
 The newest run on `master` should show both jobs green. The deployment is live
@@ -64,9 +64,9 @@ not from a branch. The one-time setup, done with an account that administers
 the repository:
 
 ```bash
-gh-axi api -X POST repos/layer5io/blowhorn-site/pages --field build_type=workflow
+gh-axi api -X POST repos/blowhorn-ai/blowhorn-site/pages --field build_type=workflow
 # or, if Pages already exists:
-gh-axi api -X PUT repos/layer5io/blowhorn-site/pages --field build_type=workflow
+gh-axi api -X PUT repos/blowhorn-ai/blowhorn-site/pages --field build_type=workflow
 ```
 
 This was done on 2026-10-08: Pages exists with `build_type: workflow` and the
@@ -125,14 +125,14 @@ certificate, and enforce HTTPS once GitHub reports it issued (Settings > Pages
 shows "Enforce HTTPS" as available):
 
 ```bash
-gh-axi api repos/layer5io/blowhorn-site/pages --jq '.cname, .https_certificate.state'
-printf '{"https_enforced":true}' | gh-axi api -X PUT repos/layer5io/blowhorn-site/pages --input -
+gh-axi api repos/blowhorn-ai/blowhorn-site/pages --jq '.cname, .https_certificate.state'
+printf '{"https_enforced":true}' | gh-axi api -X PUT repos/blowhorn-ai/blowhorn-site/pages --input -
 ```
 
 If the custom domain ever has to be set again:
 
 ```bash
-gh-axi api -X PUT repos/layer5io/blowhorn-site/pages --field cname=blowhorn.ai
+gh-axi api -X PUT repos/blowhorn-ai/blowhorn-site/pages --field cname=blowhorn.ai
 ```
 
 Certificate issuance usually takes a few minutes and can take up to a day. If
@@ -276,7 +276,7 @@ Run the same flow locally from a product checkout at `./product`
 (or pass `SOURCE_DIR` for a checkout elsewhere):
 
 ```bash
-git clone git@github.com:leecalcote/blowhorn.git product
+git clone git@github.com:blowhorn-ai/blowhorn.git product
 make docs-sync REF=master   # or a tag, branch or SHA
 make check                  # what the sync pull request runs
 ```
@@ -320,11 +320,11 @@ these with `BLOWHORN_SITE_DIR` (default `../blowhorn-site`).
 `hugo.toml` declares Hugo's default project mounts explicitly
 (`content/en`, `data`, `layouts`, `i18n`, `archetypes`, `assets`, `static`),
 since declaring any mount drops the defaults. `config/internal/hugo.toml`
-adds a module import, `github.com/leecalcote/blowhorn`, with its own mounts:
+adds a module import, `github.com/blowhorn-ai/blowhorn`, with its own mounts:
 
 ```toml
 [[module.imports]]
-  path = "github.com/leecalcote/blowhorn"
+  path = "github.com/blowhorn-ai/blowhorn"
   ignoreConfig = true
   [[module.imports.mounts]]
     source = "marketing/strategy/hugo/strategy"
@@ -354,7 +354,7 @@ adds a module import, `github.com/leecalcote/blowhorn`, with its own mounts:
 ```
 
 `make site-internal-build` points the import at the clone with
-`HUGO_MODULE_REPLACEMENTS="github.com/leecalcote/blowhorn -> <abs BLOWHORN_DIR>"`,
+`HUGO_MODULE_REPLACEMENTS="github.com/blowhorn-ai/blowhorn -> <abs BLOWHORN_DIR>"`,
 so nothing is downloaded, copied or vendored. Because the import lives
 only in the internal environment, the public build never reads the private
 repository. Hugo replaces `module.imports` per environment instead of
@@ -439,7 +439,7 @@ tree on every build. Locally, `make site-internal` still redirects `/` to
 
 ### Shipping an update
 
-From a leecalcote/blowhorn clone (or here): `make site-internal-deploy`
+From a blowhorn-ai/blowhorn clone (or here): `make site-internal-deploy`
 (`REF=<branch|tag|sha>` to build something other than master, `WATCH=0` to
 not wait). It runs `.github/workflows/internal-site.yml` by
 `workflow_dispatch`; other workflows in this repository can call the same file
@@ -455,7 +455,7 @@ The workflow, in order (each step is a make target):
    application, reads them back, and fails unless they are exactly the
    managed default-deny pair. This runs before any private content reaches
    the runner.
-4. Checks out leecalcote/blowhorn (sparse: `marketing/strategy`,
+4. Checks out blowhorn-ai/blowhorn (sparse: `marketing/strategy`,
    `marketing/capability-comparison`) with the read-only deploy key.
 5. `site-internal-build` with `BASE_URL=https://internal.blowhorn.ai/`, output
    suppressed.
@@ -483,7 +483,7 @@ checkout after building. Keep it that way in any change to the workflow or
 - `CLOUDFLARE_ACCOUNT_ID` (repository secret).
 - `BLOWHORN_INTERNAL_READ_KEY` (secret of the `internal-site` environment,
   which deploys from master only): the private half of an SSH deploy key
-  added read-only to leecalcote/blowhorn. It can read that one repository and
+  added read-only to blowhorn-ai/blowhorn. It can read that one repository and
   cannot write to it or reach any other. Rotate it by adding a new deploy key
   and replacing the secret; revoke it by deleting the deploy key.
 

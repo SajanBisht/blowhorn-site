@@ -4,8 +4,8 @@ from pathlib import Path
 
 import check_download_links as check
 
-LATEST = "https://github.com/layer5io/blowhorn-site/releases/latest/download/Blowhorn-mac.dmg"
-PINNED = "https://github.com/layer5io/blowhorn-site/releases/download/v1.27.3/Blowhorn-mac.dmg"
+LATEST = "https://github.com/blowhorn-ai/blowhorn-site/releases/latest/download/Blowhorn-mac.dmg"
+PINNED = "https://github.com/blowhorn-ai/blowhorn-site/releases/download/v1.27.3/Blowhorn-mac.dmg"
 
 
 class CheckDownloadLinksTest(unittest.TestCase):
