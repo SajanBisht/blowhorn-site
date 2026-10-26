@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail if the built site links to a /releases/latest/download URL.
 
-layer5io/blowhorn-site also publishes blowhorn-axi releases, and GitHub's
+blowhorn-ai/blowhorn-site also publishes blowhorn-axi releases, and GitHub's
 "latest" release is whichever stable release was created most recently, so
 /releases/latest/download/Blowhorn-mac.dmg 404s or serves the wrong file
 whenever an axi release is newer. Every download URL is built from the

@@ -15,7 +15,7 @@ If a platform keeps challenging you, the free check at
 your browser.
 
 To report a problem, file an issue on the public site repository,
-`layer5io/blowhorn-site`, with what you ran, what it printed, and what
+`blowhorn-ai/blowhorn-site`, with what you ran, what it printed, and what
 you expected. Include the exit code and the first words of the error;
 leave out credentials, session files, and anything from your Chrome
 profile directories. For a security problem, do not file a public

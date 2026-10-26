@@ -10,7 +10,7 @@
 This repository is two things for **Layer5 Blowhorn**:
 
 1. **The marketing site** at [blowhorn.ai](https://blowhorn.ai). It is a [Hugo](https://gohugo.io) site with [Docsy](https://www.docsy.dev) as a Hugo module, built like [docs.layer5.io](https://github.com/layer5io/docs) and deployed to GitHub Pages by [`site.yml`](.github/workflows/site.yml). The Pages custom domain is already blowhorn.ai, so the project URL <https://layer5io.github.io/blowhorn-site/> only redirects there; the site is reachable once the domain's DNS points at Pages, as [`docs/deploy.md`](docs/deploy.md) describes.
-2. **Public downloads.** macOS disk images and their checksums are published as [GitHub Releases](https://github.com/layer5io/blowhorn-site/releases) on this repository. No release binary is committed here.
+2. **Public downloads.** macOS disk images and their checksums are published as [GitHub Releases](https://github.com/blowhorn-ai/blowhorn-site/releases) on this repository. No release binary is committed here.
 
 Blowhorn is a social media console that takes one message and broadcasts, reposts and amplifies it across every profile and platform your community runs, on autopilot. One message out, many ears in.
 
@@ -37,10 +37,10 @@ The Chrome extension ships through the Chrome Web Store, not from this repositor
 | Brand assets | [`static/assets/brand/`](static/assets/brand/), served at `/assets/brand/`: version 1 of the brand kit (logo system, Major Blowhorn, marketing art, `tokens.json`) and the three self-hosted fonts; attribution in [`LICENSES.md`](static/assets/brand/LICENSES.md) |
 | How the site deploys and how the domain is wired | [`docs/deploy.md`](docs/deploy.md) |
 | How releases are published | [`docs/distribution.md`](docs/distribution.md) |
-| Release binaries | [Releases](https://github.com/layer5io/blowhorn-site/releases) on this repository |
-| Product source and build pipeline | Private: [`blowhorn`](https://github.com/leecalcote/blowhorn) |
+| Release binaries | [Releases](https://github.com/blowhorn-ai/blowhorn-site/releases) on this repository |
+| Product source and build pipeline | Private: [`blowhorn`](https://github.com/blowhorn-ai/blowhorn) |
 
-**Reporting problems.** The product repository is private, so use [this repository's issues](https://github.com/layer5io/blowhorn-site/issues) for everything public: site content, a download that will not open, a wrong checksum, or a bug in the app. Maintainers triage app bugs into the product repository. The [Layer5 Slack](https://slack.layer5.io) works too.
+**Reporting problems.** The product repository is private, so use [this repository's issues](https://github.com/blowhorn-ai/blowhorn-site/issues) for everything public: site content, a download that will not open, a wrong checksum, or a bug in the app. Maintainers triage app bugs into the product repository. The [Layer5 Slack](https://slack.layer5.io) works too.
 
 ## Working on the site
 

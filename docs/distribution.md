@@ -6,7 +6,7 @@ signed artifacts are published here.
 
 ## Where binaries live
 
-**GitHub Releases on `layer5io/blowhorn-site`.** Disk images are never committed
+**GitHub Releases on `blowhorn-ai/blowhorn-site`.** Disk images are never committed
 to git (`*.dmg` is in `.gitignore`), and they are not served from GitHub Pages.
 Pages hosts only the marketing site and small static files.
 
@@ -29,7 +29,7 @@ Pages hosts only the marketing site and small static files.
   desktop release,
 
   ```
-  https://github.com/layer5io/blowhorn-site/releases/download/v<version>/Blowhorn-mac.dmg
+  https://github.com/blowhorn-ai/blowhorn-site/releases/download/v<version>/Blowhorn-mac.dmg
   ```
 
   The version is pinned in `data/download.json`. `publish-dmg.yml` bumps it
@@ -47,7 +47,7 @@ Pages hosts only the marketing site and small static files.
   outage or rate limit only means the pinned version's details show, never a
   dead link.
 - **Versioned URL:**
-  `https://github.com/layer5io/blowhorn-site/releases/download/v1.0.0/Blowhorn-1.0.0-mac-universal.dmg`
+  `https://github.com/blowhorn-ai/blowhorn-site/releases/download/v1.0.0/Blowhorn-1.0.0-mac-universal.dmg`
 - Releases are never overwritten. Ship a new patch version instead.
 
 ## Publishing a DMG
@@ -87,12 +87,12 @@ the running one to finish rather than cancelling it.
 ### Option B: triggered from product CI
 
 After it signs and notarizes, the product pipeline sends a `repository_dispatch`
-event to this repo. This needs a token that can write to `layer5io/blowhorn-site`
+event to this repo. This needs a token that can write to `blowhorn-ai/blowhorn-site`
 (a GitHub App installation token or a fine-grained token with Contents: write),
 stored as a secret in the product repo:
 
 ```bash
-gh api repos/layer5io/blowhorn-site/dispatches \
+gh api repos/blowhorn-ai/blowhorn-site/dispatches \
   -f event_type=publish-dmg \
   -F 'client_payload[version]=v1.0.0' \
   -F 'client_payload[dmg_url]=https://example.com/Blowhorn-1.0.0.dmg' \

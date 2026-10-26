@@ -96,4 +96,4 @@ When the app shows a failure, such as a store it cannot reach, it sends a small 
 
 ## Frequently Asked Questions {#questions}
 
-Open an issue on the [site repository](https://github.com/layer5io/blowhorn-site/issues) for anything about this page, or use the contact channels in the account [privacy policy](https://layer5.io/company/legal/privacy/).
+Open an issue on the [site repository](https://github.com/blowhorn-ai/blowhorn-site/issues) for anything about this page, or use the contact channels in the account [privacy policy](https://layer5.io/company/legal/privacy/).

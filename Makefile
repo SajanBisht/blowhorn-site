@@ -103,15 +103,15 @@ WORKFLOWS ?= .github/workflows/site.yml .github/workflows/publish-dmg.yml .githu
 # workflow checks the product repo out at this path).
 SOURCE_DIR ?= product
 # The private blowhorn clone that config/internal/hugo.toml mounts
-# (module import github.com/leecalcote/blowhorn, replaced with this directory).
+# (module import github.com/blowhorn-ai/blowhorn, replaced with this directory).
 BLOWHORN_DIR ?= ../blowhorn
 BLOWHORN_ABS = $(abspath $(BLOWHORN_DIR))
-BLOWHORN_MODULE := github.com/leecalcote/blowhorn
+BLOWHORN_MODULE := github.com/blowhorn-ai/blowhorn
 DOCS_DIR ?= content/en/docs
 # Branch the sync-docs.yml workflow pushes and opens its pull request from.
 SYNC_BRANCH ?= docs-sync
 # The internal site's hosting workflow (site-internal-deploy) and its blowhorn ref.
-INTERNAL_SITE_REPO ?= layer5io/blowhorn-site
+INTERNAL_SITE_REPO ?= blowhorn-ai/blowhorn-site
 INTERNAL_WORKFLOW ?= internal-site.yml
 REF ?= master
 
@@ -231,7 +231,7 @@ test-internal-worker:
 
 ## Fail unless BLOWHORN_DIR is a blowhorn clone with the internal sources.
 check-blowhorn:
-	@test -d "$(BLOWHORN_ABS)/marketing/strategy/hugo/strategy" || { echo "Error: no blowhorn clone at BLOWHORN_DIR=$(BLOWHORN_DIR) ($(BLOWHORN_ABS)). Clone it beside this repository (git clone https://github.com/leecalcote/blowhorn ../blowhorn) or pass BLOWHORN_DIR=path/to/blowhorn."; exit 1; }
+	@test -d "$(BLOWHORN_ABS)/marketing/strategy/hugo/strategy" || { echo "Error: no blowhorn clone at BLOWHORN_DIR=$(BLOWHORN_DIR) ($(BLOWHORN_ABS)). Clone it beside this repository (git clone https://github.com/blowhorn-ai/blowhorn ../blowhorn) or pass BLOWHORN_DIR=path/to/blowhorn."; exit 1; }
 
 
 ## Build and serve the site once with the file-watcher off (no live reload).

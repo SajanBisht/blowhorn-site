@@ -1,5 +1,5 @@
 // Fills the Download section from the newest desktop release on
-// layer5io/blowhorn-site. This repository also publishes blowhorn-axi
+// blowhorn-ai/blowhorn-site. This repository also publishes blowhorn-axi
 // releases (tags axi-vX.Y.Z), and GitHub's "latest" release is whichever
 // stable release was created most recently, so /releases/latest points at
 // an axi release whenever one is newer, and its download URL 404s. The
