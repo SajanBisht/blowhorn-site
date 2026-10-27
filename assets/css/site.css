@@ -1684,9 +1684,19 @@ a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
   gap: var(--space-6);
   grid-template-columns: minmax(0, 1fr);
 }
-.asset-grid-4, .mascot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 640px) { .asset-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 640px) { .asset-grid-4, .mascot-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 640px) {
+  .asset-grid-2,
+  .asset-grid-4,
+  .mascot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .asset-grid-4,
+  .mascot-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
 .mascot-grid { margin-top: var(--space-8); }
 .asset { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
 .asset-stage {
@@ -1706,9 +1716,14 @@ a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
 .stage-cream.asset-stage img { width: 84%; max-height: 84%; }
 .asset-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-3);
+}
+.asset-meta > div,
+.asset-meta > .asset-name {
+  min-width: 0;
 }
 .asset-meta > div > * + * { margin-top: 2px; }
 .asset-name { color: var(--ink); }
@@ -1725,11 +1740,11 @@ a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
 }
 .asset-get:hover { color: var(--link); border-color: var(--link); text-decoration: none; }
 .asset-gets {
-  flex: none;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--space-1);
+  max-width: 100%;
 }
 .asset-get-primary { border-color: var(--ink); }
 .app-icons .asset-gets { justify-content: flex-start; margin-top: var(--space-2); }
@@ -2537,9 +2552,11 @@ a.card-link:focus-visible, a.platform:focus-visible, a.docs-card:focus-visible {
    the label lands just under the bar after --section-y grew. */
 section[id],
 .section[id],
-.compare-section[id],
-.brand-section[id] {
+.compare-section[id] {
   scroll-margin-top: calc(0px - var(--section-y));
+}
+.brand-section[id] {
+  scroll-margin-top: 0;
 }
 .agent-section + .agent-section,
 .compare-section + .compare-section,
