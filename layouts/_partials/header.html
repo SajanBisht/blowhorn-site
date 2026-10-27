@@ -151,10 +151,11 @@
               <button type="button" class="mm-trigger" aria-expanded="false" aria-controls="mm-resources">Resources<span class="mm-chev" aria-hidden="true"></span></button>
               <div class="mm-panel" id="mm-resources">
                 <div class="mm-intro">
-                  <p class="mm-intro-title">Resources</p>
+                  <p class="mm-intro-title"><a href="{{ (site.GetPage "/resources").RelPermalink }}">Resources</a></p>
                   <p class="mm-intro-text">Guides, answers and the story behind the horn.</p>
                 </div>
                 <ul class="mm-links mm-cols-2">
+                  {{- partial "mm-link.html" (dict "href" (site.GetPage "/resources/videos").RelPermalink "title" "Videos" "desc" "Short films and walkthroughs") }}
                   {{- partial "mm-link.html" (dict "href" (site.GetPage "/docs").RelPermalink "title" "Docs" "desc" "Set up, how-to guides and reference") }}
                   {{- partial "mm-link.html" (dict "href" (site.GetPage "/field-manual").RelPermalink "title" "Field Manual" "desc" "What each feed rewards and punishes") }}
                   {{- partial "mm-link.html" (dict "href" (site.GetPage "/docs/reference/support").RelPermalink "title" "Get help" "desc" "Support and troubleshooting") }}

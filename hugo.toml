@@ -28,8 +28,11 @@ disableHugoGeneratorInject = true
 # page does not get HEAD's date; a page's own `lastmod` front matter wins.
 enableGitInfo = true
 
-# The site has no taxonomies and no feeds.
-disableKinds = ["taxonomy", "term", "rss"]
+# Taxonomies and feeds exist for the Resources center only (tags on
+# resources; the /major/ dispatches feed is a custom output format).
+# Everything else stays taxonomy-free and feed-free.
+disableKinds = []
+
 
 # Segments. `public` is every page outside /internal/; `internal` is the
 # /internal/ section. A plain `hugo` build renders the public segment only.
@@ -106,6 +109,13 @@ renderSegments = ["public"]
   mediaType = "text/plain"
   isPlainText = true
   notAlternative = true
+
+# One taxonomy: tags. Resources pages carry them; nothing else does.
+# There is deliberately no categories taxonomy - a video's categories
+# front matter is a plain parameter (the category tree is the section
+# tree under /resources/videos/), not a term list.
+[taxonomies]
+  tag = "tags"
 
 [outputFormats.md]
   baseName = "index"
