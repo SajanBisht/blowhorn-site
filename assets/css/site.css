@@ -3457,14 +3457,16 @@ a.docs-card.platform-card[href$="/facebook/"]::before { background-image: url("/
 .role-page .grid { list-style: none; padding: 0; }
 
 /* ---------- Cookie notice (layouts/_partials/consent.html) ----------
-  A small glass card in the bottom corner, full width less the gutter on
-  phones. It never covers more than it must and closes with one tap or Esc. */
+  A small glass card centered at the bottom of the screen, full width less
+  the gutter on phones. It never covers more than it must and closes with
+  one tap or Esc. */
 .consent {
   position: fixed;
   z-index: 1040;
-  inset-inline: var(--space-4);
+  left: 50%;
   bottom: var(--space-4);
-  max-width: 360px;
+  width: min(360px, calc(100% - 2 * var(--space-4)));
+  transform: translateX(-50%);
   padding: var(--space-4) var(--space-8) var(--space-4) var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--glass-fill-strong);
@@ -3508,12 +3510,12 @@ a.docs-card.platform-card[href$="/facebook/"]::before { background-image: url("/
 @media (prefers-reduced-motion: no-preference) {
   .consent:not([hidden]) { animation: consent-in 200ms ease-out; }
   @keyframes consent-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: none; }
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to { opacity: 1; transform: translateX(-50%); }
   }
 }
 @media (min-width: 480px) {
-  .consent { inset-inline: var(--space-6) auto; bottom: var(--space-6); }
+  .consent { bottom: var(--space-6); width: min(360px, calc(100% - 2 * var(--space-6))); }
 }
 
 
