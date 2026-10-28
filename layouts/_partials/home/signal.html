@@ -14,6 +14,7 @@
             <p class="body-lg hero-sub">
               {{- range $rot.heroes }}<span data-hero-only="{{ .id }}">{{ .subhead }}</span>{{ end -}}
             </p>
+            {{- range $rot.heroes }}{{ if .identification }}<p class="body hero-identification" data-hero-only="{{ .id }}">{{ .identification }}</p>{{ end }}{{ end -}}
             <div class="hero-actions">
               <a class="button button-primary button-pop" href="{{ "download/" | relURL }}">
                 <svg aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><use href="#glyph-download"></use></svg>
