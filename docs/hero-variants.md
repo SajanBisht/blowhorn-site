@@ -3,7 +3,8 @@
 The home page hero's headline, subhead and illustration come from [`data/hero.json`](../data/hero.json),
 which must validate against [`schemas/hero.schema.json`](../schemas/hero.schema.json)
 (`make check-schemas`, part of `make site-check` and so of CI). Each variant has an `id`,
-a `headline`, a `subhead`, an optional `art` (`stage` or `fan`, default `stage`), the
+a `headline` (up to 80 characters), a `subhead`, an optional `identification` line
+shown under the subhead, an optional `art` (`stage` or `fan`, default `stage`), the
 numbers of the canonical differentiators it rests on and an optional reviewer `note`.
 Copy may only state what those differentiators allow, in their wording rules.
 
@@ -158,5 +159,36 @@ pass between letters. It is implemented in `assets/js/hero-cycle.js`,
 loaded by `layouts/home.html` and `layouts/home-reveille.html`, using
 the hero list the pre-paint picker exposes as `window.blowhornHeroes`
 in `layouts/_partials/hero-rotation-head.html`.
+
+## The 12 heroes from issue #254
+
+The 12 quippy, sarcastic heroes from blowhorn-ai/blowhorn-site issue #254 are
+in `data/hero.json`, outside the production rotation, so the daily rotation and
+the default hero are unchanged. Their ids, in issue order, are `copy-paste`,
+`seven-tabs`, `congratulations-posted`, `password-cookie-2fa`, `not-a-vendor`,
+`not-rental`, `nine-likes`, `no-begging`, `say-it-like-you-mean-it`,
+`hundred-seats`, `298-stack` and `too-small-for-demo`. Each carries its
+plain-words subhead and its self-identification line (`identification` in the
+data file, rendered under the subhead on the Signal and Reveille home pages).
+To promote one to production, add its id to `rotation.ids`; do not change
+`default` unless the no-JavaScript, crawler and social-preview hero should
+change with it.
+
+## Easter egg hotkey
+
+Press `h` on the home page to advance to the next rendered hero, in render
+order (rotating heroes first, then the rest, including the 12 from issue
+#254). Press Shift+h to go back one. The hotkey is in
+`layouts/_partials/hero-rotation-head.html`, so it works on the Signal home
+page and the Reveille preview page, and it swaps headline, subhead,
+identification line, secondary button, art and media together,
+because they all key off the same `data-hero` attribute. It updates
+`?hero=<id>` in the address bar, so the shown hero survives a reload and can
+be shared. It does nothing while typing in a form field, while a dialog is
+open, or with Ctrl, Cmd or Alt held, and it announces the new headline
+through a polite live region for screen readers. There is no on-page hint:
+this is a reviewer tool, not part of the visitor experience. It sits
+alongside the `cycle` sequence above: `h` advances and Shift+h goes back,
+while `cycle` only advances.
 
 No analytics or third-party script may be added to measure heroes (`check-third-party`).
