@@ -74,7 +74,7 @@
         </ol>
 
         <div class="thanks-updates">
-          {{ partial "newsletter.html" (dict "id" "updates-email" "label" "Get release updates" "button" "Sign up" "class" "newsletter-center") }}
+          {{ partial "newsletter.html" (dict "id" "updates-email" "label" "Get release updates" "button" "Sign up" "class" "newsletter-center" "page" .) }}
         </div>
         <p class="thanks-help caption muted">Need a hand? See the <a href="{{ "docs/how-to/set-up/install-the-app/" | relURL }}">install guide</a>.</p>
       </div>
